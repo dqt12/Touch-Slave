@@ -2,10 +2,8 @@
 
 #define u8		unsigned char 
 #define u16		unsigned int   
-
 #define vu8		volatile unsigned char 
 #define vu16	volatile unsigned int 
-
 
 
 // choose mcu
@@ -17,7 +15,7 @@
 //I2C size
 #define I2C_MAXNUM		8
 //page size
-const u8 IC_PAGE_SIZS[]={3,8,1,1,1,2};
+const u8 IC_PAGE_SIZS[]={3,8,1,2,1,2};
 const u8 Version = 0x18; //硬件/軟件版本號
 // MCU_INT_CONFIG
 #define MCU_INT_c  		_pac1
@@ -28,7 +26,7 @@ const u8 Version = 0x18; //硬件/軟件版本號
 //I2C size
 #define I2C_MAXNUM		12
 //page size
-const u8 IC_PAGE_SIZS[]={3,12,2,1,2,2};
+const u8 IC_PAGE_SIZS[]={3,12,2,2,2,2};
 const u8 Version = 0x1C; //硬件/軟件版本號
 // MCU_INT_CONFIG
 #define MCU_INT_c  		_pac1
@@ -39,7 +37,7 @@ const u8 Version = 0x1C; //硬件/軟件版本號
 //I2C size
 #define I2C_MAXNUM		16
 //page size
-const u8 IC_PAGE_SIZS[]={3,16,2,1,2,2};
+const u8 IC_PAGE_SIZS[]={3,16,2,2,2,2};
 const u8 Version = 0x1F; //硬件/軟件版本號
 // MCU_INT_CONFIG
 #define MCU_INT_c  		_pac1
@@ -48,18 +46,19 @@ const u8 Version = 0x1F; //硬件/軟件版本號
 
 
 //++++++++++++++++++++++MAIN PROGAM+++++++++++++++++++++++
-#define TRUE 	1
-#define FALSE 	0
+
 #define NTH 	0x0F
 #define RESET 	0x0A
 
 const u8 DeviceAddress = 0x28;
 const u8 IC_PAGE_HEAD[]={0xA0,0xB0,0xC0,0xD0,0xE0,0xF0};
 
-_TKS_FLAGA_type      FLAG;
+#define TRUE 	1
+#define FALSE 	0
 
-#define FLAG_Err    FLAG.bits.b0
-#define FLAG_End    FLAG.bits.b1
+_TKS_FLAGA_type      FLAG;
+#define FLAG_I2C_Err    FLAG.bits.b0
+#define FLAG_I2C_End    FLAG.bits.b1
 //#define          	FLAG.bits.b2
 //#define       	FLAG.bits.b3
 //#define           FLAG.bits.b4
@@ -73,13 +72,26 @@ struct I2C_LIST
 	vu8 SUM;	
 	vu8 TxNum;
 	vu8 RxNum;
-	vu8 CRC;
-	vu8 CRC_BUF;		
+	vu8 CheckSum;
+	vu8 CheckSum_Buf;		
 }I2C;
 
 u8 I2C_Data[I2C_MAXNUM];
-u8 MCU_STATE;
-u8 I2C_STATE;
+
+u8 MCU_INF[3];
+#define MCU_STATE 		MCU_INF[0]
+#define MCU_SLEEP 		MCU_INF[1]
+#define MCU_WAKEUP 		MCU_INF[2]
+//#define MCU_STATE 		MCU_INF[3]
+//#define MCU_STATE 		MCU_INF[4]
+
+u8 SYS_INF[3];
+#define I2C_STATE 		SYS_INF[0]
+#define SYS_Version		SYS_INF[1]
+//#define MCU_WAKEUP 		SYS_INF[2]
+//#define MCU_STATE 		MCU_INF[3]
+//#define MCU_STATE 		MCU_INF[4]
+//u8 I2C_STATE;
 
 void DATA_LIST_UPDATA(void)
 {
@@ -111,34 +123,34 @@ void I2C_LIST_INIT(void)
 	I2C.SUM = 0;	
 	I2C.RxNum = 0;
 	I2C.TxNum = 0;
-	I2C.CRC = 0;
-	I2C.CRC_BUF = 0;
-	FLAG_End = FALSE;
-	FLAG_Err = FALSE;
+	I2C.CheckSum = 0;
+	I2C.CheckSum_Buf = 0;
+	FLAG_I2C_End = FALSE;
+	FLAG_I2C_Err = FALSE;
 }
 
 //初始化系統數據
 void SYS_LIST_INIT(void)
 {
 	MCU_STATE = NTH;
-	I2C_STATE = NTH;
+	MCU_SLEEP = 0x4E; // 3s 
 	
-	FLAG_Err = TRUE;//使用通信錯誤功能初始化I2C數據
+	I2C_STATE = NTH;
+	SYS_Version = Version;
+	FLAG_I2C_Err = TRUE;//使用通信錯誤功能初始化I2C數據
 }
 
 //==============================================
 void USER_PROGRAM_INITIAL()
 {	
-//	_wdtc = 0xAF;	//wdt = 8s 
-	_wdtc = 0b10101100;	//wdt = 1s 
+//	_wdtc = 0b10101100;	//wdt = 1s 
 	
 	_pawu=0;		//0:禁止下降沿唤醒;   1:使能
 	_papu=0;		//0:禁止上拉;         1:使能上拉
-	_pa=0x00;	
-	MCU_INT = 1;
-	_pac =0x05;		//0:输出;      		  1:输入
-		 
 	
+	_pa=0x00;	
+	_pac =0xFF;		//0:输出;      		  1:输入
+		 
 	MCU_INT = 1;		
 	MCU_INT_c = 0;	
 	
@@ -171,70 +183,103 @@ void USER_PROGRAM_INITIAL()
 //==============================================
 void USER_PROGRAM()
 {
-	if(MCU_STATE == RESET)// 系統設置，如果設置為復位，則馬上復位
-	{
-		MCU_INT = 0;
-		_wdtc = 0xFF;//MCU RESET //64MS
-	}
-	else 
-	{
-		MCU_STATE = NTH;
-	}
-	
-	if(FLAG_Err) // 通信錯誤，復位I2C數據
-	{
-		I2C_LIST_INIT();
-	}
+
 //--------------------------------------------------------------------	
 	GET_KEY_BITMAP();//更新按鍵值
+	
 	#ifndef	BS83B08A	
+	
 	//取使能的按鍵值
-	KEY_DATA[0] =KEY_DATA[0]&KEY_IO_SEL[0] ;
-	KEY_DATA[1] =KEY_DATA[1]&KEY_IO_SEL[1] ;	
+	KEY_DATA[0] = KEY_DATA[0]&KEY_IO_SEL[0] ;
+	KEY_DATA[1] = KEY_DATA[1]&KEY_IO_SEL[1] ;	
 	//有按鍵按下為INT變低
 	 if(KEY_DATA[0] || KEY_DATA[1]) 
+	 {
 		MCU_INT = 0;
+		STANDBY_TIME = 0x7F;
+	 }
   	 else
-	 	MCU_INT = 1;	
+  	 {
+	 	MCU_INT = 1;
+	 	
+ 		if(STANDBY_TIME <= MCU_SLEEP ) // 7E - 3*1000/63 
+  	 	{
+  	 		STANDBY_TIME = 0;
+  	 	}
+ 	
+	 		
+  	 }
+  	 
 	#endif	
 	
 	#ifdef	BS83B08A
+	
 	//取使能的按鍵值
-	KEY_DATA[0] =KEY_DATA[0]&KEY_IO_SEL[0] ;
+	KEY_DATA[0] = KEY_DATA[0]&KEY_IO_SEL[0] ;
 	//有按鍵按下為INT變低
 	 if(KEY_DATA[0]) 
+	 {
 		MCU_INT = 0;
+		STANDBY_TIME = 0x7F;
+	 }
   	 else
+  	 {
 	 	MCU_INT = 1;
+	 	
+ 		if(STANDBY_TIME <= MCU_SLEEP ) // 7E - 3*1000/63 
+  	 	{
+  	 		STANDBY_TIME = 0;
+  	 	}
+ 	
+	 		
+  	 }
 	#endif		
 
 
+	
+	if(FLAG_I2C_Err) // 通信錯誤，復位I2C數據
+	{
+		I2C_LIST_INIT();
+	}
 //	----------------------------------------------------------------
-	if(FLAG_End)				//一帧数据接收完成标志
+	if(FLAG_I2C_End)				//一帧数据接收完成标志
 	{
 		//將地址轉換成頁碼	
-		I2C.WordAddr >>=4;
-		I2C.WordAddr -=0x0A;
+		I2C.WordAddr >>= 4;
+		I2C.WordAddr -= 0x0A;
 		//接收到的有效數據數
-		I2C.RxNum-=2;
+		I2C.RxNum -= 2;
 	
 		//先判斷 頁碼是否為可寫的前四頁 ， 且有效數據量是否符合頁大小
 		if((I2C.WordAddr <= 3) && (I2C.RxNum == IC_PAGE_SIZS[I2C.WordAddr])) 
 		{	
-			I2C.CRC_BUF=~I2C.CRC_BUF;//取反計數出的
+			I2C.CheckSum_Buf =~ I2C.CheckSum_Buf;//取反計數出的
 			
-			if( I2C.CRC == I2C.CRC_BUF  )//驗證CRC
+			if( I2C.CheckSum == I2C.CheckSum_Buf  )//驗證CheckSum
 			{
 				I2C_STATE = TRUE; //寫入正確標誌
 				
 				DATA_LIST_UPDATA();//更新觸控數據值
+				
+				
+				if(MCU_STATE == RESET)// 系統設置，如果設置為復位，則馬上復位
+				{
+					MCU_INT = 0;
+					_wdtc = 0xFF;//MCU RESET //64MS
+				}
+				else 
+				{
+					MCU_STATE = NTH;
+				}
+				
+				
 				
 			}
 			else I2C_STATE = FALSE;	//寫入錯誤標誌					
 		}	
 		else I2C_STATE = FALSE;	//寫入錯誤標誌	
 			
-		FLAG_End = FALSE;
+		FLAG_I2C_End = FALSE;
 	}	
 //	----------------------------------------------------------------
 }
@@ -244,13 +289,14 @@ void USER_PROGRAM()
 
 void __attribute((interrupt(0x10))) IIC_ISR(void)
 { 
- 	u8 data;	
+ 	vu8 data;	
+ 	
  	_simf = 0;		//清零标志位				
  	if(_i2ctof)//_i2ctof=1:I2C通信超时
  	{
  		_i2ctoen = 1;
  		_i2ctof = 0;
- 		FLAG_Err = TRUE;
+ 		FLAG_I2C_Err = TRUE;
  	}
  	else 
  		{
@@ -265,7 +311,7 @@ void __attribute((interrupt(0x10))) IIC_ISR(void)
 					{
 						I2C.SUM = IC_PAGE_SIZS[0];
 						I2C.TxNum = IC_PAGE_HEAD[0];
-						I2C.CRC_BUF = 0;
+						I2C.CheckSum_Buf = 0;
 					}
 					
 						
@@ -274,15 +320,15 @@ void __attribute((interrupt(0x10))) IIC_ISR(void)
 						case 0xA0 :data = GLOBE_VARIES[0];break;
 						case 0xB0 :data = GLOBE_VARIES[3];;break;
 						case 0xC0 :data = KEY_IO_SEL[0];break;
-						case 0xD0 :data = MCU_STATE;break;
+						case 0xD0 :data = MCU_INF[0];break;
 						case 0xE0 :data = KEY_DATA[0];break;
-						case 0xF0 :data = I2C_STATE;I2C_STATE = NTH;break;
+						case 0xF0 :data =  SYS_INF[0]; SYS_INF[0] = NTH;break;
 						default : data = 0xAA;;break;
 					}
 					_htx = 1; //_htx=1:	
 					_simd = data;
 					
-					I2C.CRC_BUF += data;
+					I2C.CheckSum_Buf += data;
 					
 					I2C.SUM += I2C.TxNum;
 					
@@ -299,7 +345,7 @@ void __attribute((interrupt(0x10))) IIC_ISR(void)
 						I2C.RxNum = 0;//begin to conut
 						I2C.TxNum = 0;
 						I2C.SUM = 0;
-						FLAG_End = FALSE;
+						FLAG_I2C_End = FALSE;
 					} 
 			}
 			else//_haas=0:slave receive SLAVE_ADDR match,then communication data 
@@ -326,6 +372,7 @@ void __attribute((interrupt(0x10))) IIC_ISR(void)
 						//	case 0xA0 :data = GLOBE_VARIES[0];break;
 							case 0xA1 :data = GLOBE_VARIES[1];break;
 							case 0xA2 :data = GLOBE_VARIES[2];break;
+							
 						//	case 0xB0 :data = GLOBE_VARIES[3];;break;
 							case 0xB1 :data = GLOBE_VARIES[4];break;	
 							case 0xB2 :data = GLOBE_VARIES[5];break; 
@@ -352,20 +399,28 @@ void __attribute((interrupt(0x10))) IIC_ISR(void)
 							
 						//	case 0xC0 :data = KEY_IO_SEL[0];break;
 							case 0xC1 :data = KEY_IO_SEL[1];break;
+							
+						//	case 0xD0 :data = MCU_INF[0];break;
+							case 0xD1 :data = MCU_INF[1];break;
+							
 						//	case 0xE0 :data = KEY_DATA[0];break;
 							case 0xE1 :data = KEY_DATA[1];break;
-						//	case 0xF0 :data =SYS_INF[0];break;
-							#endif
 						
-							case 0xF1 :data = Version;break;	
-							case 0xFF :data =~I2C.CRC_BUF;break;	
+							#endif
+				
+						//	case 0xF0 :data =SYS_INF[0];break;
+							case 0xF1 :data = SYS_INF[1];break;	
+							
+							
+							
+							case 0xFF :data =~I2C.CheckSum_Buf;break;	
 								
 							default : data = 0xAA ;break;
 						}	
 						
 						_simd = data;
 						
-						I2C.CRC_BUF += data;
+						I2C.CheckSum_Buf += data;
 							
 						I2C.TxNum++;
 						if(I2C.TxNum >= I2C.SUM) 
@@ -394,20 +449,20 @@ void __attribute((interrupt(0x10))) IIC_ISR(void)
 							case 0xF0 :I2C.SUM = IC_PAGE_SIZS[5];I2C.TxNum = IC_PAGE_HEAD[5];break;
 							default   :I2C.SUM = IC_PAGE_SIZS[0];I2C.TxNum = IC_PAGE_HEAD[0];break;
 						}
-						I2C.CRC_BUF = 0;
+						I2C.CheckSum_Buf = 0;
 						I2C.RxNum++;
 
 					}
 					else if(I2C.RxNum <= I2C.SUM)
 						 { 
 							I2C_Data[I2C.RxNum - 1] = data;
-							I2C.CRC_BUF += data;
+							I2C.CheckSum_Buf += data;
 							I2C.RxNum++;
 						 }
 						 else 
 						 {
-						 	I2C.CRC = data;
-						 	FLAG_End = TRUE;
+						 	I2C.CheckSum = data;
+						 	FLAG_I2C_End = TRUE;
 						 	I2C.RxNum++;
 						 }
 						 

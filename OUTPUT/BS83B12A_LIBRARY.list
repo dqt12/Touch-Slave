@@ -1,4 +1,4 @@
-				;file C:\Users\my asus\Desktop\BS83B08-12-16A\BS83B12A - v1.0\20160607_LIBV413\MAIN_PROGRAM_V103\MAIN_PROGRAM_V103.asm
+				;file C:\Users\my asus\Desktop\Git_project\Touch-Slave\MAIN_PROGRAM_V103\MAIN_PROGRAM_V103.asm
 				;1	
 				;2	message '****************************************************************'
 				;3	message '*PROJECT NAME :MAIN PROGRAM V103                               *'
@@ -95,7 +95,7 @@
 				;91	                SNZ     TO
 0001	3A8A	snz     TO
 				;92	                MOV     POR_ID[0],A
-0002	40C3	mov     POR_ID, a
+0002	40C7	mov     POR_ID, a
 				;93	                endif
 				;94	        endif
 				;95	                JMP     PROGRAM_RESET
@@ -106,6 +106,12 @@
 0007	0000	nop
 					----
 					----
+000A	0000	nop
+000B	0000	nop
+000C	0000	nop
+000D	0000	nop
+000E	0000	nop
+000F	0000	nop
 				;96	
 				;97	                ;==============
 				;98	                ;=MAIN PROGRAM=
@@ -130,7 +136,7 @@
 				MAIN_PROGRAM:
 04CE	0F53	mov     a, 53H
 				;116	                MOV     POR_ID[1],A
-04CF	40C4	mov     POR_ID[1], a
+04CF	40C8	mov     POR_ID[1], a
 				;117	        endif
 				;118	
 				;119	
@@ -163,7 +169,7 @@
 				;132	                ;------------------------
 				;133	                EXTEND_FUNCTION_INITIAL
 04DE	20A2	call    L00A2
-04DF	257C	call    _USER_PROGRAM_INITIAL
+04DF	2586	call    _USER_PROGRAM_INITIAL
 				;134	
 				;135	                ;;-----------------------
 				;136	MAIN_LOOP:      ;;- MAIN PROGRAM LOOP ---
@@ -183,13 +189,13 @@
 				;146	                MOV     A,042H
 04E3	0F42	mov     a, 42H
 				;147	                XORM    A,POR_ID[0]
-04E4	44C3	xorm    a, POR_ID
+04E4	44C7	xorm    a, POR_ID
 				;148	                MOV     A,053H
 04E5	0F53	mov     a, 53H
 				;149	                SZ      Z
 04E6	3D0A	sz      Z
 				;150	                XORM    A,POR_ID[1]
-04E7	44C4	xorm    a, POR_ID[1]
+04E7	44C8	xorm    a, POR_ID[1]
 				;151	                SNZ     Z
 04E8	390A	snz     Z
 				;152	                JMP     000H
@@ -205,7 +211,7 @@
 04ED	008B	mov     SMOD, a
 				;158	                EXTEND_FUNCTION
 04EE	2018	call    L0018
-04EF	2591	call    _USER_PROGRAM
+04EF	2597	call    _USER_PROGRAM
 				;159	                ;----------------
 				;160	                ;-SET POR ID  ---
 				;161	                ;----------------
@@ -213,11 +219,11 @@
 				;163	                MOV     A,042H      ;ASCII = B
 04F0	0F42	mov     a, 42H
 				;164	                MOV     POR_ID[0],A
-04F1	40C3	mov     POR_ID, a
+04F1	40C7	mov     POR_ID, a
 				;165	                MOV     A,053H      ;ASCII = S
 04F2	0F53	mov     a, 53H
 				;166	                MOV     POR_ID[1],A
-04F3	40C4	mov     POR_ID[1], a
+04F3	40C8	mov     POR_ID[1], a
 				;167	        endif
 				;168	
 				;169	                ;--------------------
@@ -264,11 +270,11 @@
 				;204	            endif
 				;205	                ;-CHECK POR_ID RAM
 				;206	                MOV     A,OFFSET POR_ID
-04F8	0FC3	mov     a, C3H
+04F8	0FC7	mov     a, C7H
 				;207	                XOR     A,MP1
 04F9	0403	xor     a, MP1
 				;208	                MOV     A,OFFSET POR_ID+1
-04FA	0FC4	mov     a, C4H
+04FA	0FC8	mov     a, C8H
 				;209	                SNZ     Z
 04FB	390A	snz     Z
 				;210	                XOR     A,MP1
@@ -596,7 +602,7 @@
 0527	F0E0	dc	0F0E0H
 0528	1C28	dc	01C28H
 0529	0C03	xor     a, 3H
-052A	0102	cpla    [02H]
+052A	0202	sub     a, [02H]
 052B	0202	sub     a, [02H]
 				;486	
 				;487	
@@ -606,461 +612,511 @@
 				;491	
 				;492	
 				;493	
-				;file C:\Users\my asus\Desktop\BS83B08-12-16A\BS83B12A - v1.0\20160607_LIBV413\USER_PROGRAM\USER_PROGRAM.C
+				;file C:\Users\my asus\Desktop\Git_project\Touch-Slave\USER_PROGRAM\USER_PROGRAM.C
 				;1	#include    "USER_PROGRAM.H"         
 				;2	
 				;3	#define u8		unsigned char 
 				;4	#define u16		unsigned int   
-				;5	
-				;6	#define vu8		volatile unsigned char 
-				;7	#define vu16	volatile unsigned int 
+				;5	#define vu8		volatile unsigned char 
+				;6	#define vu16	volatile unsigned int 
+				;7	
 				;8	
-				;9	
-				;10	
-				;11	// choose mcu
-				;12	//#define  BS83B08A 	3
-				;13	#define  BS83B12A 	2
-				;14	//#define  BS83B16A 	1
-				;15	
-				;16	#if	 BS83B08A
-				;17	//I2C size
-				;18	#define I2C_MAXNUM		8
-				;19	//page size
-				;20	const u8 IC_PAGE_SIZS[]={3,8,1,1,1,2};
-				;21	const u8 Version = 0x18; //硬件/軟件版本號
-				;22	// MCU_INT_CONFIG
-				;23	#define MCU_INT_c  		_pac1
-				;24	#define MCU_INT  		_pa1
-				;25	#endif
-				;26	
-				;27	#if	 BS83B12A
-				;28	//I2C size
-				;29	#define I2C_MAXNUM		12
-				;30	//page size
-				;31	const u8 IC_PAGE_SIZS[]={3,12,2,1,2,2};
-				;32	const u8 Version = 0x1C; //硬件/軟件版本號
-				;33	// MCU_INT_CONFIG
-				;34	#define MCU_INT_c  		_pac1
-				;35	#define MCU_INT  		_pa1
-				;36	#endif
-				;37	
-				;38	#if	 BS83B16A
-				;39	//I2C size
-				;40	#define I2C_MAXNUM		16
-				;41	//page size
-				;42	const u8 IC_PAGE_SIZS[]={3,16,2,1,2,2};
-				;43	const u8 Version = 0x1F; //硬件/軟件版本號
-				;44	// MCU_INT_CONFIG
-				;45	#define MCU_INT_c  		_pac1
-				;46	#define MCU_INT  		_pa1
-				;47	#endif
-				;48	
-				;49	
-				;50	//++++++++++++++++++++++MAIN PROGAM+++++++++++++++++++++++
-				;51	#define TRUE 	1
-				;52	#define FALSE 	0
-				;53	#define NTH 	0x0F
-				;54	#define REST 	0x0A
-				;55	
-				;56	const u8 DeviceAddress = 0x28;
-				;57	const u8 IC_PAGE_HEAD[]={0xA0,0xB0,0xC0,0xD0,0xE0,0xF0};
+				;9	// choose mcu
+				;10	//#define  BS83B08A 	3
+				;11	#define  BS83B12A 	2
+				;12	//#define  BS83B16A 	1
+				;13	
+				;14	#if	 BS83B08A
+				;15	//I2C size
+				;16	#define I2C_MAXNUM		8
+				;17	//page size
+				;18	const u8 IC_PAGE_SIZS[]={3,8,1,2,1,2};
+				;19	const u8 Version = 0x18; //硬件/軟件版本號
+				;20	// MCU_INT_CONFIG
+				;21	#define MCU_INT_c  		_pac1
+				;22	#define MCU_INT  		_pa1
+				;23	#endif
+				;24	
+				;25	#if	 BS83B12A
+				;26	//I2C size
+				;27	#define I2C_MAXNUM		12
+				;28	//page size
+				;29	const u8 IC_PAGE_SIZS[]={3,12,2,2,2,2};
+				;30	const u8 Version = 0x1C; //硬件/軟件版本號
+				;31	// MCU_INT_CONFIG
+				;32	#define MCU_INT_c  		_pac1
+				;33	#define MCU_INT  		_pa1
+				;34	#endif
+				;35	
+				;36	#if	 BS83B16A
+				;37	//I2C size
+				;38	#define I2C_MAXNUM		16
+				;39	//page size
+				;40	const u8 IC_PAGE_SIZS[]={3,16,2,2,2,2};
+				;41	const u8 Version = 0x1F; //硬件/軟件版本號
+				;42	// MCU_INT_CONFIG
+				;43	#define MCU_INT_c  		_pac1
+				;44	#define MCU_INT  		_pa1
+				;45	#endif
+				;46	
+				;47	
+				;48	//++++++++++++++++++++++MAIN PROGAM+++++++++++++++++++++++
+				;49	#define TRUE 	1
+				;50	#define FALSE 	0
+				;51	#define NTH 	0x0F
+				;52	#define RESET 	0x0A
+				;53	
+				;54	const u8 DeviceAddress = 0x28;
+				;55	const u8 IC_PAGE_HEAD[]={0xA0,0xB0,0xC0,0xD0,0xE0,0xF0};
+				;56	
+				;57	_TKS_FLAGA_type      FLAG;
 				;58	
-				;59	_TKS_FLAGA_type      FLAG;
-				;60	
-				;61	#define FLAG_Err    FLAG.bits.b0
-				;62	#define FLAG_End    FLAG.bits.b1
-				;63	//#define          	FLAG.bits.b2
-				;64	//#define       	FLAG.bits.b3
-				;65	//#define           FLAG.bits.b4
-				;66	//#define           FLAG.bits.b5
-				;67	//#define           FLAG.bits.b6
-				;68	
-				;69	struct I2C_LIST
-				;70	{
-				;71	//FOR HEAD
-				;72		vu8 WordAddr;		
-				;73		vu8 SUM;	
-				;74		vu8 TxNum;
-				;75		vu8 RxNum;
-				;76		vu8 CRC;
-				;77		vu8 CRC_BUF;		
-				;78	}I2C;
+				;59	#define FLAG_I2C_Err    FLAG.bits.b0
+				;60	#define FLAG_I2C_End    FLAG.bits.b1
+				;61	//#define          	FLAG.bits.b2
+				;62	//#define       	FLAG.bits.b3
+				;63	//#define           FLAG.bits.b4
+				;64	//#define           FLAG.bits.b5
+				;65	//#define           FLAG.bits.b6
+				;66	
+				;67	struct I2C_LIST
+				;68	{
+				;69	//FOR HEAD
+				;70		vu8 WordAddr;		
+				;71		vu8 SUM;	
+				;72		vu8 TxNum;
+				;73		vu8 RxNum;
+				;74		vu8 CheckSum;
+				;75		vu8 CheckSum_Buf;		
+				;76	}I2C;
+				;77	
+				;78	u8 I2C_Data[I2C_MAXNUM];
 				;79	
-				;80	u8 I2C_Data[I2C_MAXNUM];
-				;81	u8 MCU_STATE;
-				;82	u8 I2C_STATE;
-				;83	
-				;84	void DATA_LIST_UPDATA(void)
-				;85	{
-				;86		u8 *p;
-				;87		
-				;88		I2C.SUM = IC_PAGE_SIZS[I2C.WordAddr];//取頁數據量
+				;80	u8 MCU_INF[3];
+				;81	#define MCU_STATE 		MCU_INF[0]
+				;82	#define MCU_SLEEP 		MCU_INF[1]
+				;83	#define MCU_WAKEUP 		MCU_INF[2]
+				;84	//#define MCU_STATE 		MCU_INF[3]
+				;85	//#define MCU_STATE 		MCU_INF[4]
+				;86	
+				;87	u8 SYS_INF[3];
+				;88	#define I2C_STATE 		SYS_INF[0]
+				;89	#define SYS_Version		SYS_INF[1]
+				;90	//#define MCU_WAKEUP 		SYS_INF[2]
+				;91	//#define MCU_STATE 		MCU_INF[3]
+				;92	//#define MCU_STATE 		MCU_INF[4]
+				;93	//u8 I2C_STATE;
+				;94	
+				;95	void DATA_LIST_UPDATA(void)
+				;96	{
+				;97		u8 *p;
+				;98		
+				;99		I2C.SUM = IC_PAGE_SIZS[I2C.WordAddr];//取頁數據量
 				_DATA_LIST_UPDATA:
 				_DATA_LIST_UPDATA:
 052C	0F52	mov     a, 52H
-052D	433C	add     a, I2C[0]
+052D	4340	add     a, I2C[0]
 052E	0083	mov     MP1, a
 052F	0F8A	mov     a, 8AH
 0530	1F01	clr     MP0
 0531	1381	adcm    a, MP0
-0532	2710	call    L0710
-0533	40BD	mov     I2C[1], a
-				;89		
-				;90	   	switch(I2C.WordAddr)//取頁數據的指針
-0534	473C	mov     a, I2C[0]
-0535	40CF	mov     _DATA_LIST_UPDATA_2, a
-0536	474F	mov     a, _DATA_LIST_UPDATA_2
+0532	2724	call    L0724
+0533	40C1	mov     I2C[1], a
+				;100		
+				;101	   	switch(I2C.WordAddr)//取頁數據的指針
+0534	4740	mov     a, I2C[0]
+0535	40D3	mov     _DATA_LIST_UPDATA_2, a
+0536	4753	mov     a, _DATA_LIST_UPDATA_2
 0537	0A00	sub     a, 0H
 0538	3D0A	sz      Z
 0539	2D50	jmp     _L11
 053A	0A01	sub     a, 1H
 053B	3D0A	sz      Z
 053C	2D55	jmp     _L9
-053D	474F	mov     a, _DATA_LIST_UPDATA_2
+053D	4753	mov     a, _DATA_LIST_UPDATA_2
 053E	0A02	sub     a, 2H
 053F	3D0A	sz      Z
 0540	2D4A	jmp     _L5
-0541	474F	mov     a, _DATA_LIST_UPDATA_2
+0541	4753	mov     a, _DATA_LIST_UPDATA_2
 0542	0A03	sub     a, 3H
 0543	390A	snz     Z
 0544	2D4F	jmp     _L10
-				;91		{
-				;92			case 0 :p = &GLOBE_VARIES[0];break;
-				;93			case 1 :p = &GLOBE_VARIES[3];break;
+				;102		{
+				;103			case 0 :p = &GLOBE_VARIES[0];break;
+				;104			case 1 :p = &GLOBE_VARIES[3];break;
 				_L9:
 0555	0F63	mov     a, 63H
-0556	40C6	mov     rb, a
+0556	40CA	mov     rb, a
 0557	0F00	mov     a, 0H
-0558	40C7	mov     rc, a
-				;94			case 2 :p = &KEY_IO_SEL[0];break;
+0558	40CB	mov     rc, a
+				;105			case 2 :p = &KEY_IO_SEL[0];break;
 				_L5:
 054A	0F7A	mov     a, 7AH
-054B	40C6	mov     rb, a
+054B	40CA	mov     rb, a
 054C	0F00	mov     a, 0H
-054D	40C7	mov     rc, a
+054D	40CB	mov     rc, a
 054E	2D59	jmp     _L4
-				;95			case 3 :p = &MCU_STATE;break;
-0545	0FAF	mov     a, AFH
-0546	40C6	mov     rb, a
+				;106			case 3 :p = &MCU_STATE;break;
+0545	0FB1	mov     a, B1H
+0546	40CA	mov     rb, a
 0547	0F00	mov     a, 0H
-0548	40C7	mov     rc, a
+0548	40CB	mov     rc, a
 0549	2D59	jmp     _L4
-				;96			default :p = &GLOBE_VARIES[0];I2C.SUM = 0;break;
+				;107			default :p = &GLOBE_VARIES[0];I2C.SUM = 0;break;
 				_L10:
-054F	5F3D	clr     I2C[1]
+054F	5F41	clr     I2C[1]
 				_L11:
 0550	0F60	mov     a, 60H
-0551	40C6	mov     rb, a
+0551	40CA	mov     rb, a
 0552	0F00	mov     a, 0H
-0553	40C7	mov     rc, a
+0553	40CB	mov     rc, a
 0554	2D59	jmp     _L4
-				;97		}
-				;98		
-				;99		
-				;100		for(I2C.RxNum=0;I2C.RxNum<I2C.SUM;I2C.RxNum++)
+				;108		}
+				;109		
+				;110		
+				;111		for(I2C.RxNum=0;I2C.RxNum<I2C.SUM;I2C.RxNum++)
 				_L4:
-0559	5F3F	clr     I2C[3]
+0559	5F43	clr     I2C[3]
 055A	2D6E	jmp     _L7
-056D	54BF	inc     I2C[3]
+056D	54C3	inc     I2C[3]
 				_L7:
-056E	473F	mov     a, I2C[3]
-056F	423D	sub     a, I2C[1]
+056E	4743	mov     a, I2C[3]
+056F	4241	sub     a, I2C[1]
 0570	380A	snz     C
 0571	2D5B	jmp     _L8
 0572	0003	ret
-				;101		{	
-				;102			*(p+I2C.RxNum) = I2C_Data[I2C.RxNum];	//更新觸控數據
+				;112		{	
+				;113			*(p+I2C.RxNum) = I2C_Data[I2C.RxNum];	//更新觸控數據
 				_L8:
-055B	0FB0	mov     a, B0H
-055C	433F	add     a, I2C[3]
+055B	0FB4	mov     a, B4H
+055C	4343	add     a, I2C[3]
 055D	0083	mov     MP1, a
 055E	0F00	mov     a, 0H
 055F	1F01	clr     MP0
 0560	1381	adcm    a, MP0
-0561	2710	call    L0710
-0562	40C5	mov     ra, a
-0563	473F	mov     a, I2C[3]
-0564	4346	add     a, rb
+0561	2724	call    L0724
+0562	40C9	mov     ra, a
+0563	4743	mov     a, I2C[3]
+0564	434A	add     a, rb
 0565	0083	mov     MP1, a
 0566	1F05	clr     ACC
-0567	5347	adc     a, rc
+0567	534B	adc     a, rc
 0568	0081	mov     MP0, a
 0569	0701	mov     a, MP0
 056A	0084	mov     BP, a
-056B	4745	mov     a, ra
+056B	4749	mov     a, ra
 056C	0082	mov     [02H], a
-				;103		}	
-				;104		
-				;105	}
-				;106	
-				;107	//初始化I2C數據
-				;108	void I2C_LIST_INIT(void)
-				;109	{
-				;110		I2C.WordAddr = 0x00;
+				;114		}	
+				;115		
+				;116	}
+				;117	
+				;118	//初始化I2C數據
+				;119	void I2C_LIST_INIT(void)
+				;120	{
+				;121		I2C.WordAddr = 0x00;
 				_I2C_LIST_INIT:
 				_I2C_LIST_INIT:
-0573	5F3C	clr     I2C[0]
-				;111		I2C.SUM = 0;	
-0574	5F3D	clr     I2C[1]
-				;112		I2C.RxNum = 0;
-0575	5F3F	clr     I2C[3]
-				;113		I2C.TxNum = 0;
-0576	5F3E	clr     I2C[2]
-				;114		I2C.CRC = 0;
-0577	5F40	clr     I2C[4]
-				;115		I2C.CRC_BUF = 0;
-0578	5F41	clr     I2C[5]
-				;116		FLAG_End = FALSE;
-0579	74C2	clr     FLAG[0].1
-				;117		FLAG_Err = FALSE;
-057A	7442	clr     FLAG[0].0
+0573	5F40	clr     I2C[0]
+				;122		I2C.SUM = 0;	
+0574	5F41	clr     I2C[1]
+				;123		I2C.RxNum = 0;
+0575	5F43	clr     I2C[3]
+				;124		I2C.TxNum = 0;
+0576	5F42	clr     I2C[2]
+				;125		I2C.CheckSum = 0;
+0577	5F44	clr     I2C[4]
+				;126		I2C.CheckSum_Buf = 0;
+0578	5F45	clr     I2C[5]
+				;127		FLAG_I2C_End = FALSE;
+0579	74C6	clr     FLAG[0].1
+				;128		FLAG_I2C_Err = FALSE;
+057A	7446	clr     FLAG[0].0
 057B	0003	ret
-				;118	}
-				;119	
-				;120	//初始化系統數據
-				;121	void SYS_LIST_INIT(void)
-				;122	{
-				;123		MCU_STATE = NTH;
+				;129	}
+				;130	
+				;131	//初始化系統數據
+				;132	void SYS_LIST_INIT(void)
+				;133	{
+				;134		MCU_STATE = NTH;
 				_SYS_LIST_INIT:
 				_SYS_LIST_INIT:
-000A	0F0F	mov     a, FH
-000B	40AF	mov     MCU_STATE[0], a
-				;124		I2C_STATE = NTH;
-000C	0F0F	mov     a, FH
-000D	40AE	mov     I2C_STATE[0], a
-				;125		
-				;126		FLAG_Err = TRUE;//使用通信錯誤功能初始化I2C數據
-000E	7042	set     FLAG[0].0
-000F	0003	ret
-				;127	}
-				;128	
-				;129	//==============================================
-				;130	void USER_PROGRAM_INITIAL()
-				;131	{	
-				;132	//	_wdtc = 0xAF;	//wdt = 8s 
-				;133		_wdtc = 0b10101100;	//wdt = 1s 
+057C	0F0F	mov     a, FH
+057D	40B1	mov     MCU_INF[0], a
+				;135		MCU_SLEEP = 0x4E; // 3s 
+057E	0F4E	mov     a, 4EH
+057F	40B2	mov     MCU_INF[1], a
+				;136		
+				;137		I2C_STATE = NTH;
+0580	0F0F	mov     a, FH
+0581	40AE	mov     SYS_INF[0], a
+				;138		SYS_Version = Version;
+0582	0F1C	mov     a, 1CH
+0583	40AF	mov     SYS_INF[1], a
+				;139		FLAG_I2C_Err = TRUE;//使用通信錯誤功能初始化I2C數據
+0584	7046	set     FLAG[0].0
+0585	0003	ret
+				;140	}
+				;141	
+				;142	//==============================================
+				;143	void USER_PROGRAM_INITIAL()
+				;144	{	
+				;145	//	_wdtc = 0b10101100;	//wdt = 1s 
+				;146		
+				;147		_pawu=0;		//0:禁止下降沿唤醒;   1:使能
 				_USER_PROGRAM_INITIAL:
 				_USER_PROGRAM_INITIAL:
-057C	0FAC	mov     a, ACH
-057D	009A	mov     WDTC, a
-				;134		
-				;135		_pawu=0;		//0:禁止下降沿唤醒;   1:使能
-057E	1F17	clr     PAWU
-				;136		_papu=0;		//0:禁止上拉;         1:使能上拉
-057F	1F16	clr     PAPU
-				;137		_pa=0x00;	
-0580	1F14	clr     PA
-				;138		MCU_INT = 1;
-0581	3094	set     PA1
-				;139		_pac =0x05;		//0:输出;      		  1:输入
-0582	0F05	mov     a, 5H
-0583	0095	mov     PAC, a
-				;140			 
-				;141		
-				;142		MCU_INT = 1;		
-0584	3094	set     PA1
-				;143		MCU_INT_c = 0;	
-0585	3495	clr     PAC1
-				;144		
-				;145		
-				;146	//配置定时器	
-				;147	//	_tmrc = 0b00000111;//12Mhz,1/128
-				;148	//	_tmr = 131;//256-156=100,1/12M*128=10.7us; 10.7us*100=1.07ms
-				;149	//	_te = 1;	//定时/计数器中断控制位
-				;150	//	_ton = 1;	//定时/计数器启动/停止控制位
-				;151			
-				;152	//配置IIC	
-				;153	//	_papu0 = 1;  	//SDA
-				;154	//	_papu2 = 1;  	//SCL
-				;155	
-				;156		_simc0 = 0b11000010;
-0586	0FC2	mov     a, C2H
-0587	00A4	mov     SIMC0, a
-				;157		_sima = DeviceAddress;//从机地址
-0588	0F28	mov     a, 28H
-0589	00A7	mov     SIMC2, a
-				;158		
-				;159	//I2C超时配置	
-				;160		_i2ctoc = 0b10111111; //64ms
-058A	0FBF	mov     a, BFH
-058B	00A3	mov     I2CTOC, a
-				;161		_simf = 0;
-058C	360F	clr     SIMF
-				;162		_sime = 1;	
-058D	300F	set     SIME
-				;163		
-				;164		SYS_LIST_INIT();
-058E	200A	call    _SYS_LIST_INIT
-				;165	
-				;166		_emi = 1;	//总中断控制位	
-058F	300E	set     EMI
-0590	0003	ret
-				;167	}
-				;168	
-				;169	//==============================================
-				;170	//**********************************************
-				;171	//==============================================
-				;172	void USER_PROGRAM()
-				;173	{
-				;174		if(MCU_STATE == REST)// 系統設置，如果設置為復位，則馬上復位
+0586	1F17	clr     PAWU
+				;148		_papu=0;		//0:禁止上拉;         1:使能上拉
+0587	1F16	clr     PAPU
+				;149		
+				;150		_pa=0x00;	
+0588	1F14	clr     PA
+				;151		_pac =0xFF;		//0:输出;      		  1:输入
+0589	1F95	set     PAC
+				;152			 
+				;153		MCU_INT = 1;		
+058A	3094	set     PA1
+				;154		MCU_INT_c = 0;	
+058B	3495	clr     PAC1
+				;155		
+				;156		
+				;157	//配置定时器	
+				;158	//	_tmrc = 0b00000111;//12Mhz,1/128
+				;159	//	_tmr = 131;//256-156=100,1/12M*128=10.7us; 10.7us*100=1.07ms
+				;160	//	_te = 1;	//定时/计数器中断控制位
+				;161	//	_ton = 1;	//定时/计数器启动/停止控制位
+				;162			
+				;163	//配置IIC	
+				;164	//	_papu0 = 1;  	//SDA
+				;165	//	_papu2 = 1;  	//SCL
+				;166	
+				;167		_simc0 = 0b11000010;
+058C	0FC2	mov     a, C2H
+058D	00A4	mov     SIMC0, a
+				;168		_sima = DeviceAddress;//从机地址
+058E	0F28	mov     a, 28H
+058F	00A7	mov     SIMC2, a
+				;169		
+				;170	//I2C超时配置	
+				;171		_i2ctoc = 0b10111111; //64ms
+0590	0FBF	mov     a, BFH
+0591	00A3	mov     I2CTOC, a
+				;172		_simf = 0;
+0592	360F	clr     SIMF
+				;173		_sime = 1;	
+0593	300F	set     SIME
+				;174		
+				;175		SYS_LIST_INIT();
+0594	257C	call    _SYS_LIST_INIT
+				;176	
+				;177		_emi = 1;	//总中断控制位	
+0595	300E	set     EMI
+0596	0003	ret
+				;178	}
+				;179	
+				;180	//==============================================
+				;181	//**********************************************
+				;182	//==============================================
+				;183	void USER_PROGRAM()
+				;184	{
+				;185	
+				;186	//--------------------------------------------------------------------	
+				;187		GET_KEY_BITMAP();//更新按鍵值
 				_USER_PROGRAM:
 				_USER_PROGRAM:
-0591	472F	mov     a, MCU_STATE[0]
-0592	0A0A	sub     a, AH
-0593	390A	snz     Z
-0594	2D98	jmp     _L17
-				;175		{
-				;176			MCU_INT = 0;
-0595	3494	clr     PA1
-				;177			_wdtc = 0xFF;//MCU rest //64MS
-0596	1F9A	set     WDTC
-0597	2D9A	jmp     _L18
-				;178		}
-				;179		else 
-				;180		{
-				;181			MCU_STATE = NTH;
-				_L17:
-0598	0F0F	mov     a, FH
-0599	40AF	mov     MCU_STATE[0], a
-				;182		}
-				;183		
-				;184		if(FLAG_Err) // 通信錯誤，復位I2C數據
-				_L18:
-059A	7842	snz     FLAG[0].0
-059B	2D9D	jmp     _L19
-				;185		{
-				;186			I2C_LIST_INIT();
-059C	2573	call    _I2C_LIST_INIT
-				;187		}
-				;188	//--------------------------------------------------------------------	
-				;189		GET_KEY_BITMAP();//更新按鍵值
-				_L19:
-059D	24AE	call    L04AE
-				;190		#ifndef	BS83B08A	
+0597	24AE	call    L04AE
+				;188		
+				;189		#ifndef	BS83B08A	
+				;190		
 				;191		//取使能的按鍵值
-				;192		KEY_DATA[0] =KEY_DATA[0]&KEY_IO_SEL[0] ;
-059E	077A	mov     a, __sima[83]
-059F	067C	and     a, __sima[85]
-05A0	40C6	mov     rb, a
-05A1	4746	mov     a, rb
-05A2	00FC	mov     __sima[85], a
-				;193		KEY_DATA[1] =KEY_DATA[1]&KEY_IO_SEL[1] ;	
-05A3	077B	mov     a, __sima[84]
-05A4	067D	and     a, __sima[86]
-05A5	40C5	mov     ra, a
-05A6	4745	mov     a, ra
-05A7	00FD	mov     __sima[86], a
+				;192		KEY_DATA[0] = KEY_DATA[0]&KEY_IO_SEL[0] ;
+0598	077A	mov     a, __sima[83]
+0599	067C	and     a, __sima[85]
+059A	40CA	mov     rb, a
+059B	474A	mov     a, rb
+059C	00FC	mov     __sima[85], a
+				;193		KEY_DATA[1] = KEY_DATA[1]&KEY_IO_SEL[1] ;	
+059D	077B	mov     a, __sima[84]
+059E	067D	and     a, __sima[86]
+059F	40C9	mov     ra, a
+05A0	4749	mov     a, ra
+05A1	00FD	mov     __sima[86], a
 				;194		//有按鍵按下為INT變低
 				;195		 if(KEY_DATA[0] || KEY_DATA[1]) 
-05A8	50C6	sz      rb
-05A9	2DAD	jmp     _L20
-05AA	50C5	sz      ra
-05AB	2DAD	jmp     _L20
-05AC	2DAF	jmp     _L21
-				;196			MCU_INT = 0;
-				_L20:
+05A2	50CA	sz      rb
+05A3	2DA7	jmp     _L17
+05A4	50C9	sz      ra
+05A5	2DA7	jmp     _L17
+05A6	2DAB	jmp     _L18
+				;196		 {
+				;197			MCU_INT = 0;
+				_L17:
 				_LI1:
-05AD	3494	clr     PA1
-05AE	2DB0	jmp     _L22
-				;197	  	 else
-				;198		 	MCU_INT = 1;	
-				_L21:
-05AF	3094	set     PA1
-				;199		#endif	
-				;200		
-				;201		#ifdef	BS83B08A
-				;202		//取使能的按鍵值
-				;203		KEY_DATA[0] =KEY_DATA[0]&KEY_IO_SEL[0] ;
-				;204		//有按鍵按下為INT變低
-				;205		 if(KEY_DATA[0]) 
-				;206			MCU_INT = 0;
-				;207	  	 else
-				;208		 	MCU_INT = 1;
-				;209		#endif		
-				;210	
-				;211	
-				;212	//	----------------------------------------------------------------
-				;213		if(FLAG_End)				//一帧数据接收完成标志
-				_L22:
-05B0	78C2	snz     FLAG[0].1
-05B1	2DD5	jmp     _L16
-				;214		{
-				;215			//將地址轉換成頁碼	
-				;216			I2C.WordAddr >>=4;
-05B2	513C	swapa   I2C[0]
-05B3	0E0F	and     a, FH
-05B4	40BC	mov     I2C[0], a
-				;217			I2C.WordAddr -=0x0A;
-05B5	0FF6	mov     a, F6H
-05B6	43BC	addm    a, I2C[0]
-				;218			//接收到的有效數據數
-				;219			I2C.RxNum-=2;
-05B7	0FFE	mov     a, FEH
-05B8	43BF	addm    a, I2C[3]
-				;220		
-				;221			//先判斷 頁碼是否為可寫的前四頁 ， 且有效數據量是否符合頁大小
-				;222			if((I2C.WordAddr <= 3) && (I2C.RxNum == IC_PAGE_SIZS[I2C.WordAddr])) 
-05B9	0F03	mov     a, 3H
-05BA	423C	sub     a, I2C[0]
-05BB	380A	snz     C
-05BC	2DD3	jmp     _L24
-05BD	0F52	mov     a, 52H
-05BE	433C	add     a, I2C[0]
-05BF	0083	mov     MP1, a
-05C0	0F8A	mov     a, 8AH
-05C1	1F01	clr     MP0
-05C2	1381	adcm    a, MP0
-05C3	2710	call    L0710
-05C4	40C5	mov     ra, a
-05C5	473F	mov     a, I2C[3]
-05C6	4245	sub     a, ra
-05C7	390A	snz     Z
-05C8	2DD3	jmp     _L24
-				;223			{	
-				;224				I2C.CRC_BUF=~I2C.CRC_BUF;//取反計數出的
-05C9	4141	cpla    I2C[5]
-05CA	40C1	mov     I2C[5], a
-				;225				
-				;226				if( I2C.CRC == I2C.CRC_BUF  )//驗證CRC
-05CB	4740	mov     a, I2C[4]
-05CC	4241	sub     a, I2C[5]
-05CD	390A	snz     Z
-05CE	2DD3	jmp     _L24
-				;227				{
-				;228					I2C_STATE = TRUE; //寫入正確標誌
-05CF	0F01	mov     a, 1H
-05D0	40AE	mov     I2C_STATE[0], a
-				;229					
-				;230					DATA_LIST_UPDATA();//更新觸控數據值
-05D1	252C	call    _DATA_LIST_UPDATA
-05D2	2DD4	jmp     _L26
-				;231					
-				;232				}
-				;233				else I2C_STATE = FALSE;	//寫入錯誤標誌					
-				;234			}	
-				;235			else I2C_STATE = FALSE;	//寫入錯誤標誌	
+05A7	3494	clr     PA1
+				;198			STANDBY_TIME = 0x7F;
+05A8	0F7F	mov     a, 7FH
+05A9	00F8	mov     __sima[81], a
+05AA	2DB1	jmp     _L19
+				;199		 }
+				;200	  	 else
+				;201	  	 {
+				;202		 	MCU_INT = 1;
+				_L18:
+05AB	3094	set     PA1
+				;203		 	
+				;204	 		if(STANDBY_TIME <= MCU_SLEEP ) // 7E - 3*1000/63 
+05AC	4732	mov     a, MCU_INF[1]
+05AD	0278	sub     a, __sima[81]
+05AE	380A	snz     C
+05AF	2DB1	jmp     _L19
+				;205	  	 	{
+				;206	  	 		STANDBY_TIME = 0;
+05B0	1F78	clr     __sima[81]
+				;207	  	 	}
+				;208	 	
+				;209		 		
+				;210	  	 }
+				;211	  	 
+				;212		#endif	
+				;213		
+				;214		#ifdef	BS83B08A
+				;215		
+				;216		//取使能的按鍵值
+				;217		KEY_DATA[0] = KEY_DATA[0]&KEY_IO_SEL[0] ;
+				;218		//有按鍵按下為INT變低
+				;219		 if(KEY_DATA[0]) 
+				;220		 {
+				;221			MCU_INT = 0;
+				;222			STANDBY_TIME = 0x7F;
+				;223		 }
+				;224	  	 else
+				;225	  	 {
+				;226		 	MCU_INT = 1;
+				;227		 	
+				;228	 		if(STANDBY_TIME <= MCU_SLEEP ) // 7E - 3*1000/63 
+				;229	  	 	{
+				;230	  	 		STANDBY_TIME = 0;
+				;231	  	 	}
+				;232	 	
+				;233		 		
+				;234	  	 }
+				;235		#endif		
+				;236	
+				;237	
+				;238		
+				;239		if(FLAG_I2C_Err) // 通信錯誤，復位I2C數據
+				_L19:
+05B1	7846	snz     FLAG[0].0
+05B2	2DB4	jmp     _L20
+				;240		{
+				;241			I2C_LIST_INIT();
+05B3	2573	call    _I2C_LIST_INIT
+				;242		}
+				;243	//	----------------------------------------------------------------
+				;244		if(FLAG_I2C_End)				//一帧数据接收完成标志
+				_L20:
+05B4	78C6	snz     FLAG[0].1
+05B5	2DE2	jmp     _L16
+				;245		{
+				;246			//將地址轉換成頁碼	
+				;247			I2C.WordAddr >>= 4;
+05B6	5140	swapa   I2C[0]
+05B7	0E0F	and     a, FH
+05B8	40C0	mov     I2C[0], a
+				;248			I2C.WordAddr -= 0x0A;
+05B9	0FF6	mov     a, F6H
+05BA	43C0	addm    a, I2C[0]
+				;249			//接收到的有效數據數
+				;250			I2C.RxNum -= 2;
+05BB	0FFE	mov     a, FEH
+05BC	43C3	addm    a, I2C[3]
+				;251		
+				;252			//先判斷 頁碼是否為可寫的前四頁 ， 且有效數據量是否符合頁大小
+				;253			if((I2C.WordAddr <= 3) && (I2C.RxNum == IC_PAGE_SIZS[I2C.WordAddr])) 
+05BD	0F03	mov     a, 3H
+05BE	4240	sub     a, I2C[0]
+05BF	380A	snz     C
+05C0	2DE0	jmp     _L22
+05C1	0F52	mov     a, 52H
+05C2	4340	add     a, I2C[0]
+05C3	0083	mov     MP1, a
+05C4	0F8A	mov     a, 8AH
+05C5	1F01	clr     MP0
+05C6	1381	adcm    a, MP0
+05C7	2724	call    L0724
+05C8	40C9	mov     ra, a
+05C9	4743	mov     a, I2C[3]
+05CA	4249	sub     a, ra
+05CB	390A	snz     Z
+05CC	2DE0	jmp     _L22
+				;254			{	
+				;255				I2C.CheckSum_Buf =~ I2C.CheckSum_Buf;//取反計數出的
+05CD	4145	cpla    I2C[5]
+05CE	40C5	mov     I2C[5], a
+				;256				
+				;257				if( I2C.CheckSum == I2C.CheckSum_Buf  )//驗證CheckSum
+05CF	4744	mov     a, I2C[4]
+05D0	4245	sub     a, I2C[5]
+05D1	390A	snz     Z
+05D2	2DE0	jmp     _L22
+				;258				{
+				;259					I2C_STATE = TRUE; //寫入正確標誌
+05D3	0F01	mov     a, 1H
+05D4	40AE	mov     SYS_INF[0], a
+				;260					
+				;261					DATA_LIST_UPDATA();//更新觸控數據值
+05D5	252C	call    _DATA_LIST_UPDATA
+				;262					
+				;263					
+				;264					if(MCU_STATE == RESET)// 系統設置，如果設置為復位，則馬上復位
+05D6	4731	mov     a, MCU_INF[0]
+05D7	0A0A	sub     a, AH
+05D8	390A	snz     Z
+05D9	2DDD	jmp     _L24
+				;265					{
+				;266						MCU_INT = 0;
+05DA	3494	clr     PA1
+				;267						_wdtc = 0xFF;//MCU RESET //64MS
+05DB	1F9A	set     WDTC
+05DC	2DE1	jmp     _L25
+				;268					}
+				;269					else 
+				;270					{
+				;271						MCU_STATE = NTH;
 				_L24:
-05D3	5F2E	clr     I2C_STATE[0]
-				;236				
-				;237			FLAG_End = FALSE;
-				_L26:
-05D4	74C2	clr     FLAG[0].1
+05DD	0F0F	mov     a, FH
+05DE	40B1	mov     MCU_INF[0], a
+05DF	2DE1	jmp     _L25
+				;272					}
+				;273					
+				;274					
+				;275					
+				;276				}
+				;277				else I2C_STATE = FALSE;	//寫入錯誤標誌					
+				;278			}	
+				;279			else I2C_STATE = FALSE;	//寫入錯誤標誌	
+				_L22:
+05E0	5F2E	clr     SYS_INF[0]
+				;280				
+				;281			FLAG_I2C_End = FALSE;
+				_L25:
+05E1	74C6	clr     FLAG[0].1
 				_L16:
-05D5	0003	ret
-				;238		}	
-				;239	//	----------------------------------------------------------------
-				;240	}
-				;241	
-				;242	
-				;243	
-				;244	
-				;245	void __attribute((interrupt(0x10))) IIC_ISR(void)
-				;246	{ 
+05E2	0003	ret
+				;282		}	
+				;283	//	----------------------------------------------------------------
+				;284	}
+				;285	
+				;286	
+				;287	
+				;288	
+				;289	void __attribute((interrupt(0x10))) IIC_ISR(void)
+				;290	{ 
 				@IIC_ISR_code .SECTION 'CODE'
-0010	40C8	mov     r110, a
+0010	40CC	mov     r110, a
 0011	0704	mov     a, BP
-0012	40C9	mov     r210, a
-0013	2DD6	jmp     _IIC_ISR
+0012	40CD	mov     r210, a
+0013	2DE3	jmp     _IIC_ISR
 				@dummy16 .SECTION 'CODE'
 					----
 					----
@@ -2277,572 +2333,590 @@
 					----
 				_IIC_ISR:
 				_IIC_ISR:
-05D6	070A	mov     a, STATUS
-05D7	40CA	mov     r310, a
-05D8	0703	mov     a, MP1
-05D9	40CB	mov     r410, a
-05DA	0701	mov     a, MP0
-05DB	40CC	mov     r510, a
-				;247	 	u8 data;	
-				;248	 	_simf = 0;		//清零标志位				
-05DC	360F	clr     SIMF
-				;249	 	if(_i2ctof)//_i2ctof=1:I2C通信超时
-05DD	3B23	snz     I2CTOF
-05DE	2DE3	jmp     _L34
-				;250	 	{
-				;251	 		_i2ctoen = 1;
-05DF	33A3	set     I2CTOEN
-				;252	 		_i2ctof = 0;
-05E0	3723	clr     I2CTOF
-				;253	 		FLAG_Err = TRUE;
-05E1	7042	set     FLAG[0].0
-05E2	2F05	jmp     _L33
-				;254	 	}
-				;255	 	else 
-				;256	 		{
-				;257				if(_haas)//_haas=1:slave receive SLAVE_ADDR match							
-				_L34:
-05E3	3B25	snz     HAAS
-05E4	2E2D	jmp     _L36
-				;258				{
-				;259					//地址匹配后，判断主机讀寫位,主机是写从机还是读从机
-				;260	
-				;261					if(_srw)//srw=1:slave send data to master (frist data).
-05E5	3925	snz     SRW
-05E6	2E24	jmp     _L37
-				;262					{							
-				;263						
-				;264						if(I2C.WordAddr == 0x00)
-05E7	50BC	sz      I2C[0]
-05E8	2DEE	jmp     _L38
-				;265						{
-				;266							I2C.SUM = IC_PAGE_SIZS[0];
-05E9	0F03	mov     a, 3H
-05EA	40BD	mov     I2C[1], a
-				;267							I2C.TxNum = IC_PAGE_HEAD[0];
-05EB	0FA0	mov     a, A0H
-05EC	40BE	mov     I2C[2], a
-				;268							I2C.CRC_BUF = 0;
-05ED	5F41	clr     I2C[5]
-				;269						}
-				;270						
-				;271							
-				;272						switch(I2C.TxNum)
-				_L38:
-05EE	473E	mov     a, I2C[2]
-05EF	40CE	mov     _IIC_ISR_2, a
-05F0	474E	mov     a, _IIC_ISR_2
-05F1	0AA0	sub     a, A0H
-05F2	3D0A	sz      Z
-05F3	2E0B	jmp     _L40
-05F4	0A10	sub     a, 10H
-05F5	3D0A	sz      Z
-05F6	2E0E	jmp     _L41
-05F7	474E	mov     a, _IIC_ISR_2
-05F8	0AC0	sub     a, C0H
-05F9	3D0A	sz      Z
-05FA	2E11	jmp     _L42
-05FB	0A10	sub     a, 10H
-05FC	3D0A	sz      Z
-05FD	2E14	jmp     _L43
-05FE	474E	mov     a, _IIC_ISR_2
-05FF	0AE0	sub     a, E0H
-0600	3D0A	sz      Z
-0601	2E17	jmp     _L44
-0602	474E	mov     a, _IIC_ISR_2
-0603	0AF0	sub     a, F0H
-0604	390A	snz     Z
-0605	2E1A	jmp     _L79
-				;273						{	
-				;274							case 0xA0 :data = GLOBE_VARIES[0];break;
-				_L40:
-060B	0760	mov     a, __sima[57]
-060C	40CD	mov     ra10, a
-060D	2E1C	jmp     _L39
-				;275							case 0xB0 :data = GLOBE_VARIES[3];;break;
-				_L41:
-060E	0763	mov     a, __sima[60]
-060F	40CD	mov     ra10, a
-0610	2E1C	jmp     _L39
-				;276							case 0xC0 :data = KEY_IO_SEL[0];break;
-				_L42:
-0611	077A	mov     a, __sima[83]
-0612	40CD	mov     ra10, a
-0613	2E1C	jmp     _L39
-				;277							case 0xD0 :data = MCU_STATE;break;
-				_L43:
-0614	472F	mov     a, MCU_STATE[0]
-0615	40CD	mov     ra10, a
-0616	2E1C	jmp     _L39
-				;278							case 0xE0 :data = KEY_DATA[0];break;
-				_L44:
-0617	077C	mov     a, __sima[85]
-0618	40CD	mov     ra10, a
-0619	2E1C	jmp     _L39
-				;279							case 0xF0 :data = I2C_STATE;I2C_STATE = NTH;break;
-0606	472E	mov     a, I2C_STATE[0]
-0607	40CD	mov     ra10, a
-0608	0F0F	mov     a, FH
-0609	40AE	mov     I2C_STATE[0], a
-060A	2E1C	jmp     _L39
-				;280							default : data = 0xAA;;break;
-				_L79:
-061A	0FAA	mov     a, AAH
-061B	40CD	mov     ra10, a
-				;281						}
-				;282						_htx = 1; //_htx=1:	
-				_L39:
-061C	3225	set     HTX
-				;283						_simd = data;
-061D	474D	mov     a, ra10
-061E	00A6	mov     SIMD, a
-				;284						
-				;285						I2C.CRC_BUF += data;
-061F	474D	mov     a, ra10
-0620	43C1	addm    a, I2C[5]
-				;286						
-				;287						I2C.SUM += I2C.TxNum;
-0621	473E	mov     a, I2C[2]
-0622	43BD	addm    a, I2C[1]
-0623	2EAE	jmp     _L85
-				;288						
-				;289						I2C.TxNum++;
-				;290						if(I2C.TxNum >= I2C.SUM) 
-				;291							I2C.TxNum = 0xFF;
-				;292								
-				;293					}else//srw=0:slave receive data for master
-				;294						{	
-				;295							_htx = 0;//_htx=0:
-				_L37:
-0624	3625	clr     HTX
-				;296							_txak = 0;//_txak=0:slave enable ACK
-0625	35A5	clr     TXAK
-				;297							_acc = _simd;//dummy
-0626	0726	mov     a, SIMD
-0627	0085	mov     ACC, a
-				;298							
-				;299							I2C.RxNum = 0;//begin to conut
-0628	5F3F	clr     I2C[3]
-				;300							I2C.TxNum = 0;
-0629	5F3E	clr     I2C[2]
-				;301							I2C.SUM = 0;
-062A	5F3D	clr     I2C[1]
-				;302							FLAG_End = FALSE;
-062B	74C2	clr     FLAG[0].1
-062C	2F05	jmp     _L33
-				;303						} 
-				;304				}
-				;305				else//_haas=0:slave receive SLAVE_ADDR match,then communication data 
-				;306				{	
-				;307											  
-				;308					if(_htx)//_htx=1:slave send data to master
-				_L36:
-062D	3A25	snz     HTX
-062E	2EB5	jmp     _L47
-				;309					{								
-				;310						if(_rxak)//_rxak=1:slave send data,then master NACK;
-062F	3825	snz     RXAK
-0630	2E39	jmp     _L48
-				;311						{							
-				;312							_htx = 0;
+05E3	070A	mov     a, STATUS
+05E4	40CE	mov     r310, a
+05E5	0703	mov     a, MP1
+05E6	40CF	mov     r410, a
+05E7	0701	mov     a, MP0
+05E8	40D0	mov     r510, a
+				;291	 	vu8 data;	
+				;292	 	
+				;293	 	_simf = 0;		//清零标志位				
+05E9	360F	clr     SIMF
+				;294	 	if(_i2ctof)//_i2ctof=1:I2C通信超时
+05EA	3B23	snz     I2CTOF
+05EB	2DF0	jmp     L05F0
+				;295	 	{
+				;296	 		_i2ctoen = 1;
+05EC	33A3	set     I2CTOEN
+				;297	 		_i2ctof = 0;
+05ED	3723	clr     I2CTOF
+				;298	 		FLAG_I2C_Err = TRUE;
+05EE	7046	set     FLAG[0].0
+05EF	2F19	jmp     L0719
+				;299	 	}
+				;300	 	else 
+				;301	 		{
+				;302				if(_haas)//_haas=1:slave receive SLAVE_ADDR match							
+				L05F0:
+05F0	3B25	snz     HAAS
+05F1	2E3A	jmp     L063A
+				;303				{
+				;304					//地址匹配后，判断主机讀寫位,主机是写从机还是读从机
+				;305	
+				;306					if(_srw)//srw=1:slave send data to master (frist data).
+05F2	3925	snz     SRW
+05F3	2E31	jmp     L0631
+				;307					{							
+				;308						
+				;309						if(I2C.WordAddr == 0x00)
+05F4	50C0	sz      I2C[0]
+05F5	2DFB	jmp     L05FB
+				;310						{
+				;311							I2C.SUM = IC_PAGE_SIZS[0];
+05F6	0F03	mov     a, 3H
+05F7	40C1	mov     I2C[1], a
+				;312							I2C.TxNum = IC_PAGE_HEAD[0];
+05F8	0FA0	mov     a, A0H
+05F9	40C2	mov     I2C[2], a
+				;313							I2C.CheckSum_Buf = 0;
+05FA	5F45	clr     I2C[5]
+				;314						}
+				;315						
+				;316							
+				;317						switch(I2C.TxNum)
+				L05FB:
+05FB	4742	mov     a, I2C[2]
+05FC	40D2	mov     data[1], a
+05FD	4752	mov     a, data[1]
+05FE	0AA0	sub     a, A0H
+05FF	3D0A	sz      Z
+0600	2E18	jmp     L0618
+0601	0A10	sub     a, 10H
+0602	3D0A	sz      Z
+0603	2E1B	jmp     L061B
+0604	4752	mov     a, data[1]
+0605	0AC0	sub     a, C0H
+0606	3D0A	sz      Z
+0607	2E1E	jmp     L061E
+0608	0A10	sub     a, 10H
+0609	3D0A	sz      Z
+060A	2E21	jmp     L0621
+060B	4752	mov     a, data[1]
+060C	0AE0	sub     a, E0H
+060D	3D0A	sz      Z
+060E	2E24	jmp     L0624
+060F	4752	mov     a, data[1]
+0610	0AF0	sub     a, F0H
+0611	390A	snz     Z
+0612	2E27	jmp     L0627
+				;318						{	
+				;319							case 0xA0 :data = GLOBE_VARIES[0];break;
+				L0618:
+0618	0760	mov     a, __sima[57]
+0619	40D1	mov     data[0], a
+061A	2E29	jmp     L0629
+				;320							case 0xB0 :data = GLOBE_VARIES[3];;break;
+				L061B:
+061B	0763	mov     a, __sima[60]
+061C	40D1	mov     data[0], a
+061D	2E29	jmp     L0629
+				;321							case 0xC0 :data = KEY_IO_SEL[0];break;
+				L061E:
+061E	077A	mov     a, __sima[83]
+061F	40D1	mov     data[0], a
+0620	2E29	jmp     L0629
+				;322							case 0xD0 :data = MCU_INF[0];break;
+				L0621:
+0621	4731	mov     a, MCU_INF[0]
+0622	40D1	mov     data[0], a
+0623	2E29	jmp     L0629
+				;323							case 0xE0 :data = KEY_DATA[0];break;
+				L0624:
+0624	077C	mov     a, __sima[85]
+0625	40D1	mov     data[0], a
+0626	2E29	jmp     L0629
+				;324							case 0xF0 :data =  SYS_INF[0]; SYS_INF[0] = NTH;break;
+0613	472E	mov     a, SYS_INF[0]
+0614	40D1	mov     data[0], a
+0615	0F0F	mov     a, FH
+0616	40AE	mov     SYS_INF[0], a
+0617	2E29	jmp     L0629
+				;325							default : data = 0xAA;;break;
+				L0627:
+0627	0FAA	mov     a, AAH
+0628	40D1	mov     data[0], a
+				;326						}
+				;327						_htx = 1; //_htx=1:	
+				L0629:
+0629	3225	set     HTX
+				;328						_simd = data;
+062A	4751	mov     a, data[0]
+062B	00A6	mov     SIMD, a
+				;329						
+				;330						I2C.CheckSum_Buf += data;
+062C	4751	mov     a, data[0]
+062D	43C5	addm    a, I2C[5]
+				;331						
+				;332						I2C.SUM += I2C.TxNum;
+062E	4742	mov     a, I2C[2]
+062F	43C1	addm    a, I2C[1]
+0630	2EC2	jmp     L06C2
+				;333						
+				;334						I2C.TxNum++;
+				;335						if(I2C.TxNum >= I2C.SUM) 
+				;336							I2C.TxNum = 0xFF;
+				;337								
+				;338					}else//srw=0:slave receive data for master
+				;339						{	
+				;340							_htx = 0;//_htx=0:
+				L0631:
 0631	3625	clr     HTX
-				;313							_txak = 0;	
+				;341							_txak = 0;//_txak=0:slave enable ACK
 0632	35A5	clr     TXAK
-				;314							_acc = _simd;//dummy
+				;342							_acc = _simd;//dummy
 0633	0726	mov     a, SIMD
 0634	0085	mov     ACC, a
-				;315	
-				;316							I2C.WordAddr = 0x00;
-0635	5F3C	clr     I2C[0]
-				;317							I2C.SUM = 0;
-0636	5F3D	clr     I2C[1]
-				;318							I2C.TxNum = 0;
-0637	5F3E	clr     I2C[2]
-0638	2F05	jmp     _L33
-				;319						}
-				;320						else//_rxak=1:slave send data,then master ACK
-				;321						{				
-				;322							//slave continue to send data to master (second and next data).							
-				;323							switch(I2C.TxNum)
-				_L48:
-0639	473E	mov     a, I2C[2]
-063A	40CE	mov     _IIC_ISR_2, a
-063B	474E	mov     a, _IIC_ISR_2
-063C	0AA1	sub     a, A1H
-063D	3D0A	sz      Z
-063E	2E7B	jmp     _L50
-063F	0A01	sub     a, 1H
-0640	3D0A	sz      Z
-0641	2E7E	jmp     _L51
-0642	474E	mov     a, _IIC_ISR_2
-0643	0AB1	sub     a, B1H
-0644	3D0A	sz      Z
-0645	2E81	jmp     _L52
-0646	0A01	sub     a, 1H
-0647	3D0A	sz      Z
-0648	2E84	jmp     _L53
-0649	474E	mov     a, _IIC_ISR_2
-064A	0AB3	sub     a, B3H
-064B	3D0A	sz      Z
-064C	2E87	jmp     _L54
-064D	0A01	sub     a, 1H
-064E	3D0A	sz      Z
-064F	2E8A	jmp     _L55
-0650	474E	mov     a, _IIC_ISR_2
-0651	0AB5	sub     a, B5H
-0652	3D0A	sz      Z
-0653	2E8D	jmp     _L56
-0654	0A01	sub     a, 1H
-0655	3D0A	sz      Z
-0656	2E90	jmp     _L57
-0657	474E	mov     a, _IIC_ISR_2
-0658	0AB7	sub     a, B7H
-0659	3D0A	sz      Z
-065A	2E93	jmp     _L58
-065B	0A01	sub     a, 1H
-065C	3D0A	sz      Z
-065D	2E96	jmp     _L59
-065E	474E	mov     a, _IIC_ISR_2
-065F	0AB9	sub     a, B9H
-0660	3D0A	sz      Z
-0661	2E99	jmp     _L60
-0662	0A01	sub     a, 1H
-0663	3D0A	sz      Z
-0664	2E9C	jmp     _L61
-0665	474E	mov     a, _IIC_ISR_2
-0666	0ABB	sub     a, BBH
-0667	3D0A	sz      Z
-0668	2E9F	jmp     _L62
-0669	0A06	sub     a, 6H
-066A	3D0A	sz      Z
-066B	2EA2	jmp     _L63
-066C	474E	mov     a, _IIC_ISR_2
-066D	0AE1	sub     a, E1H
-066E	3D0A	sz      Z
-066F	2EA5	jmp     _L64
-0670	0A10	sub     a, 10H
-0671	3D0A	sz      Z
-0672	2E78	jmp     _L65
-0673	564E	siza    _IIC_ISR_2
-0674	2EA8	jmp     _L80
-				;324							{
-				;325			
-				;326							//	case 0xA0 :data = GLOBE_VARIES[0];break;
-				;327								case 0xA1 :data = GLOBE_VARIES[1];break;
-				_L50:
-067B	0761	mov     a, __sima[58]
-067C	40CD	mov     ra10, a
-067D	2EAA	jmp     _L49
-				;328								case 0xA2 :data = GLOBE_VARIES[2];break;
-				_L51:
-067E	0762	mov     a, __sima[59]
-067F	40CD	mov     ra10, a
-0680	2EAA	jmp     _L49
-				;329							//	case 0xB0 :data = GLOBE_VARIES[3];;break;
-				;330								case 0xB1 :data = GLOBE_VARIES[4];break;	
-				_L52:
-0681	0764	mov     a, __sima[61]
-0682	40CD	mov     ra10, a
-0683	2EAA	jmp     _L49
-				;331								case 0xB2 :data = GLOBE_VARIES[5];break; 
-				_L53:
-0684	0765	mov     a, __sima[62]
-0685	40CD	mov     ra10, a
-0686	2EAA	jmp     _L49
-				;332								case 0xB3 :data = GLOBE_VARIES[6];break;
-				_L54:
-0687	0766	mov     a, __sima[63]
-0688	40CD	mov     ra10, a
-0689	2EAA	jmp     _L49
-				;333								case 0xB4 :data = GLOBE_VARIES[7];break;
-				_L55:
-068A	0767	mov     a, __sima[64]
-068B	40CD	mov     ra10, a
-068C	2EAA	jmp     _L49
-				;334								case 0xB5 :data = GLOBE_VARIES[8];break;
-				_L56:
-068D	0768	mov     a, __sima[65]
-068E	40CD	mov     ra10, a
-068F	2EAA	jmp     _L49
-				;335								case 0xB6 :data = GLOBE_VARIES[9];break;
-				_L57:
-0690	0769	mov     a, __sima[66]
-0691	40CD	mov     ra10, a
-0692	2EAA	jmp     _L49
-				;336								case 0xB7 :data = GLOBE_VARIES[10];break;
-				_L58:
-0693	076A	mov     a, __sima[67]
-0694	40CD	mov     ra10, a
-0695	2EAA	jmp     _L49
-				;337								//case 0xD0 :data = MCU_STATE[0];break;
-				;338								//case 0xD1 :data = MCU_STATE[1];break;
-				;339	
-				;340								#ifndef	 BS83B08A	
-				;341								case 0xB8 :data = GLOBE_VARIES[11];break;
-				_L59:
-0696	076B	mov     a, __sima[68]
-0697	40CD	mov     ra10, a
-0698	2EAA	jmp     _L49
-				;342								case 0xB9 :data = GLOBE_VARIES[12];break;	
-				_L60:
-0699	076C	mov     a, __sima[69]
-069A	40CD	mov     ra10, a
-069B	2EAA	jmp     _L49
-				;343								case 0xBA :data = GLOBE_VARIES[13];break;	
-				_L61:
-069C	076D	mov     a, __sima[70]
-069D	40CD	mov     ra10, a
-069E	2EAA	jmp     _L49
-				;344								case 0xBB :data = GLOBE_VARIES[14];break;
-				_L62:
-069F	076E	mov     a, __sima[71]
-06A0	40CD	mov     ra10, a
-06A1	2EAA	jmp     _L49
-				;345								
-				;346									#ifdef	 BS83B16A
-				;347									case 0xBC :data = GLOBE_VARIES[15];break;
-				;348									case 0xBD :data = GLOBE_VARIES[16];break;
-				;349									case 0xBE :data = GLOBE_VARIES[17];break;
-				;350									case 0xBF :data = GLOBE_VARIES[18];break;
-				;351									#endif
-				;352								
-				;353							//	case 0xC0 :data = KEY_IO_SEL[0];break;
-				;354								case 0xC1 :data = KEY_IO_SEL[1];break;
-				_L63:
-06A2	077B	mov     a, __sima[84]
-06A3	40CD	mov     ra10, a
-06A4	2EAA	jmp     _L49
-				;355							//	case 0xE0 :data = KEY_DATA[0];break;
-				;356								case 0xE1 :data = KEY_DATA[1];break;
-				_L64:
-06A5	077D	mov     a, __sima[86]
-06A6	40CD	mov     ra10, a
-06A7	2EAA	jmp     _L49
-				;357							//	case 0xF0 :data =SYS_INF[0];break;
-				;358								#endif
-				;359							
-				;360								case 0xF1 :data = Version;break;	
-				_L65:
-0678	0F1C	mov     a, 1CH
-0679	40CD	mov     ra10, a
-067A	2EAA	jmp     _L49
-				;361								case 0xFF :data =~I2C.CRC_BUF;break;	
-0675	4141	cpla    I2C[5]
-0676	40CD	mov     ra10, a
-0677	2EAA	jmp     _L49
-				;362									
-				;363								default : data = 0xAA ;break;
-				_L80:
-06A8	0FAA	mov     a, AAH
-06A9	40CD	mov     ra10, a
-				;364							}	
-				;365							
-				;366							_simd = data;
-				_L49:
-06AA	474D	mov     a, ra10
-06AB	00A6	mov     SIMD, a
-				;367							
-				;368							I2C.CRC_BUF += data;
-06AC	474D	mov     a, ra10
-06AD	43C1	addm    a, I2C[5]
-				;369								
-				;370							I2C.TxNum++;
-				_L85:
-06AE	54BE	inc     I2C[2]
-				;371							if(I2C.TxNum >= I2C.SUM) 
-06AF	473E	mov     a, I2C[2]
-06B0	423D	sub     a, I2C[1]
-06B1	380A	snz     C
-06B2	2F05	jmp     _L33
-				;372								I2C.TxNum = 0xFF;
-06B3	5FBE	set     I2C[2]
-06B4	2F05	jmp     _L33
-				;373		
-				;374						}			
-				;375					}
-				;376					else//_htx=0:slave receive data for master
-				;377					{//for slave send data to master
-				;378						data = _simd;
-				_L47:
-06B5	0726	mov     a, SIMD
-06B6	40CD	mov     ra10, a
-				;379						_txak = 0;
-06B7	35A5	clr     TXAK
-				;380						
-				;381						if(I2C.RxNum < 1)
-06B8	50BF	sz      I2C[3]
-06B9	2EF0	jmp     _L68
-				;382						{
-				;383							//for slave send data to master
-				;384							//取地址
-				;385							I2C.WordAddr = data&0xf0;					
-06BA	474D	mov     a, ra10
-06BB	0EF0	and     a, F0H
-06BC	40BC	mov     I2C[0], a
-				;386		
-				;387						   	switch(I2C.WordAddr)
-06BD	473C	mov     a, I2C[0]
-06BE	40CE	mov     _IIC_ISR_2, a
-06BF	474E	mov     a, _IIC_ISR_2
-06C0	0AB0	sub     a, B0H
-06C1	3D0A	sz      Z
-06C2	2ED6	jmp     _L70
-06C3	0A10	sub     a, 10H
-06C4	3D0A	sz      Z
-06C5	2EDB	jmp     _L71
-06C6	474E	mov     a, _IIC_ISR_2
-06C7	0AD0	sub     a, D0H
-06C8	3D0A	sz      Z
-06C9	2EE0	jmp     _L72
-06CA	0A10	sub     a, 10H
-06CB	3D0A	sz      Z
-06CC	2EE5	jmp     _L73
-06CD	474E	mov     a, _IIC_ISR_2
-06CE	0AF0	sub     a, F0H
-06CF	390A	snz     Z
-06D0	2EEA	jmp     _L81
-				;388							{	
-				;389						//		case 0xA0 :I2C.SUM = IC_PAGE_SIZS[0];I2C.TxNum = IC_PAGE_HEAD[0];break;
-				;390								case 0xB0 :I2C.SUM = IC_PAGE_SIZS[1];I2C.TxNum = IC_PAGE_HEAD[1];break;
-				_L70:
-06D6	0F0C	mov     a, CH
-06D7	40BD	mov     I2C[1], a
-06D8	0FB0	mov     a, B0H
-06D9	40BE	mov     I2C[2], a
-06DA	2EEE	jmp     _L75
-				;391								case 0xC0 :I2C.SUM = IC_PAGE_SIZS[2];I2C.TxNum = IC_PAGE_HEAD[2];break;
-				_L71:
-06DB	0F02	mov     a, 2H
-06DC	40BD	mov     I2C[1], a
-06DD	0FC0	mov     a, C0H
-06DE	40BE	mov     I2C[2], a
-06DF	2EEE	jmp     _L75
-				;392								case 0xD0 :I2C.SUM = IC_PAGE_SIZS[3];I2C.TxNum = IC_PAGE_HEAD[3];break;
-				_L72:
-06E0	0F01	mov     a, 1H
-06E1	40BD	mov     I2C[1], a
-06E2	0FD0	mov     a, D0H
-06E3	40BE	mov     I2C[2], a
-06E4	2EEE	jmp     _L75
-				;393								case 0xE0 :I2C.SUM = IC_PAGE_SIZS[4];I2C.TxNum = IC_PAGE_HEAD[4];break;
-				_L73:
+				;343							
+				;344							I2C.RxNum = 0;//begin to conut
+0635	5F43	clr     I2C[3]
+				;345							I2C.TxNum = 0;
+0636	5F42	clr     I2C[2]
+				;346							I2C.SUM = 0;
+0637	5F41	clr     I2C[1]
+				;347							FLAG_I2C_End = FALSE;
+0638	74C6	clr     FLAG[0].1
+0639	2F19	jmp     L0719
+				;348						} 
+				;349				}
+				;350				else//_haas=0:slave receive SLAVE_ADDR match,then communication data 
+				;351				{	
+				;352											  
+				;353					if(_htx)//_htx=1:slave send data to master
+				L063A:
+063A	3A25	snz     HTX
+063B	2EC9	jmp     L06C9
+				;354					{								
+				;355						if(_rxak)//_rxak=1:slave send data,then master NACK;
+063C	3825	snz     RXAK
+063D	2E46	jmp     L0646
+				;356						{							
+				;357							_htx = 0;
+063E	3625	clr     HTX
+				;358							_txak = 0;	
+063F	35A5	clr     TXAK
+				;359							_acc = _simd;//dummy
+0640	0726	mov     a, SIMD
+0641	0085	mov     ACC, a
+				;360	
+				;361							I2C.WordAddr = 0x00;
+0642	5F40	clr     I2C[0]
+				;362							I2C.SUM = 0;
+0643	5F41	clr     I2C[1]
+				;363							I2C.TxNum = 0;
+0644	5F42	clr     I2C[2]
+0645	2F19	jmp     L0719
+				;364						}
+				;365						else//_rxak=1:slave send data,then master ACK
+				;366						{				
+				;367							//slave continue to send data to master (second and next data).							
+				;368							switch(I2C.TxNum)
+				L0646:
+0646	4742	mov     a, I2C[2]
+0647	40D2	mov     data[1], a
+0648	4752	mov     a, data[1]
+0649	0AA1	sub     a, A1H
+064A	3D0A	sz      Z
+064B	2E89	jmp     L0689
+064C	0A01	sub     a, 1H
+064D	3D0A	sz      Z
+064E	2E8C	jmp     L068C
+064F	4752	mov     a, data[1]
+0650	0AB1	sub     a, B1H
+0651	3D0A	sz      Z
+0652	2E8F	jmp     L068F
+0653	0A01	sub     a, 1H
+0654	3D0A	sz      Z
+0655	2E92	jmp     L0692
+0656	4752	mov     a, data[1]
+0657	0AB3	sub     a, B3H
+0658	3D0A	sz      Z
+0659	2E95	jmp     L0695
+065A	0A01	sub     a, 1H
+065B	3D0A	sz      Z
+065C	2E98	jmp     L0698
+065D	4752	mov     a, data[1]
+065E	0AB5	sub     a, B5H
+065F	3D0A	sz      Z
+0660	2E9B	jmp     L069B
+0661	0A01	sub     a, 1H
+0662	3D0A	sz      Z
+0663	2E9E	jmp     L069E
+0664	4752	mov     a, data[1]
+0665	0AB7	sub     a, B7H
+0666	3D0A	sz      Z
+0667	2EA1	jmp     L06A1
+0668	0A01	sub     a, 1H
+0669	3D0A	sz      Z
+066A	2EA4	jmp     L06A4
+066B	4752	mov     a, data[1]
+066C	0AB9	sub     a, B9H
+066D	3D0A	sz      Z
+066E	2EA7	jmp     L06A7
+066F	0A01	sub     a, 1H
+0670	3D0A	sz      Z
+0671	2EAA	jmp     L06AA
+0672	4752	mov     a, data[1]
+0673	0ABB	sub     a, BBH
+0674	3D0A	sz      Z
+0675	2EAD	jmp     L06AD
+0676	0A06	sub     a, 6H
+0677	3D0A	sz      Z
+0678	2EB0	jmp     L06B0
+0679	4752	mov     a, data[1]
+067A	0AD1	sub     a, D1H
+067B	3D0A	sz      Z
+067C	2EB3	jmp     L06B3
+067D	0A10	sub     a, 10H
+067E	3D0A	sz      Z
+067F	2EB6	jmp     L06B6
+0680	4752	mov     a, data[1]
+0681	0AF1	sub     a, F1H
+0682	3D0A	sz      Z
+0683	2EB9	jmp     L06B9
+0684	5652	siza    data[1]
+0685	2EBC	jmp     L06BC
+				;369							{
+				;370			
+				;371							//	case 0xA0 :data = GLOBE_VARIES[0];break;
+				;372								case 0xA1 :data = GLOBE_VARIES[1];break;
+				L0689:
+0689	0761	mov     a, __sima[58]
+068A	40D1	mov     data[0], a
+068B	2EBE	jmp     L06BE
+				;373								case 0xA2 :data = GLOBE_VARIES[2];break;
+				L068C:
+068C	0762	mov     a, __sima[59]
+068D	40D1	mov     data[0], a
+068E	2EBE	jmp     L06BE
+				;374								
+				;375							//	case 0xB0 :data = GLOBE_VARIES[3];;break;
+				;376								case 0xB1 :data = GLOBE_VARIES[4];break;	
+				L068F:
+068F	0764	mov     a, __sima[61]
+0690	40D1	mov     data[0], a
+0691	2EBE	jmp     L06BE
+				;377								case 0xB2 :data = GLOBE_VARIES[5];break; 
+				L0692:
+0692	0765	mov     a, __sima[62]
+0693	40D1	mov     data[0], a
+0694	2EBE	jmp     L06BE
+				;378								case 0xB3 :data = GLOBE_VARIES[6];break;
+				L0695:
+0695	0766	mov     a, __sima[63]
+0696	40D1	mov     data[0], a
+0697	2EBE	jmp     L06BE
+				;379								case 0xB4 :data = GLOBE_VARIES[7];break;
+				L0698:
+0698	0767	mov     a, __sima[64]
+0699	40D1	mov     data[0], a
+069A	2EBE	jmp     L06BE
+				;380								case 0xB5 :data = GLOBE_VARIES[8];break;
+				L069B:
+069B	0768	mov     a, __sima[65]
+069C	40D1	mov     data[0], a
+069D	2EBE	jmp     L06BE
+				;381								case 0xB6 :data = GLOBE_VARIES[9];break;
+				L069E:
+069E	0769	mov     a, __sima[66]
+069F	40D1	mov     data[0], a
+06A0	2EBE	jmp     L06BE
+				;382								case 0xB7 :data = GLOBE_VARIES[10];break;
+				L06A1:
+06A1	076A	mov     a, __sima[67]
+06A2	40D1	mov     data[0], a
+06A3	2EBE	jmp     L06BE
+				;383								//case 0xD0 :data = MCU_STATE[0];break;
+				;384								//case 0xD1 :data = MCU_STATE[1];break;
+				;385	
+				;386								#ifndef	 BS83B08A	
+				;387								case 0xB8 :data = GLOBE_VARIES[11];break;
+				L06A4:
+06A4	076B	mov     a, __sima[68]
+06A5	40D1	mov     data[0], a
+06A6	2EBE	jmp     L06BE
+				;388								case 0xB9 :data = GLOBE_VARIES[12];break;	
+				L06A7:
+06A7	076C	mov     a, __sima[69]
+06A8	40D1	mov     data[0], a
+06A9	2EBE	jmp     L06BE
+				;389								case 0xBA :data = GLOBE_VARIES[13];break;	
+				L06AA:
+06AA	076D	mov     a, __sima[70]
+06AB	40D1	mov     data[0], a
+06AC	2EBE	jmp     L06BE
+				;390								case 0xBB :data = GLOBE_VARIES[14];break;
+				L06AD:
+06AD	076E	mov     a, __sima[71]
+06AE	40D1	mov     data[0], a
+06AF	2EBE	jmp     L06BE
+				;391								
+				;392									#ifdef	 BS83B16A
+				;393									case 0xBC :data = GLOBE_VARIES[15];break;
+				;394									case 0xBD :data = GLOBE_VARIES[16];break;
+				;395									case 0xBE :data = GLOBE_VARIES[17];break;
+				;396									case 0xBF :data = GLOBE_VARIES[18];break;
+				;397									#endif
+				;398								
+				;399							//	case 0xC0 :data = KEY_IO_SEL[0];break;
+				;400								case 0xC1 :data = KEY_IO_SEL[1];break;
+				L06B0:
+06B0	077B	mov     a, __sima[84]
+06B1	40D1	mov     data[0], a
+06B2	2EBE	jmp     L06BE
+				;401								
+				;402							//	case 0xD0 :data = MCU_INF[0];break;
+				;403								case 0xD1 :data = MCU_INF[1];break;
+				L06B3:
+06B3	4732	mov     a, MCU_INF[1]
+06B4	40D1	mov     data[0], a
+06B5	2EBE	jmp     L06BE
+				;404								
+				;405							//	case 0xE0 :data = KEY_DATA[0];break;
+				;406								case 0xE1 :data = KEY_DATA[1];break;
+				L06B6:
+06B6	077D	mov     a, __sima[86]
+06B7	40D1	mov     data[0], a
+06B8	2EBE	jmp     L06BE
+				;407							
+				;408								#endif
+				;409					
+				;410							//	case 0xF0 :data =SYS_INF[0];break;
+				;411								case 0xF1 :data = SYS_INF[1];break;	
+				L06B9:
+06B9	472F	mov     a, SYS_INF[1]
+06BA	40D1	mov     data[0], a
+06BB	2EBE	jmp     L06BE
+				;412								
+				;413								
+				;414								
+				;415								case 0xFF :data =~I2C.CheckSum_Buf;break;	
+0686	4145	cpla    I2C[5]
+0687	40D1	mov     data[0], a
+0688	2EBE	jmp     L06BE
+				;416									
+				;417								default : data = 0xAA ;break;
+				L06BC:
+06BC	0FAA	mov     a, AAH
+06BD	40D1	mov     data[0], a
+				;418							}	
+				;419							
+				;420							_simd = data;
+				L06BE:
+06BE	4751	mov     a, data[0]
+06BF	00A6	mov     SIMD, a
+				;421							
+				;422							I2C.CheckSum_Buf += data;
+06C0	4751	mov     a, data[0]
+06C1	43C5	addm    a, I2C[5]
+				;423								
+				;424							I2C.TxNum++;
+				L06C2:
+06C2	54C2	inc     I2C[2]
+				;425							if(I2C.TxNum >= I2C.SUM) 
+06C3	4742	mov     a, I2C[2]
+06C4	4241	sub     a, I2C[1]
+06C5	380A	snz     C
+06C6	2F19	jmp     L0719
+				;426								I2C.TxNum = 0xFF;
+06C7	5FC2	set     I2C[2]
+06C8	2F19	jmp     L0719
+				;427		
+				;428						}			
+				;429					}
+				;430					else//_htx=0:slave receive data for master
+				;431					{//for slave send data to master
+				;432						data = _simd;
+				L06C9:
+06C9	0726	mov     a, SIMD
+06CA	40D1	mov     data[0], a
+				;433						_txak = 0;
+06CB	35A5	clr     TXAK
+				;434						
+				;435						if(I2C.RxNum < 1)
+06CC	50C3	sz      I2C[3]
+06CD	2F04	jmp     L0704
+				;436						{
+				;437							//for slave send data to master
+				;438							//取地址
+				;439							I2C.WordAddr = data&0xf0;					
+06CE	4751	mov     a, data[0]
+06CF	0EF0	and     a, F0H
+06D0	40C0	mov     I2C[0], a
+				;440		
+				;441						   	switch(I2C.WordAddr)
+06D1	4740	mov     a, I2C[0]
+06D2	40D2	mov     data[1], a
+06D3	4752	mov     a, data[1]
+06D4	0AB0	sub     a, B0H
+06D5	3D0A	sz      Z
+06D6	2EEA	jmp     L06EA
+06D7	0A10	sub     a, 10H
+06D8	3D0A	sz      Z
+06D9	2EEF	jmp     L06EF
+06DA	4752	mov     a, data[1]
+06DB	0AD0	sub     a, D0H
+06DC	3D0A	sz      Z
+06DD	2EF4	jmp     L06F4
+06DE	0A10	sub     a, 10H
+06DF	3D0A	sz      Z
+06E0	2EF9	jmp     L06F9
+06E1	4752	mov     a, data[1]
+06E2	0AF0	sub     a, F0H
+06E3	390A	snz     Z
+06E4	2EFE	jmp     L06FE
+				;442							{	
+				;443						//		case 0xA0 :I2C.SUM = IC_PAGE_SIZS[0];I2C.TxNum = IC_PAGE_HEAD[0];break;
+				;444								case 0xB0 :I2C.SUM = IC_PAGE_SIZS[1];I2C.TxNum = IC_PAGE_HEAD[1];break;
+				L06EA:
+06EA	0F0C	mov     a, CH
+06EB	40C1	mov     I2C[1], a
+06EC	0FB0	mov     a, B0H
+06ED	40C2	mov     I2C[2], a
+06EE	2F02	jmp     L0702
+				;445								case 0xC0 :I2C.SUM = IC_PAGE_SIZS[2];I2C.TxNum = IC_PAGE_HEAD[2];break;
+				L06EF:
+06EF	0F02	mov     a, 2H
+06F0	40C1	mov     I2C[1], a
+06F1	0FC0	mov     a, C0H
+06F2	40C2	mov     I2C[2], a
+06F3	2F02	jmp     L0702
+				;446								case 0xD0 :I2C.SUM = IC_PAGE_SIZS[3];I2C.TxNum = IC_PAGE_HEAD[3];break;
+				L06F4:
+06F4	0F02	mov     a, 2H
+06F5	40C1	mov     I2C[1], a
+06F6	0FD0	mov     a, D0H
+06F7	40C2	mov     I2C[2], a
+06F8	2F02	jmp     L0702
+				;447								case 0xE0 :I2C.SUM = IC_PAGE_SIZS[4];I2C.TxNum = IC_PAGE_HEAD[4];break;
+				L06F9:
+06F9	0F02	mov     a, 2H
+06FA	40C1	mov     I2C[1], a
+06FB	0FE0	mov     a, E0H
+06FC	40C2	mov     I2C[2], a
+06FD	2F02	jmp     L0702
+				;448								case 0xF0 :I2C.SUM = IC_PAGE_SIZS[5];I2C.TxNum = IC_PAGE_HEAD[5];break;
 06E5	0F02	mov     a, 2H
-06E6	40BD	mov     I2C[1], a
-06E7	0FE0	mov     a, E0H
-06E8	40BE	mov     I2C[2], a
-06E9	2EEE	jmp     _L75
-				;394								case 0xF0 :I2C.SUM = IC_PAGE_SIZS[5];I2C.TxNum = IC_PAGE_HEAD[5];break;
-06D1	0F02	mov     a, 2H
-06D2	40BD	mov     I2C[1], a
-06D3	0FF0	mov     a, F0H
-06D4	40BE	mov     I2C[2], a
-06D5	2EEE	jmp     _L75
-				;395								default   :I2C.SUM = IC_PAGE_SIZS[0];I2C.TxNum = IC_PAGE_HEAD[0];break;
-				_L81:
-06EA	0F03	mov     a, 3H
-06EB	40BD	mov     I2C[1], a
-06EC	0FA0	mov     a, A0H
-06ED	40BE	mov     I2C[2], a
-				;396							}
-				;397							I2C.CRC_BUF = 0;
-				_L75:
-06EE	5F41	clr     I2C[5]
-06EF	2F04	jmp     _L82
-				;398							I2C.RxNum++;
-				;399	
-				;400						}
-				;401						else if(I2C.RxNum <= I2C.SUM)
-				_L68:
-06F0	473D	mov     a, I2C[1]
-06F1	423F	sub     a, I2C[3]
-06F2	380A	snz     C
-06F3	2F01	jmp     _L76
-				;402							 { 
-				;403								I2C_Data[I2C.RxNum - 1] = data;
-06F4	0FAF	mov     a, AFH
-06F5	433F	add     a, I2C[3]
-06F6	0083	mov     MP1, a
-06F7	0F00	mov     a, 0H
-06F8	1F01	clr     MP0
-06F9	1381	adcm    a, MP0
-06FA	0701	mov     a, MP0
-06FB	0084	mov     BP, a
-06FC	474D	mov     a, ra10
-06FD	0082	mov     [02H], a
-				;404								I2C.CRC_BUF += data;
-06FE	474D	mov     a, ra10
-06FF	43C1	addm    a, I2C[5]
-0700	2F04	jmp     _L82
-				;405								I2C.RxNum++;
-				;406							 }
-				;407							 else 
-				;408							 {
-				;409							 	I2C.CRC = data;
-				_L76:
-0701	474D	mov     a, ra10
-0702	40C0	mov     I2C[4], a
-				;410							 	FLAG_End = TRUE;
-0703	70C2	set     FLAG[0].1
-				;411							 	I2C.RxNum++;
-				_L82:
-0704	54BF	inc     I2C[3]
-				_L33:
-0705	4749	mov     a, r210
-0706	0084	mov     BP, a
-0707	474A	mov     a, r310
-0708	008A	mov     STATUS, a
-0709	474B	mov     a, r410
+06E6	40C1	mov     I2C[1], a
+06E7	0FF0	mov     a, F0H
+06E8	40C2	mov     I2C[2], a
+06E9	2F02	jmp     L0702
+				;449								default   :I2C.SUM = IC_PAGE_SIZS[0];I2C.TxNum = IC_PAGE_HEAD[0];break;
+				L06FE:
+06FE	0F03	mov     a, 3H
+06FF	40C1	mov     I2C[1], a
+0700	0FA0	mov     a, A0H
+0701	40C2	mov     I2C[2], a
+				;450							}
+				;451							I2C.CheckSum_Buf = 0;
+				L0702:
+0702	5F45	clr     I2C[5]
+0703	2F18	jmp     L0718
+				;452							I2C.RxNum++;
+				;453	
+				;454						}
+				;455						else if(I2C.RxNum <= I2C.SUM)
+				L0704:
+0704	4741	mov     a, I2C[1]
+0705	4243	sub     a, I2C[3]
+0706	380A	snz     C
+0707	2F15	jmp     L0715
+				;456							 { 
+				;457								I2C_Data[I2C.RxNum - 1] = data;
+0708	0FB3	mov     a, B3H
+0709	4343	add     a, I2C[3]
 070A	0083	mov     MP1, a
-070B	474C	mov     a, r510
-070C	0081	mov     MP0, a
-070D	4748	mov     a, r110
-070E	0004	reti
-070F	1483	inc     MP1
-				L0710:
-0710	3F81	sz      MP0.7
-0711	2F16	jmp     L0716
-0712	0701	mov     a, MP0
-0713	0084	mov     BP, a
-0714	0702	mov     a, [02H]
-0715	0003	ret
-				L0716:
-0716	1B01	rrca    MP0
-0717	0E3F	and     a, 3FH
-0718	0089	mov     TBHP, a
-0719	1B03	rrca    MP1
-071A	0087	mov     TBLP, a
-071B	1D05	tabrd   ACC
-071C	3C0A	sz      C
-071D	0708	mov     a, TBLH
-071E	0003	ret
-				;412							 }
-				;413							 
-				;414							
-				;415					}		
-				;416				}
-				;417			}	
-				;418	}
-				;419	
-				;420	
-				;421	
-				;422	
-				;423	//void __attribute((interrupt(0x0c))) ISR_tmr0 (void)
-				;424	//{		
-				;425	////	LED1 = ~LED1;		
-				;426	//			
-				;427	//	//----------------------------------------------------
-				;428	//	if(Cnt20ms > 0)//20ms 计数器
-				;429	//	{				
-				;430	//			Cnt20ms--;
-				;431	//	}
-				;432	//	else
-				;433	//	{
-				;434	//			Cnt20ms = 19;	
-				;435	//			Flag20ms = 1;			//20ms 标志 26MS
-				;436	//	}	
-				;437	//}
-				;438	
-				;439	
+070B	0F00	mov     a, 0H
+070C	1F01	clr     MP0
+070D	1381	adcm    a, MP0
+070E	0701	mov     a, MP0
+070F	0084	mov     BP, a
+0710	4751	mov     a, data[0]
+0711	0082	mov     [02H], a
+				;458								I2C.CheckSum_Buf += data;
+0712	4751	mov     a, data[0]
+0713	43C5	addm    a, I2C[5]
+0714	2F18	jmp     L0718
+				;459								I2C.RxNum++;
+				;460							 }
+				;461							 else 
+				;462							 {
+				;463							 	I2C.CheckSum = data;
+				L0715:
+0715	4751	mov     a, data[0]
+0716	40C4	mov     I2C[4], a
+				;464							 	FLAG_I2C_End = TRUE;
+0717	70C6	set     FLAG[0].1
+				;465							 	I2C.RxNum++;
+				L0718:
+0718	54C3	inc     I2C[3]
+				L0719:
+0719	474D	mov     a, r210
+071A	0084	mov     BP, a
+071B	474E	mov     a, r310
+071C	008A	mov     STATUS, a
+071D	474F	mov     a, r410
+071E	0083	mov     MP1, a
+071F	4750	mov     a, r510
+0720	0081	mov     MP0, a
+0721	474C	mov     a, r110
+0722	0004	reti
+0723	1483	inc     MP1
+				L0724:
+0724	3F81	sz      MP0.7
+0725	2F2A	jmp     L072A
+0726	0701	mov     a, MP0
+0727	0084	mov     BP, a
+0728	0702	mov     a, [02H]
+0729	0003	ret
+				L072A:
+072A	1B01	rrca    MP0
+072B	0E3F	and     a, 3FH
+072C	0089	mov     TBHP, a
+072D	1B03	rrca    MP1
+072E	0087	mov     TBLP, a
+072F	1D05	tabrd   ACC
+0730	3C0A	sz      C
+0731	0708	mov     a, TBLH
+0732	0003	ret
+				;466							 }
+				;467							 
+				;468							
+				;469					}		
+				;470				}
+				;471			}	
+				;472	}
+				;473	
+				;474	
+				;475	
+				;476	
+				;477	//void __attribute((interrupt(0x0c))) ISR_tmr0 (void)
+				;478	//{		
+				;479	////	LED1 = ~LED1;		
+				;480	//			
+				;481	//	//----------------------------------------------------
+				;482	//	if(Cnt20ms > 0)//20ms 计数器
+				;483	//	{				
+				;484	//			Cnt20ms--;
+				;485	//	}
+				;486	//	else
+				;487	//	{
+				;488	//			Cnt20ms = 19;	
+				;489	//			Flag20ms = 1;			//20ms 标志 26MS
+				;490	//	}	
+				;491	//}
+				;492	
+				;493	
 				data .SECTION 'DATA'
 				__acc DB DUP (?) ; __acc
 				__intc0 DB DUP (?) ; __intc0
@@ -2857,8 +2931,8 @@
 				__simc1 DB DUP (?) ; __simc1
 				__simd DB DUP (?) ; __simd
 				__sima DB DUP (?) ; __sima
-				I2C_STATE DB DUP (?) ; I2C_STATE
-				MCU_STATE DB DUP (?) ; MCU_STATE
+				SYS_INF DB DUP (?) ; SYS_INF
+				MCU_INF DB DUP (?) ; MCU_INF
 				I2C_Data DB DUP (?) ; I2C_Data
 				I2C DB DUP (?) ; I2C
 				FLAG DB DUP (?) ; FLAG
@@ -2871,6 +2945,5 @@
 				r310 DB DUP (?)
 				r410 DB DUP (?)
 				r510 DB DUP (?)
-				ra10 DB DUP (?)
-				_IIC_ISR_2 DB DUP (?)
+				data DB DUP (?) ; data
 				_DATA_LIST_UPDATA_2 DB DUP (?)

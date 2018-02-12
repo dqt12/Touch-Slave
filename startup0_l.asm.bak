@@ -1,9 +1,9 @@
 ;;--------------------------------------------------------------;;
 ;;    This file is part of the Holtek C Compiler V3 package     ;;
 ;;    For the initialization of static linkage variables        ;;
-;;    Copyright (C) 2017 Holtek Semiconductor Inc.              ;;
-;;    Version: 1.07 (Above IDE3000 V7.94)                       ;;
-;;    Date:    2017/03/06                                        ;;
+;;    Copyright (C) 2016 Holtek Semiconductor Inc.              ;;
+;;    Version: 1.06 (Above IDE3000 V7.93)                       ;;
+;;    Date:    2016/12/07                                        ;;
 ;;--------------------------------------------------------------;;
 
 acc equ [05h]
@@ -110,7 +110,6 @@ next_data_0:
 end_startup_tentative:
 
 startupend1:
-ifndef Disable_Bit_Initial
 	MOV A,high  bitdatasec1_start
 	MOV mp1h,a
 	MOV A,offset bitdatasec1_end
@@ -142,7 +141,6 @@ L0006:
 	sdz  acc
 	jmp L0006
 startupend3:
-endif
    
 @ROMDATA_BASE .SECTION com_l 'CODE'  
 startup_value:
