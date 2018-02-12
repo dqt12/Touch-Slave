@@ -1,0 +1,2876 @@
+				;file C:\Users\my asus\Desktop\BS83B08-12-16A\BS83B12A - v1.0\20160607_LIBV413\MAIN_PROGRAM_V103\MAIN_PROGRAM_V103.asm
+				;1	
+				;2	message '****************************************************************'
+				;3	message '*PROJECT NAME :MAIN PROGRAM V103                               *'
+				;4	message '*     VERSION :V103                                            *'
+				;5	message '* ICE VERSION :                                                *'
+				;6	message '*      DATE   :20160302                                        *'
+				;7	message '*      REMARK :V103 add 33~36 key                              *'
+				;8	message '****************************************************************'
+				;9	                ;=INCLUDE REFERENCE FILE
+				;10	                INCLUDE MAIN_PROGRAM_V103.INC
+				;11	
+				;12	                ;-PUBLIC LABEL
+				;13	                PUBLIC  _LOAD_TKS_GLOBE_VARIES
+				;14	                PUBLIC  _LOAD_HXT_REFERENCE
+				;15	
+				;16	CALL_   MACRO   FUNCTION
+				;17	        ifdef   FUNCTION
+				;18	                ifdef   PBP
+				;19	                MOV     A,bank FUNCTION
+				;20	                MOV     PBP,A
+				;21	                endif
+				;22	                CALL    FUNCTION
+				;23	        endif
+				;24	                ENDM
+				;25	
+				;26	EXTEND_FUNCTION_INITIAL MACRO
+				;27	                CALL_   EXTEND_FUNCTION_1A_INITIAL
+				;28	                CALL_   EXTEND_FUNCTION_1B_INITIAL
+				;29	                CALL_   EXTEND_FUNCTION_1C_INITIAL
+				;30	                CALL_   EXTEND_FUNCTION_1D_INITIAL
+				;31	                CALL_   EXTEND_FUNCTION_1E_INITIAL
+				;32	                CALL_   EXTEND_FUNCTION_1F_INITIAL
+				;33	                CALL_   EXTEND_FUNCTION_1G_INITIAL
+				;34	                CALL_   EXTEND_FUNCTION_1H_INITIAL
+				;35	
+				;36	                CALL_   EXTEND_FUNCTION_2A_INITIAL
+				;37	                CALL_   EXTEND_FUNCTION_2B_INITIAL
+				;38	                CALL_   EXTEND_FUNCTION_2C_INITIAL
+				;39	                CALL_   EXTEND_FUNCTION_2D_INITIAL
+				;40	                CALL_   EXTEND_FUNCTION_2E_INITIAL
+				;41	                CALL_   EXTEND_FUNCTION_2F_INITIAL
+				;42	                CALL_   EXTEND_FUNCTION_2G_INITIAL
+				;43	                CALL_   EXTEND_FUNCTION_2H_INITIAL
+				;44	                ENDM
+				;45	
+				;46	EXTEND_FUNCTION MACRO
+				;47	                CALL_   EXTEND_FUNCTION_1A
+				;48	                CALL_   EXTEND_FUNCTION_1B
+				;49	                CALL_   EXTEND_FUNCTION_1C
+				;50	                CALL_   EXTEND_FUNCTION_1D
+				;51	                CALL_   EXTEND_FUNCTION_1E
+				;52	                CALL_   EXTEND_FUNCTION_1F
+				;53	                CALL_   EXTEND_FUNCTION_1G
+				;54	                CALL_   EXTEND_FUNCTION_1H
+				;55	
+				;56	                CALL_   EXTEND_FUNCTION_2A
+				;57	                CALL_   EXTEND_FUNCTION_2B
+				;58	                CALL_   EXTEND_FUNCTION_2C
+				;59	                CALL_   EXTEND_FUNCTION_2D
+				;60	                CALL_   EXTEND_FUNCTION_2E
+				;61	                CALL_   EXTEND_FUNCTION_2F
+				;62	                CALL_   EXTEND_FUNCTION_2G
+				;63	                CALL_   EXTEND_FUNCTION_2H
+				;64	                ENDM
+				;65	                ;==============
+				;66	                ;=DATA SETCTION
+				;67	                ;==============
+				;68	MAIN_DATA       .SECTION          'DATA'
+				;69	
+				;70	ifndef  ESCpowerIDcheck
+				;71	POR_ID          DB      2 DUP(?)
+				;72	endif
+				;73	
+				;74	
+				;75	
+				;76	                ;==============
+				;77	                ;=CODE SETCTION
+				;78	                ;==============
+				;79	PROGRAM_ENTRY   .SECTION  AT 000H 'CODE'
+				;80	        ifdef   PBP
+				;81	                CLR     PBP
+				;82	                ifndef  ESCpowerIDcheck
+				;83	                MOV     A,042H      ;ASCII = B
+				;84	                endif
+				;85	        else
+				;86	                ;----------------
+				;87	                ;-SET POR ID 1---
+				;88	                ;----------------
+				;89	                ifndef  ESCpowerIDcheck
+				;90	                MOV     A,042H      ;ASCII = B
+				PROGRAM_ENTRY:
+				include BS83B12A-3.inc
+0000	0F42	mov     a, 42H
+				;91	                SNZ     TO
+0001	3A8A	snz     TO
+				;92	                MOV     POR_ID[0],A
+0002	40C3	mov     POR_ID, a
+				;93	                endif
+				;94	        endif
+				;95	                JMP     PROGRAM_RESET
+0003	2CCE	jmp     PROGRAM_RESET
+0004	0000	nop
+0005	0000	nop
+0006	0000	nop
+0007	0000	nop
+					----
+					----
+				;96	
+				;97	                ;==============
+				;98	                ;=MAIN PROGRAM=
+				;99	                ;==============
+				;100	MAIN_PROGRAM    .SECTION          'CODE'
+				;101	
+				;102	                ;;***********************
+				;103	PROGRAM_RESET:  ;;* PROGRAM ENTRY *******
+				;104	                ;;***********************
+				;105	        ifdef   PBP
+				;106	                ifndef  ESCpowerIDcheck
+				;107	                SNZ     TO
+				;108	                MOV     POR_ID[0],A
+				;109	                endif
+				;110	        endif
+				;111	                ;----------------
+				;112	                ;-SET POR ID 2---
+				;113	                ;----------------
+				;114	        ifndef  ESCpowerIDcheck
+				;115	                MOV     A,053H      ;ASCII = S
+				PROGRAM_RESET:
+				MAIN_PROGRAM:
+04CE	0F53	mov     a, 53H
+				;116	                MOV     POR_ID[1],A
+04CF	40C4	mov     POR_ID[1], a
+				;117	        endif
+				;118	
+				;119	
+				;120	                ;---------------------
+				;121	                ;-MCU HARDWARE INITIAL
+				;122	                ;---------------------
+				;123	                MCU_HARDWARE_INITIAL
+04D0	0F30	mov     a, 30H
+04D1	008C	mov     CTRL, a
+04D2	0F03	mov     a, 3H
+04D3	008B	mov     SMOD, a
+04D4	0F52	mov     a, 52H
+04D5	009A	mov     WDTC, a
+04D6	0F01	mov     a, 1H
+04D7	0084	mov     BP, a
+04D8	0F80	mov     a, 80H
+04D9	24F5	call    CLEAR_RAM
+04DA	1F04	clr     BP
+04DB	0F60	mov     a, 60H
+04DC	24F5	call    CLEAR_RAM
+				;124	
+				;125	                ;------------------------------
+				;126	                ;-LOAD LIBRARY OPTION/THRESHOLD
+				;127	                ;------------------------------
+				;128	                CALL    _LOAD_TKS_GLOBE_VARIES
+04DD	2502	call    _LOAD_HXT_REFERENCE
+				;129	
+				;130	                ;------------------------
+				;131	                ;-EXTEND FUNCTION INITIAL
+				;132	                ;------------------------
+				;133	                EXTEND_FUNCTION_INITIAL
+04DE	20A2	call    L00A2
+04DF	257C	call    _USER_PROGRAM_INITIAL
+				;134	
+				;135	                ;;-----------------------
+				;136	MAIN_LOOP:      ;;- MAIN PROGRAM LOOP ---
+				;137	                ;;-----------------------
+				;138	                CLR     WDT
+				MAIN_LOOP:
+04E0	0001	clr     wdt
+				;139	                CLR     WDT1
+04E1	0001	clr     wdt
+				;140	                CLR     WDT2
+04E2	0005	clr     wdt2
+				;141	
+				;142	                ;----------------
+				;143	                ;-CHECK POR ID --
+				;144	                ;----------------
+				;145	        ifndef  ESCpowerIDcheck
+				;146	                MOV     A,042H
+04E3	0F42	mov     a, 42H
+				;147	                XORM    A,POR_ID[0]
+04E4	44C3	xorm    a, POR_ID
+				;148	                MOV     A,053H
+04E5	0F53	mov     a, 53H
+				;149	                SZ      Z
+04E6	3D0A	sz      Z
+				;150	                XORM    A,POR_ID[1]
+04E7	44C4	xorm    a, POR_ID[1]
+				;151	                SNZ     Z
+04E8	390A	snz     Z
+				;152	                JMP     000H
+04E9	2800	jmp     PROGRAM_ENTRY
+				;153	        endif
+				;154	                ;----------------------
+				;155	                ;-RE INITIAL SYS. CLOCK
+				;156	                ;----------------------
+				;157	                RELOAD_SYS_CLOCK
+04EA	0F30	mov     a, 30H
+04EB	008C	mov     CTRL, a
+04EC	0F03	mov     a, 3H
+04ED	008B	mov     SMOD, a
+				;158	                EXTEND_FUNCTION
+04EE	2018	call    L0018
+04EF	2591	call    _USER_PROGRAM
+				;159	                ;----------------
+				;160	                ;-SET POR ID  ---
+				;161	                ;----------------
+				;162	        ifndef  ESCpowerIDcheck
+				;163	                MOV     A,042H      ;ASCII = B
+04F0	0F42	mov     a, 42H
+				;164	                MOV     POR_ID[0],A
+04F1	40C3	mov     POR_ID, a
+				;165	                MOV     A,053H      ;ASCII = S
+04F2	0F53	mov     a, 53H
+				;166	                MOV     POR_ID[1],A
+04F3	40C4	mov     POR_ID[1], a
+				;167	        endif
+				;168	
+				;169	                ;--------------------
+				;170	WDT_WAKEUP:     ;-WDT WAKEUP FUNCTION
+				;171	                ;--------------------
+				;172	                if      PowerSave==1
+				;173	                CALL_   _CHECK_KEY_WAKEUP
+				;174	                endif
+				;175	
+				;176	                ifdef   PBP
+				;177	                MOV     A,BANK MAIN_LOOP
+				;178	                MOV     PBP,A
+				;179	                endif
+				;180	                JMP     MAIN_LOOP
+				WDT_WAKEUP:
+04F4	2CE0	jmp     MAIN_LOOP
+				;181	
+				;182	
+				;183	
+				;184	
+				;185	
+				;186	
+				;187	
+				;188	
+				;189	
+				;190	;;***********************************************************
+				;191	;;*SUB. NAME:                                               *
+				;192	;;*INPUT    :                                               *
+				;193	;;*OUTPUT   :                                               *
+				;194	;;*USED REG.:                                               *
+				;195	;;*FUNCTION :                                               *
+				;196	;;***********************************************************
+				;197	CLEAR_RAM:
+				;198	                MOV     MP1,A
+				CLEAR_RAM:
+04F5	0083	mov     MP1, a
+				;199	        ifndef  ESCpowerIDcheck
+				;200	            ifdef  BP
+				;201	                ;-CHECK BANK
+				;202	                SZ      BP
+04F6	1084	sz      BP
+				;203	                JMP     CLR_RAM
+04F7	2CFE	jmp     CLR_RAM
+				;204	            endif
+				;205	                ;-CHECK POR_ID RAM
+				;206	                MOV     A,OFFSET POR_ID
+04F8	0FC3	mov     a, C3H
+				;207	                XOR     A,MP1
+04F9	0403	xor     a, MP1
+				;208	                MOV     A,OFFSET POR_ID+1
+04FA	0FC4	mov     a, C4H
+				;209	                SNZ     Z
+04FB	390A	snz     Z
+				;210	                XOR     A,MP1
+04FC	0403	xor     a, MP1
+				;211	                SNZ     Z
+04FD	390A	snz     Z
+				;212	        endif
+				;213	CLR_RAM:        ;-CLEAR RAM
+				;214	                CLR     IAR1
+				CLR_RAM:
+04FE	1F02	clr     [02H]
+				;215	                SIZA    MP1
+04FF	1603	siza    MP1
+				;216	                JMP     CLEAR_RAM
+0500	2CF5	jmp     CLEAR_RAM
+				;217	
+				;218	                RET
+0501	0003	ret
+				;219	
+				;220	
+				;221	;;***********************************************************
+				;222	;;*SUB. NAME:                                               *
+				;223	;;*INPUT    :                                               *
+				;224	;;*OUTPUT   :                                               *
+				;225	;;*USED REG.:                                               *
+				;226	;;*FUNCTION :                                               *
+				;227	;;***********************************************************
+				;228	_LOAD_TKS_GLOBE_VARIES:
+				;229	_LOAD_HXT_REFERENCE:
+				;230	                ;------------------------
+				;231	                ;-SET TKS LIBRARY OPTION-
+				;232	                ;------------------------
+				;233	                MOV     A,GlobeOptionA
+				_LOAD_HXT_REFERENCE:
+				_LOAD_TKS_GLOBE_VARIES:
+0502	0F87	mov     a, 87H
+				;234	                MOV     _GLOBE_VARIES[0],A
+0503	00E0	mov     __sima[57], a
+				;235	                MOV     A,GlobeOptionB
+0504	0F30	mov     a, 30H
+				;236	                MOV     _GLOBE_VARIES[1],A
+0505	00E1	mov     __sima[58], a
+				;237	                MOV     A,GlobeOptionC
+0506	0F98	mov     a, 98H
+				;238	                MOV     _GLOBE_VARIES[2],A
+0507	00E2	mov     __sima[59], a
+				;239	
+				;240	                ;--------------------------
+				;241	                ;-SET TOUCH OR IO ATTRIBUTE
+				;242	                ;--------------------------
+				;243	                MOV     A,IO_TOUCH_ATTR&0FFH
+0508	0FFF	mov     a, FFH
+				;244	                MOV     _KEY_IO_SEL[0],A
+0509	00FA	mov     __sima[83], a
+				;245	                ;-IF OVER 2 TOUCH IP (8~16KEY)
+				;246	                if      TouchKeyAmount > 8
+				;247	                MOV     A,(IO_TOUCH_ATTR>>8)&0FFH
+050A	0F0F	mov     a, FH
+				;248	                MOV     _KEY_IO_SEL[1],A
+050B	00FB	mov     __sima[84], a
+				;249	                endif
+				;250	                ;-IF OVER 4 TOUCH IP (17~24KEY)
+				;251	                if      TouchKeyAmount > 16
+				;252	                MOV     A,(IO_TOUCH_ATTR>>16)&0FFH
+				;253	                MOV     _KEY_IO_SEL[2],A
+				;254	                endif
+				;255	                ;-IF OVER 6 TOUCH IP (25~32KEY)
+				;256	                if      TouchKeyAmount > 24
+				;257	                MOV     A,(IO_TOUCH_ATTR>>24)&0FFH
+				;258	                MOV     _KEY_IO_SEL[3],A
+				;259	                endif
+				;260	
+				;261	                ;-IF OVER 6 TOUCH IP (33~36KEY)
+				;262	                if      TouchKeyAmount > 32
+				;263	                MOV     A,IO_TOUCH_ATTR2
+				;264	                MOV     _KEY_IO_SEL[4],A
+				;265	                endif
+				;266	
+				;267	                ;------------------------
+				;268	                ;-SET TOUCH KEY THRESHOLD
+				;269	                ;------------------------
+				;270	                ;-KEY1 THRESHOLD
+				;271	                MOV     A,Key1Threshold
+050C	0F0A	mov     a, AH
+				;272	                MOV     _GLOBE_VARIES[3],A
+050D	00E3	mov     __sima[60], a
+				;273	
+				;274	                if      TouchKeyAmount > 1
+				;275	                ;-KEY2 THRESHOLD
+				;276	                MOV     A,Key2Threshold
+050E	0F0A	mov     a, AH
+				;277	                MOV     _GLOBE_VARIES[4],A
+050F	00E4	mov     __sima[61], a
+				;278	                endif
+				;279	
+				;280	                if      TouchKeyAmount > 2
+				;281	                ;-KEY3 THRESHOLD
+				;282	                MOV     A,Key3Threshold
+0510	0F0A	mov     a, AH
+				;283	                MOV     _GLOBE_VARIES[5],A
+0511	00E5	mov     __sima[62], a
+				;284	                endif
+				;285	
+				;286	                if      TouchKeyAmount > 3
+				;287	                ;-KEY4 THRESHOLD
+				;288	                MOV     A,Key4Threshold
+0512	0F0A	mov     a, AH
+				;289	                MOV     _GLOBE_VARIES[6],A
+0513	00E6	mov     __sima[63], a
+				;290	                endif
+				;291	
+				;292	                if      TouchKeyAmount > 4
+				;293	                ;-KEY5 THRESHOLD
+				;294	                MOV     A,Key5Threshold
+0514	0F0A	mov     a, AH
+				;295	                MOV     _GLOBE_VARIES[7],A
+0515	00E7	mov     __sima[64], a
+				;296	                endif
+				;297	
+				;298	                if      TouchKeyAmount > 5
+				;299	                ;-KEY6 THRESHOLD
+				;300	                MOV     A,Key6Threshold
+0516	0F0A	mov     a, AH
+				;301	                MOV     _GLOBE_VARIES[8],A
+0517	00E8	mov     __sima[65], a
+				;302	                endif
+				;303	
+				;304	                if      TouchKeyAmount > 6
+				;305	                ;-KEY7 THRESHOLD
+				;306	                MOV     A,Key7Threshold
+0518	0F0A	mov     a, AH
+				;307	                MOV     _GLOBE_VARIES[9],A
+0519	00E9	mov     __sima[66], a
+				;308	                endif
+				;309	
+				;310	                if      TouchKeyAmount > 7
+				;311	                ;-KEY8 THRESHOLD
+				;312	                MOV     A,Key8Threshold
+051A	0F0A	mov     a, AH
+				;313	                MOV     _GLOBE_VARIES[10],A
+051B	00EA	mov     __sima[67], a
+				;314	                endif
+				;315	
+				;316	                if     TouchKeyAmount > 8
+				;317	                ;-KEY9 THRESHOLD
+				;318	                MOV     A,Key9Threshold
+051C	0F0A	mov     a, AH
+				;319	                MOV     _GLOBE_VARIES[11],A
+051D	00EB	mov     __sima[68], a
+				;320	                endif
+				;321	
+				;322	                if      TouchKeyAmount > 9
+				;323	                ;-KEY10 THRESHOLD
+				;324	                MOV     A,Key10Threshold
+051E	0F0A	mov     a, AH
+				;325	                MOV     _GLOBE_VARIES[12],A
+051F	00EC	mov     __sima[69], a
+				;326	                endif
+				;327	
+				;328	                if      TouchKeyAmount > 10
+				;329	                ;-KEY11 THRESHOLD
+				;330	                MOV     A,Key11Threshold
+0520	0F0A	mov     a, AH
+				;331	                MOV     _GLOBE_VARIES[13],A
+0521	00ED	mov     __sima[70], a
+				;332	                endif
+				;333	
+				;334	                if      TouchKeyAmount > 11
+				;335	                ;-KEY12 THRESHOLD
+				;336	                MOV     A,Key12Threshold
+0522	0F0A	mov     a, AH
+				;337	                MOV     _GLOBE_VARIES[14],A
+0523	00EE	mov     __sima[71], a
+				;338	                endif
+				;339	
+				;340	                if      TouchKeyAmount > 12
+				;341	                ;-KEY13 THRESHOLD
+				;342	                MOV     A,Key13Threshold
+				;343	                MOV     _GLOBE_VARIES[15],A
+				;344	                endif
+				;345	
+				;346	                if      TouchKeyAmount > 13
+				;347	                ;-KEY14 THRESHOLD
+				;348	                MOV     A,Key14Threshold
+				;349	                MOV     _GLOBE_VARIES[16],A
+				;350	                endif
+				;351	
+				;352	                if      TouchKeyAmount > 14
+				;353	                ;-KEY15 THRESHOLD
+				;354	                MOV     A,Key15Threshold
+				;355	                MOV     _GLOBE_VARIES[17],A
+				;356	                endif
+				;357	
+				;358	                if      TouchKeyAmount > 15
+				;359	                ;-KEY16 THRESHOLD
+				;360	                MOV     A,Key16Threshold
+				;361	                MOV     _GLOBE_VARIES[18],A
+				;362	                endif
+				;363	
+				;364	                if      TouchKeyAmount > 16
+				;365	                ;-KEY17 THRESHOLD
+				;366	                MOV     A,Key17Threshold
+				;367	                MOV     _GLOBE_VARIES[19],A
+				;368	                endif
+				;369	
+				;370	                if      TouchKeyAmount > 17
+				;371	                ;-KEY18 THRESHOLD
+				;372	                MOV     A,Key18Threshold
+				;373	                MOV     _GLOBE_VARIES[20],A
+				;374	                endif
+				;375	
+				;376	                if      TouchKeyAmount > 18
+				;377	                ;-KEY19 THRESHOLD
+				;378	                MOV     A,Key19Threshold
+				;379	                MOV     _GLOBE_VARIES[21],A
+				;380	                endif
+				;381	
+				;382	                if      TouchKeyAmount > 19
+				;383	                ;-KEY20 THRESHOLD
+				;384	                MOV     A,Key20Threshold
+				;385	                MOV     _GLOBE_VARIES[22],A
+				;386	                endif
+				;387	
+				;388	                if      TouchKeyAmount > 20
+				;389	                ;-KEY17 THRESHOLD
+				;390	                MOV     A,Key21Threshold
+				;391	                MOV     _GLOBE_VARIES[23],A
+				;392	                endif
+				;393	
+				;394	                if      TouchKeyAmount > 21
+				;395	                ;-KEY18 THRESHOLD
+				;396	                MOV     A,Key22Threshold
+				;397	                MOV     _GLOBE_VARIES[24],A
+				;398	                endif
+				;399	
+				;400	                if      TouchKeyAmount > 22
+				;401	                ;-KEY19 THRESHOLD
+				;402	                MOV     A,Key23Threshold
+				;403	                MOV     _GLOBE_VARIES[25],A
+				;404	                endif
+				;405	
+				;406	                if      TouchKeyAmount > 23
+				;407	                ;-KEY20 THRESHOLD
+				;408	                MOV     A,Key24Threshold
+				;409	                MOV     _GLOBE_VARIES[26],A
+				;410	                endif
+				;411	
+				;412	                if      TouchKeyAmount > 24
+				;413	                ;-KEY17 THRESHOLD
+				;414	                MOV     A,Key25Threshold
+				;415	                MOV     _GLOBE_VARIES[27],A
+				;416	                endif
+				;417	
+				;418	                if      TouchKeyAmount > 25
+				;419	                ;-KEY18 THRESHOLD
+				;420	                MOV     A,Key26Threshold
+				;421	                MOV     _GLOBE_VARIES[28],A
+				;422	                endif
+				;423	
+				;424	                if      TouchKeyAmount > 26
+				;425	                ;-KEY19 THRESHOLD
+				;426	                MOV     A,Key27Threshold
+				;427	                MOV     _GLOBE_VARIES[29],A
+				;428	                endif
+				;429	
+				;430	                if      TouchKeyAmount > 27
+				;431	                ;-KEY20 THRESHOLD
+				;432	                MOV     A,Key28Threshold
+				;433	                MOV     _GLOBE_VARIES[30],A
+				;434	                endif
+				;435	
+				;436	                if      TouchKeyAmount > 28
+				;437	                ;-KEY29 THRESHOLD
+				;438	                MOV     A,Key29Threshold
+				;439	                MOV     _GLOBE_VARIES[31],A
+				;440	                endif
+				;441	
+				;442	                if      TouchKeyAmount > 29
+				;443	                ;-KEY30 THRESHOLD
+				;444	                MOV     A,Key30Threshold
+				;445	                MOV     _GLOBE_VARIES[32],A
+				;446	                endif
+				;447	
+				;448	                if      TouchKeyAmount > 30
+				;449	                ;-KEY31 THRESHOLD
+				;450	                MOV     A,Key31Threshold
+				;451	                MOV     _GLOBE_VARIES[33],A
+				;452	                endif
+				;453	
+				;454	                if      TouchKeyAmount > 31
+				;455	                ;-KEY32 THRESHOLD
+				;456	                MOV     A,Key32Threshold
+				;457	                MOV     _GLOBE_VARIES[34],A
+				;458	                endif
+				;459	
+				;460	                if      TouchKeyAmount > 32
+				;461	                ;-KEY33 THRESHOLD
+				;462	                MOV     A,Key33Threshold
+				;463	                MOV     _GLOBE_VARIES[35],A
+				;464	                endif
+				;465	
+				;466	                if      TouchKeyAmount > 33
+				;467	                ;-KEY34 THRESHOLD
+				;468	                MOV     A,Key34Threshold
+				;469	                MOV     _GLOBE_VARIES[36],A
+				;470	                endif
+				;471	
+				;472	                if      TouchKeyAmount > 34
+				;473	                ;-KEY35 THRESHOLD
+				;474	                MOV     A,Key35Threshold
+				;475	                MOV     _GLOBE_VARIES[37],A
+				;476	                endif
+				;477	
+				;478	                if      TouchKeyAmount > 35
+				;479	                ;-KEY36 THRESHOLD
+				;480	                MOV     A,Key36Threshold
+				;481	                MOV     _GLOBE_VARIES[38],A
+				;482	                endif
+				;483	
+				;484	
+				;485	                RET
+0524	0003	ret
+0525	B0A0	dc	0B0A0H
+0526	D0C0	dc	0D0C0H
+0527	F0E0	dc	0F0E0H
+0528	1C28	dc	01C28H
+0529	0C03	xor     a, 3H
+052A	0102	cpla    [02H]
+052B	0202	sub     a, [02H]
+				;486	
+				;487	
+				;488	
+				;489	
+				;490	                END
+				;491	
+				;492	
+				;493	
+				;file C:\Users\my asus\Desktop\BS83B08-12-16A\BS83B12A - v1.0\20160607_LIBV413\USER_PROGRAM\USER_PROGRAM.C
+				;1	#include    "USER_PROGRAM.H"         
+				;2	
+				;3	#define u8		unsigned char 
+				;4	#define u16		unsigned int   
+				;5	
+				;6	#define vu8		volatile unsigned char 
+				;7	#define vu16	volatile unsigned int 
+				;8	
+				;9	
+				;10	
+				;11	// choose mcu
+				;12	//#define  BS83B08A 	3
+				;13	#define  BS83B12A 	2
+				;14	//#define  BS83B16A 	1
+				;15	
+				;16	#if	 BS83B08A
+				;17	//I2C size
+				;18	#define I2C_MAXNUM		8
+				;19	//page size
+				;20	const u8 IC_PAGE_SIZS[]={3,8,1,1,1,2};
+				;21	const u8 Version = 0x18; //硬件/軟件版本號
+				;22	// MCU_INT_CONFIG
+				;23	#define MCU_INT_c  		_pac1
+				;24	#define MCU_INT  		_pa1
+				;25	#endif
+				;26	
+				;27	#if	 BS83B12A
+				;28	//I2C size
+				;29	#define I2C_MAXNUM		12
+				;30	//page size
+				;31	const u8 IC_PAGE_SIZS[]={3,12,2,1,2,2};
+				;32	const u8 Version = 0x1C; //硬件/軟件版本號
+				;33	// MCU_INT_CONFIG
+				;34	#define MCU_INT_c  		_pac1
+				;35	#define MCU_INT  		_pa1
+				;36	#endif
+				;37	
+				;38	#if	 BS83B16A
+				;39	//I2C size
+				;40	#define I2C_MAXNUM		16
+				;41	//page size
+				;42	const u8 IC_PAGE_SIZS[]={3,16,2,1,2,2};
+				;43	const u8 Version = 0x1F; //硬件/軟件版本號
+				;44	// MCU_INT_CONFIG
+				;45	#define MCU_INT_c  		_pac1
+				;46	#define MCU_INT  		_pa1
+				;47	#endif
+				;48	
+				;49	
+				;50	//++++++++++++++++++++++MAIN PROGAM+++++++++++++++++++++++
+				;51	#define TRUE 	1
+				;52	#define FALSE 	0
+				;53	#define NTH 	0x0F
+				;54	#define REST 	0x0A
+				;55	
+				;56	const u8 DeviceAddress = 0x28;
+				;57	const u8 IC_PAGE_HEAD[]={0xA0,0xB0,0xC0,0xD0,0xE0,0xF0};
+				;58	
+				;59	_TKS_FLAGA_type      FLAG;
+				;60	
+				;61	#define FLAG_Err    FLAG.bits.b0
+				;62	#define FLAG_End    FLAG.bits.b1
+				;63	//#define          	FLAG.bits.b2
+				;64	//#define       	FLAG.bits.b3
+				;65	//#define           FLAG.bits.b4
+				;66	//#define           FLAG.bits.b5
+				;67	//#define           FLAG.bits.b6
+				;68	
+				;69	struct I2C_LIST
+				;70	{
+				;71	//FOR HEAD
+				;72		vu8 WordAddr;		
+				;73		vu8 SUM;	
+				;74		vu8 TxNum;
+				;75		vu8 RxNum;
+				;76		vu8 CRC;
+				;77		vu8 CRC_BUF;		
+				;78	}I2C;
+				;79	
+				;80	u8 I2C_Data[I2C_MAXNUM];
+				;81	u8 MCU_STATE;
+				;82	u8 I2C_STATE;
+				;83	
+				;84	void DATA_LIST_UPDATA(void)
+				;85	{
+				;86		u8 *p;
+				;87		
+				;88		I2C.SUM = IC_PAGE_SIZS[I2C.WordAddr];//取頁數據量
+				_DATA_LIST_UPDATA:
+				_DATA_LIST_UPDATA:
+052C	0F52	mov     a, 52H
+052D	433C	add     a, I2C[0]
+052E	0083	mov     MP1, a
+052F	0F8A	mov     a, 8AH
+0530	1F01	clr     MP0
+0531	1381	adcm    a, MP0
+0532	2710	call    L0710
+0533	40BD	mov     I2C[1], a
+				;89		
+				;90	   	switch(I2C.WordAddr)//取頁數據的指針
+0534	473C	mov     a, I2C[0]
+0535	40CF	mov     _DATA_LIST_UPDATA_2, a
+0536	474F	mov     a, _DATA_LIST_UPDATA_2
+0537	0A00	sub     a, 0H
+0538	3D0A	sz      Z
+0539	2D50	jmp     _L11
+053A	0A01	sub     a, 1H
+053B	3D0A	sz      Z
+053C	2D55	jmp     _L9
+053D	474F	mov     a, _DATA_LIST_UPDATA_2
+053E	0A02	sub     a, 2H
+053F	3D0A	sz      Z
+0540	2D4A	jmp     _L5
+0541	474F	mov     a, _DATA_LIST_UPDATA_2
+0542	0A03	sub     a, 3H
+0543	390A	snz     Z
+0544	2D4F	jmp     _L10
+				;91		{
+				;92			case 0 :p = &GLOBE_VARIES[0];break;
+				;93			case 1 :p = &GLOBE_VARIES[3];break;
+				_L9:
+0555	0F63	mov     a, 63H
+0556	40C6	mov     rb, a
+0557	0F00	mov     a, 0H
+0558	40C7	mov     rc, a
+				;94			case 2 :p = &KEY_IO_SEL[0];break;
+				_L5:
+054A	0F7A	mov     a, 7AH
+054B	40C6	mov     rb, a
+054C	0F00	mov     a, 0H
+054D	40C7	mov     rc, a
+054E	2D59	jmp     _L4
+				;95			case 3 :p = &MCU_STATE;break;
+0545	0FAF	mov     a, AFH
+0546	40C6	mov     rb, a
+0547	0F00	mov     a, 0H
+0548	40C7	mov     rc, a
+0549	2D59	jmp     _L4
+				;96			default :p = &GLOBE_VARIES[0];I2C.SUM = 0;break;
+				_L10:
+054F	5F3D	clr     I2C[1]
+				_L11:
+0550	0F60	mov     a, 60H
+0551	40C6	mov     rb, a
+0552	0F00	mov     a, 0H
+0553	40C7	mov     rc, a
+0554	2D59	jmp     _L4
+				;97		}
+				;98		
+				;99		
+				;100		for(I2C.RxNum=0;I2C.RxNum<I2C.SUM;I2C.RxNum++)
+				_L4:
+0559	5F3F	clr     I2C[3]
+055A	2D6E	jmp     _L7
+056D	54BF	inc     I2C[3]
+				_L7:
+056E	473F	mov     a, I2C[3]
+056F	423D	sub     a, I2C[1]
+0570	380A	snz     C
+0571	2D5B	jmp     _L8
+0572	0003	ret
+				;101		{	
+				;102			*(p+I2C.RxNum) = I2C_Data[I2C.RxNum];	//更新觸控數據
+				_L8:
+055B	0FB0	mov     a, B0H
+055C	433F	add     a, I2C[3]
+055D	0083	mov     MP1, a
+055E	0F00	mov     a, 0H
+055F	1F01	clr     MP0
+0560	1381	adcm    a, MP0
+0561	2710	call    L0710
+0562	40C5	mov     ra, a
+0563	473F	mov     a, I2C[3]
+0564	4346	add     a, rb
+0565	0083	mov     MP1, a
+0566	1F05	clr     ACC
+0567	5347	adc     a, rc
+0568	0081	mov     MP0, a
+0569	0701	mov     a, MP0
+056A	0084	mov     BP, a
+056B	4745	mov     a, ra
+056C	0082	mov     [02H], a
+				;103		}	
+				;104		
+				;105	}
+				;106	
+				;107	//初始化I2C數據
+				;108	void I2C_LIST_INIT(void)
+				;109	{
+				;110		I2C.WordAddr = 0x00;
+				_I2C_LIST_INIT:
+				_I2C_LIST_INIT:
+0573	5F3C	clr     I2C[0]
+				;111		I2C.SUM = 0;	
+0574	5F3D	clr     I2C[1]
+				;112		I2C.RxNum = 0;
+0575	5F3F	clr     I2C[3]
+				;113		I2C.TxNum = 0;
+0576	5F3E	clr     I2C[2]
+				;114		I2C.CRC = 0;
+0577	5F40	clr     I2C[4]
+				;115		I2C.CRC_BUF = 0;
+0578	5F41	clr     I2C[5]
+				;116		FLAG_End = FALSE;
+0579	74C2	clr     FLAG[0].1
+				;117		FLAG_Err = FALSE;
+057A	7442	clr     FLAG[0].0
+057B	0003	ret
+				;118	}
+				;119	
+				;120	//初始化系統數據
+				;121	void SYS_LIST_INIT(void)
+				;122	{
+				;123		MCU_STATE = NTH;
+				_SYS_LIST_INIT:
+				_SYS_LIST_INIT:
+000A	0F0F	mov     a, FH
+000B	40AF	mov     MCU_STATE[0], a
+				;124		I2C_STATE = NTH;
+000C	0F0F	mov     a, FH
+000D	40AE	mov     I2C_STATE[0], a
+				;125		
+				;126		FLAG_Err = TRUE;//使用通信錯誤功能初始化I2C數據
+000E	7042	set     FLAG[0].0
+000F	0003	ret
+				;127	}
+				;128	
+				;129	//==============================================
+				;130	void USER_PROGRAM_INITIAL()
+				;131	{	
+				;132	//	_wdtc = 0xAF;	//wdt = 8s 
+				;133		_wdtc = 0b10101100;	//wdt = 1s 
+				_USER_PROGRAM_INITIAL:
+				_USER_PROGRAM_INITIAL:
+057C	0FAC	mov     a, ACH
+057D	009A	mov     WDTC, a
+				;134		
+				;135		_pawu=0;		//0:禁止下降沿唤醒;   1:使能
+057E	1F17	clr     PAWU
+				;136		_papu=0;		//0:禁止上拉;         1:使能上拉
+057F	1F16	clr     PAPU
+				;137		_pa=0x00;	
+0580	1F14	clr     PA
+				;138		MCU_INT = 1;
+0581	3094	set     PA1
+				;139		_pac =0x05;		//0:输出;      		  1:输入
+0582	0F05	mov     a, 5H
+0583	0095	mov     PAC, a
+				;140			 
+				;141		
+				;142		MCU_INT = 1;		
+0584	3094	set     PA1
+				;143		MCU_INT_c = 0;	
+0585	3495	clr     PAC1
+				;144		
+				;145		
+				;146	//配置定时器	
+				;147	//	_tmrc = 0b00000111;//12Mhz,1/128
+				;148	//	_tmr = 131;//256-156=100,1/12M*128=10.7us; 10.7us*100=1.07ms
+				;149	//	_te = 1;	//定时/计数器中断控制位
+				;150	//	_ton = 1;	//定时/计数器启动/停止控制位
+				;151			
+				;152	//配置IIC	
+				;153	//	_papu0 = 1;  	//SDA
+				;154	//	_papu2 = 1;  	//SCL
+				;155	
+				;156		_simc0 = 0b11000010;
+0586	0FC2	mov     a, C2H
+0587	00A4	mov     SIMC0, a
+				;157		_sima = DeviceAddress;//从机地址
+0588	0F28	mov     a, 28H
+0589	00A7	mov     SIMC2, a
+				;158		
+				;159	//I2C超时配置	
+				;160		_i2ctoc = 0b10111111; //64ms
+058A	0FBF	mov     a, BFH
+058B	00A3	mov     I2CTOC, a
+				;161		_simf = 0;
+058C	360F	clr     SIMF
+				;162		_sime = 1;	
+058D	300F	set     SIME
+				;163		
+				;164		SYS_LIST_INIT();
+058E	200A	call    _SYS_LIST_INIT
+				;165	
+				;166		_emi = 1;	//总中断控制位	
+058F	300E	set     EMI
+0590	0003	ret
+				;167	}
+				;168	
+				;169	//==============================================
+				;170	//**********************************************
+				;171	//==============================================
+				;172	void USER_PROGRAM()
+				;173	{
+				;174		if(MCU_STATE == REST)// 系統設置，如果設置為復位，則馬上復位
+				_USER_PROGRAM:
+				_USER_PROGRAM:
+0591	472F	mov     a, MCU_STATE[0]
+0592	0A0A	sub     a, AH
+0593	390A	snz     Z
+0594	2D98	jmp     _L17
+				;175		{
+				;176			MCU_INT = 0;
+0595	3494	clr     PA1
+				;177			_wdtc = 0xFF;//MCU rest //64MS
+0596	1F9A	set     WDTC
+0597	2D9A	jmp     _L18
+				;178		}
+				;179		else 
+				;180		{
+				;181			MCU_STATE = NTH;
+				_L17:
+0598	0F0F	mov     a, FH
+0599	40AF	mov     MCU_STATE[0], a
+				;182		}
+				;183		
+				;184		if(FLAG_Err) // 通信錯誤，復位I2C數據
+				_L18:
+059A	7842	snz     FLAG[0].0
+059B	2D9D	jmp     _L19
+				;185		{
+				;186			I2C_LIST_INIT();
+059C	2573	call    _I2C_LIST_INIT
+				;187		}
+				;188	//--------------------------------------------------------------------	
+				;189		GET_KEY_BITMAP();//更新按鍵值
+				_L19:
+059D	24AE	call    L04AE
+				;190		#ifndef	BS83B08A	
+				;191		//取使能的按鍵值
+				;192		KEY_DATA[0] =KEY_DATA[0]&KEY_IO_SEL[0] ;
+059E	077A	mov     a, __sima[83]
+059F	067C	and     a, __sima[85]
+05A0	40C6	mov     rb, a
+05A1	4746	mov     a, rb
+05A2	00FC	mov     __sima[85], a
+				;193		KEY_DATA[1] =KEY_DATA[1]&KEY_IO_SEL[1] ;	
+05A3	077B	mov     a, __sima[84]
+05A4	067D	and     a, __sima[86]
+05A5	40C5	mov     ra, a
+05A6	4745	mov     a, ra
+05A7	00FD	mov     __sima[86], a
+				;194		//有按鍵按下為INT變低
+				;195		 if(KEY_DATA[0] || KEY_DATA[1]) 
+05A8	50C6	sz      rb
+05A9	2DAD	jmp     _L20
+05AA	50C5	sz      ra
+05AB	2DAD	jmp     _L20
+05AC	2DAF	jmp     _L21
+				;196			MCU_INT = 0;
+				_L20:
+				_LI1:
+05AD	3494	clr     PA1
+05AE	2DB0	jmp     _L22
+				;197	  	 else
+				;198		 	MCU_INT = 1;	
+				_L21:
+05AF	3094	set     PA1
+				;199		#endif	
+				;200		
+				;201		#ifdef	BS83B08A
+				;202		//取使能的按鍵值
+				;203		KEY_DATA[0] =KEY_DATA[0]&KEY_IO_SEL[0] ;
+				;204		//有按鍵按下為INT變低
+				;205		 if(KEY_DATA[0]) 
+				;206			MCU_INT = 0;
+				;207	  	 else
+				;208		 	MCU_INT = 1;
+				;209		#endif		
+				;210	
+				;211	
+				;212	//	----------------------------------------------------------------
+				;213		if(FLAG_End)				//一帧数据接收完成标志
+				_L22:
+05B0	78C2	snz     FLAG[0].1
+05B1	2DD5	jmp     _L16
+				;214		{
+				;215			//將地址轉換成頁碼	
+				;216			I2C.WordAddr >>=4;
+05B2	513C	swapa   I2C[0]
+05B3	0E0F	and     a, FH
+05B4	40BC	mov     I2C[0], a
+				;217			I2C.WordAddr -=0x0A;
+05B5	0FF6	mov     a, F6H
+05B6	43BC	addm    a, I2C[0]
+				;218			//接收到的有效數據數
+				;219			I2C.RxNum-=2;
+05B7	0FFE	mov     a, FEH
+05B8	43BF	addm    a, I2C[3]
+				;220		
+				;221			//先判斷 頁碼是否為可寫的前四頁 ， 且有效數據量是否符合頁大小
+				;222			if((I2C.WordAddr <= 3) && (I2C.RxNum == IC_PAGE_SIZS[I2C.WordAddr])) 
+05B9	0F03	mov     a, 3H
+05BA	423C	sub     a, I2C[0]
+05BB	380A	snz     C
+05BC	2DD3	jmp     _L24
+05BD	0F52	mov     a, 52H
+05BE	433C	add     a, I2C[0]
+05BF	0083	mov     MP1, a
+05C0	0F8A	mov     a, 8AH
+05C1	1F01	clr     MP0
+05C2	1381	adcm    a, MP0
+05C3	2710	call    L0710
+05C4	40C5	mov     ra, a
+05C5	473F	mov     a, I2C[3]
+05C6	4245	sub     a, ra
+05C7	390A	snz     Z
+05C8	2DD3	jmp     _L24
+				;223			{	
+				;224				I2C.CRC_BUF=~I2C.CRC_BUF;//取反計數出的
+05C9	4141	cpla    I2C[5]
+05CA	40C1	mov     I2C[5], a
+				;225				
+				;226				if( I2C.CRC == I2C.CRC_BUF  )//驗證CRC
+05CB	4740	mov     a, I2C[4]
+05CC	4241	sub     a, I2C[5]
+05CD	390A	snz     Z
+05CE	2DD3	jmp     _L24
+				;227				{
+				;228					I2C_STATE = TRUE; //寫入正確標誌
+05CF	0F01	mov     a, 1H
+05D0	40AE	mov     I2C_STATE[0], a
+				;229					
+				;230					DATA_LIST_UPDATA();//更新觸控數據值
+05D1	252C	call    _DATA_LIST_UPDATA
+05D2	2DD4	jmp     _L26
+				;231					
+				;232				}
+				;233				else I2C_STATE = FALSE;	//寫入錯誤標誌					
+				;234			}	
+				;235			else I2C_STATE = FALSE;	//寫入錯誤標誌	
+				_L24:
+05D3	5F2E	clr     I2C_STATE[0]
+				;236				
+				;237			FLAG_End = FALSE;
+				_L26:
+05D4	74C2	clr     FLAG[0].1
+				_L16:
+05D5	0003	ret
+				;238		}	
+				;239	//	----------------------------------------------------------------
+				;240	}
+				;241	
+				;242	
+				;243	
+				;244	
+				;245	void __attribute((interrupt(0x10))) IIC_ISR(void)
+				;246	{ 
+				@IIC_ISR_code .SECTION 'CODE'
+0010	40C8	mov     r110, a
+0011	0704	mov     a, BP
+0012	40C9	mov     r210, a
+0013	2DD6	jmp     _IIC_ISR
+				@dummy16 .SECTION 'CODE'
+					----
+					----
+					----
+					----
+				L0018:
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+				L00A2:
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+				L04AE:
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+					----
+				_IIC_ISR:
+				_IIC_ISR:
+05D6	070A	mov     a, STATUS
+05D7	40CA	mov     r310, a
+05D8	0703	mov     a, MP1
+05D9	40CB	mov     r410, a
+05DA	0701	mov     a, MP0
+05DB	40CC	mov     r510, a
+				;247	 	u8 data;	
+				;248	 	_simf = 0;		//清零标志位				
+05DC	360F	clr     SIMF
+				;249	 	if(_i2ctof)//_i2ctof=1:I2C通信超时
+05DD	3B23	snz     I2CTOF
+05DE	2DE3	jmp     _L34
+				;250	 	{
+				;251	 		_i2ctoen = 1;
+05DF	33A3	set     I2CTOEN
+				;252	 		_i2ctof = 0;
+05E0	3723	clr     I2CTOF
+				;253	 		FLAG_Err = TRUE;
+05E1	7042	set     FLAG[0].0
+05E2	2F05	jmp     _L33
+				;254	 	}
+				;255	 	else 
+				;256	 		{
+				;257				if(_haas)//_haas=1:slave receive SLAVE_ADDR match							
+				_L34:
+05E3	3B25	snz     HAAS
+05E4	2E2D	jmp     _L36
+				;258				{
+				;259					//地址匹配后，判断主机讀寫位,主机是写从机还是读从机
+				;260	
+				;261					if(_srw)//srw=1:slave send data to master (frist data).
+05E5	3925	snz     SRW
+05E6	2E24	jmp     _L37
+				;262					{							
+				;263						
+				;264						if(I2C.WordAddr == 0x00)
+05E7	50BC	sz      I2C[0]
+05E8	2DEE	jmp     _L38
+				;265						{
+				;266							I2C.SUM = IC_PAGE_SIZS[0];
+05E9	0F03	mov     a, 3H
+05EA	40BD	mov     I2C[1], a
+				;267							I2C.TxNum = IC_PAGE_HEAD[0];
+05EB	0FA0	mov     a, A0H
+05EC	40BE	mov     I2C[2], a
+				;268							I2C.CRC_BUF = 0;
+05ED	5F41	clr     I2C[5]
+				;269						}
+				;270						
+				;271							
+				;272						switch(I2C.TxNum)
+				_L38:
+05EE	473E	mov     a, I2C[2]
+05EF	40CE	mov     _IIC_ISR_2, a
+05F0	474E	mov     a, _IIC_ISR_2
+05F1	0AA0	sub     a, A0H
+05F2	3D0A	sz      Z
+05F3	2E0B	jmp     _L40
+05F4	0A10	sub     a, 10H
+05F5	3D0A	sz      Z
+05F6	2E0E	jmp     _L41
+05F7	474E	mov     a, _IIC_ISR_2
+05F8	0AC0	sub     a, C0H
+05F9	3D0A	sz      Z
+05FA	2E11	jmp     _L42
+05FB	0A10	sub     a, 10H
+05FC	3D0A	sz      Z
+05FD	2E14	jmp     _L43
+05FE	474E	mov     a, _IIC_ISR_2
+05FF	0AE0	sub     a, E0H
+0600	3D0A	sz      Z
+0601	2E17	jmp     _L44
+0602	474E	mov     a, _IIC_ISR_2
+0603	0AF0	sub     a, F0H
+0604	390A	snz     Z
+0605	2E1A	jmp     _L79
+				;273						{	
+				;274							case 0xA0 :data = GLOBE_VARIES[0];break;
+				_L40:
+060B	0760	mov     a, __sima[57]
+060C	40CD	mov     ra10, a
+060D	2E1C	jmp     _L39
+				;275							case 0xB0 :data = GLOBE_VARIES[3];;break;
+				_L41:
+060E	0763	mov     a, __sima[60]
+060F	40CD	mov     ra10, a
+0610	2E1C	jmp     _L39
+				;276							case 0xC0 :data = KEY_IO_SEL[0];break;
+				_L42:
+0611	077A	mov     a, __sima[83]
+0612	40CD	mov     ra10, a
+0613	2E1C	jmp     _L39
+				;277							case 0xD0 :data = MCU_STATE;break;
+				_L43:
+0614	472F	mov     a, MCU_STATE[0]
+0615	40CD	mov     ra10, a
+0616	2E1C	jmp     _L39
+				;278							case 0xE0 :data = KEY_DATA[0];break;
+				_L44:
+0617	077C	mov     a, __sima[85]
+0618	40CD	mov     ra10, a
+0619	2E1C	jmp     _L39
+				;279							case 0xF0 :data = I2C_STATE;I2C_STATE = NTH;break;
+0606	472E	mov     a, I2C_STATE[0]
+0607	40CD	mov     ra10, a
+0608	0F0F	mov     a, FH
+0609	40AE	mov     I2C_STATE[0], a
+060A	2E1C	jmp     _L39
+				;280							default : data = 0xAA;;break;
+				_L79:
+061A	0FAA	mov     a, AAH
+061B	40CD	mov     ra10, a
+				;281						}
+				;282						_htx = 1; //_htx=1:	
+				_L39:
+061C	3225	set     HTX
+				;283						_simd = data;
+061D	474D	mov     a, ra10
+061E	00A6	mov     SIMD, a
+				;284						
+				;285						I2C.CRC_BUF += data;
+061F	474D	mov     a, ra10
+0620	43C1	addm    a, I2C[5]
+				;286						
+				;287						I2C.SUM += I2C.TxNum;
+0621	473E	mov     a, I2C[2]
+0622	43BD	addm    a, I2C[1]
+0623	2EAE	jmp     _L85
+				;288						
+				;289						I2C.TxNum++;
+				;290						if(I2C.TxNum >= I2C.SUM) 
+				;291							I2C.TxNum = 0xFF;
+				;292								
+				;293					}else//srw=0:slave receive data for master
+				;294						{	
+				;295							_htx = 0;//_htx=0:
+				_L37:
+0624	3625	clr     HTX
+				;296							_txak = 0;//_txak=0:slave enable ACK
+0625	35A5	clr     TXAK
+				;297							_acc = _simd;//dummy
+0626	0726	mov     a, SIMD
+0627	0085	mov     ACC, a
+				;298							
+				;299							I2C.RxNum = 0;//begin to conut
+0628	5F3F	clr     I2C[3]
+				;300							I2C.TxNum = 0;
+0629	5F3E	clr     I2C[2]
+				;301							I2C.SUM = 0;
+062A	5F3D	clr     I2C[1]
+				;302							FLAG_End = FALSE;
+062B	74C2	clr     FLAG[0].1
+062C	2F05	jmp     _L33
+				;303						} 
+				;304				}
+				;305				else//_haas=0:slave receive SLAVE_ADDR match,then communication data 
+				;306				{	
+				;307											  
+				;308					if(_htx)//_htx=1:slave send data to master
+				_L36:
+062D	3A25	snz     HTX
+062E	2EB5	jmp     _L47
+				;309					{								
+				;310						if(_rxak)//_rxak=1:slave send data,then master NACK;
+062F	3825	snz     RXAK
+0630	2E39	jmp     _L48
+				;311						{							
+				;312							_htx = 0;
+0631	3625	clr     HTX
+				;313							_txak = 0;	
+0632	35A5	clr     TXAK
+				;314							_acc = _simd;//dummy
+0633	0726	mov     a, SIMD
+0634	0085	mov     ACC, a
+				;315	
+				;316							I2C.WordAddr = 0x00;
+0635	5F3C	clr     I2C[0]
+				;317							I2C.SUM = 0;
+0636	5F3D	clr     I2C[1]
+				;318							I2C.TxNum = 0;
+0637	5F3E	clr     I2C[2]
+0638	2F05	jmp     _L33
+				;319						}
+				;320						else//_rxak=1:slave send data,then master ACK
+				;321						{				
+				;322							//slave continue to send data to master (second and next data).							
+				;323							switch(I2C.TxNum)
+				_L48:
+0639	473E	mov     a, I2C[2]
+063A	40CE	mov     _IIC_ISR_2, a
+063B	474E	mov     a, _IIC_ISR_2
+063C	0AA1	sub     a, A1H
+063D	3D0A	sz      Z
+063E	2E7B	jmp     _L50
+063F	0A01	sub     a, 1H
+0640	3D0A	sz      Z
+0641	2E7E	jmp     _L51
+0642	474E	mov     a, _IIC_ISR_2
+0643	0AB1	sub     a, B1H
+0644	3D0A	sz      Z
+0645	2E81	jmp     _L52
+0646	0A01	sub     a, 1H
+0647	3D0A	sz      Z
+0648	2E84	jmp     _L53
+0649	474E	mov     a, _IIC_ISR_2
+064A	0AB3	sub     a, B3H
+064B	3D0A	sz      Z
+064C	2E87	jmp     _L54
+064D	0A01	sub     a, 1H
+064E	3D0A	sz      Z
+064F	2E8A	jmp     _L55
+0650	474E	mov     a, _IIC_ISR_2
+0651	0AB5	sub     a, B5H
+0652	3D0A	sz      Z
+0653	2E8D	jmp     _L56
+0654	0A01	sub     a, 1H
+0655	3D0A	sz      Z
+0656	2E90	jmp     _L57
+0657	474E	mov     a, _IIC_ISR_2
+0658	0AB7	sub     a, B7H
+0659	3D0A	sz      Z
+065A	2E93	jmp     _L58
+065B	0A01	sub     a, 1H
+065C	3D0A	sz      Z
+065D	2E96	jmp     _L59
+065E	474E	mov     a, _IIC_ISR_2
+065F	0AB9	sub     a, B9H
+0660	3D0A	sz      Z
+0661	2E99	jmp     _L60
+0662	0A01	sub     a, 1H
+0663	3D0A	sz      Z
+0664	2E9C	jmp     _L61
+0665	474E	mov     a, _IIC_ISR_2
+0666	0ABB	sub     a, BBH
+0667	3D0A	sz      Z
+0668	2E9F	jmp     _L62
+0669	0A06	sub     a, 6H
+066A	3D0A	sz      Z
+066B	2EA2	jmp     _L63
+066C	474E	mov     a, _IIC_ISR_2
+066D	0AE1	sub     a, E1H
+066E	3D0A	sz      Z
+066F	2EA5	jmp     _L64
+0670	0A10	sub     a, 10H
+0671	3D0A	sz      Z
+0672	2E78	jmp     _L65
+0673	564E	siza    _IIC_ISR_2
+0674	2EA8	jmp     _L80
+				;324							{
+				;325			
+				;326							//	case 0xA0 :data = GLOBE_VARIES[0];break;
+				;327								case 0xA1 :data = GLOBE_VARIES[1];break;
+				_L50:
+067B	0761	mov     a, __sima[58]
+067C	40CD	mov     ra10, a
+067D	2EAA	jmp     _L49
+				;328								case 0xA2 :data = GLOBE_VARIES[2];break;
+				_L51:
+067E	0762	mov     a, __sima[59]
+067F	40CD	mov     ra10, a
+0680	2EAA	jmp     _L49
+				;329							//	case 0xB0 :data = GLOBE_VARIES[3];;break;
+				;330								case 0xB1 :data = GLOBE_VARIES[4];break;	
+				_L52:
+0681	0764	mov     a, __sima[61]
+0682	40CD	mov     ra10, a
+0683	2EAA	jmp     _L49
+				;331								case 0xB2 :data = GLOBE_VARIES[5];break; 
+				_L53:
+0684	0765	mov     a, __sima[62]
+0685	40CD	mov     ra10, a
+0686	2EAA	jmp     _L49
+				;332								case 0xB3 :data = GLOBE_VARIES[6];break;
+				_L54:
+0687	0766	mov     a, __sima[63]
+0688	40CD	mov     ra10, a
+0689	2EAA	jmp     _L49
+				;333								case 0xB4 :data = GLOBE_VARIES[7];break;
+				_L55:
+068A	0767	mov     a, __sima[64]
+068B	40CD	mov     ra10, a
+068C	2EAA	jmp     _L49
+				;334								case 0xB5 :data = GLOBE_VARIES[8];break;
+				_L56:
+068D	0768	mov     a, __sima[65]
+068E	40CD	mov     ra10, a
+068F	2EAA	jmp     _L49
+				;335								case 0xB6 :data = GLOBE_VARIES[9];break;
+				_L57:
+0690	0769	mov     a, __sima[66]
+0691	40CD	mov     ra10, a
+0692	2EAA	jmp     _L49
+				;336								case 0xB7 :data = GLOBE_VARIES[10];break;
+				_L58:
+0693	076A	mov     a, __sima[67]
+0694	40CD	mov     ra10, a
+0695	2EAA	jmp     _L49
+				;337								//case 0xD0 :data = MCU_STATE[0];break;
+				;338								//case 0xD1 :data = MCU_STATE[1];break;
+				;339	
+				;340								#ifndef	 BS83B08A	
+				;341								case 0xB8 :data = GLOBE_VARIES[11];break;
+				_L59:
+0696	076B	mov     a, __sima[68]
+0697	40CD	mov     ra10, a
+0698	2EAA	jmp     _L49
+				;342								case 0xB9 :data = GLOBE_VARIES[12];break;	
+				_L60:
+0699	076C	mov     a, __sima[69]
+069A	40CD	mov     ra10, a
+069B	2EAA	jmp     _L49
+				;343								case 0xBA :data = GLOBE_VARIES[13];break;	
+				_L61:
+069C	076D	mov     a, __sima[70]
+069D	40CD	mov     ra10, a
+069E	2EAA	jmp     _L49
+				;344								case 0xBB :data = GLOBE_VARIES[14];break;
+				_L62:
+069F	076E	mov     a, __sima[71]
+06A0	40CD	mov     ra10, a
+06A1	2EAA	jmp     _L49
+				;345								
+				;346									#ifdef	 BS83B16A
+				;347									case 0xBC :data = GLOBE_VARIES[15];break;
+				;348									case 0xBD :data = GLOBE_VARIES[16];break;
+				;349									case 0xBE :data = GLOBE_VARIES[17];break;
+				;350									case 0xBF :data = GLOBE_VARIES[18];break;
+				;351									#endif
+				;352								
+				;353							//	case 0xC0 :data = KEY_IO_SEL[0];break;
+				;354								case 0xC1 :data = KEY_IO_SEL[1];break;
+				_L63:
+06A2	077B	mov     a, __sima[84]
+06A3	40CD	mov     ra10, a
+06A4	2EAA	jmp     _L49
+				;355							//	case 0xE0 :data = KEY_DATA[0];break;
+				;356								case 0xE1 :data = KEY_DATA[1];break;
+				_L64:
+06A5	077D	mov     a, __sima[86]
+06A6	40CD	mov     ra10, a
+06A7	2EAA	jmp     _L49
+				;357							//	case 0xF0 :data =SYS_INF[0];break;
+				;358								#endif
+				;359							
+				;360								case 0xF1 :data = Version;break;	
+				_L65:
+0678	0F1C	mov     a, 1CH
+0679	40CD	mov     ra10, a
+067A	2EAA	jmp     _L49
+				;361								case 0xFF :data =~I2C.CRC_BUF;break;	
+0675	4141	cpla    I2C[5]
+0676	40CD	mov     ra10, a
+0677	2EAA	jmp     _L49
+				;362									
+				;363								default : data = 0xAA ;break;
+				_L80:
+06A8	0FAA	mov     a, AAH
+06A9	40CD	mov     ra10, a
+				;364							}	
+				;365							
+				;366							_simd = data;
+				_L49:
+06AA	474D	mov     a, ra10
+06AB	00A6	mov     SIMD, a
+				;367							
+				;368							I2C.CRC_BUF += data;
+06AC	474D	mov     a, ra10
+06AD	43C1	addm    a, I2C[5]
+				;369								
+				;370							I2C.TxNum++;
+				_L85:
+06AE	54BE	inc     I2C[2]
+				;371							if(I2C.TxNum >= I2C.SUM) 
+06AF	473E	mov     a, I2C[2]
+06B0	423D	sub     a, I2C[1]
+06B1	380A	snz     C
+06B2	2F05	jmp     _L33
+				;372								I2C.TxNum = 0xFF;
+06B3	5FBE	set     I2C[2]
+06B4	2F05	jmp     _L33
+				;373		
+				;374						}			
+				;375					}
+				;376					else//_htx=0:slave receive data for master
+				;377					{//for slave send data to master
+				;378						data = _simd;
+				_L47:
+06B5	0726	mov     a, SIMD
+06B6	40CD	mov     ra10, a
+				;379						_txak = 0;
+06B7	35A5	clr     TXAK
+				;380						
+				;381						if(I2C.RxNum < 1)
+06B8	50BF	sz      I2C[3]
+06B9	2EF0	jmp     _L68
+				;382						{
+				;383							//for slave send data to master
+				;384							//取地址
+				;385							I2C.WordAddr = data&0xf0;					
+06BA	474D	mov     a, ra10
+06BB	0EF0	and     a, F0H
+06BC	40BC	mov     I2C[0], a
+				;386		
+				;387						   	switch(I2C.WordAddr)
+06BD	473C	mov     a, I2C[0]
+06BE	40CE	mov     _IIC_ISR_2, a
+06BF	474E	mov     a, _IIC_ISR_2
+06C0	0AB0	sub     a, B0H
+06C1	3D0A	sz      Z
+06C2	2ED6	jmp     _L70
+06C3	0A10	sub     a, 10H
+06C4	3D0A	sz      Z
+06C5	2EDB	jmp     _L71
+06C6	474E	mov     a, _IIC_ISR_2
+06C7	0AD0	sub     a, D0H
+06C8	3D0A	sz      Z
+06C9	2EE0	jmp     _L72
+06CA	0A10	sub     a, 10H
+06CB	3D0A	sz      Z
+06CC	2EE5	jmp     _L73
+06CD	474E	mov     a, _IIC_ISR_2
+06CE	0AF0	sub     a, F0H
+06CF	390A	snz     Z
+06D0	2EEA	jmp     _L81
+				;388							{	
+				;389						//		case 0xA0 :I2C.SUM = IC_PAGE_SIZS[0];I2C.TxNum = IC_PAGE_HEAD[0];break;
+				;390								case 0xB0 :I2C.SUM = IC_PAGE_SIZS[1];I2C.TxNum = IC_PAGE_HEAD[1];break;
+				_L70:
+06D6	0F0C	mov     a, CH
+06D7	40BD	mov     I2C[1], a
+06D8	0FB0	mov     a, B0H
+06D9	40BE	mov     I2C[2], a
+06DA	2EEE	jmp     _L75
+				;391								case 0xC0 :I2C.SUM = IC_PAGE_SIZS[2];I2C.TxNum = IC_PAGE_HEAD[2];break;
+				_L71:
+06DB	0F02	mov     a, 2H
+06DC	40BD	mov     I2C[1], a
+06DD	0FC0	mov     a, C0H
+06DE	40BE	mov     I2C[2], a
+06DF	2EEE	jmp     _L75
+				;392								case 0xD0 :I2C.SUM = IC_PAGE_SIZS[3];I2C.TxNum = IC_PAGE_HEAD[3];break;
+				_L72:
+06E0	0F01	mov     a, 1H
+06E1	40BD	mov     I2C[1], a
+06E2	0FD0	mov     a, D0H
+06E3	40BE	mov     I2C[2], a
+06E4	2EEE	jmp     _L75
+				;393								case 0xE0 :I2C.SUM = IC_PAGE_SIZS[4];I2C.TxNum = IC_PAGE_HEAD[4];break;
+				_L73:
+06E5	0F02	mov     a, 2H
+06E6	40BD	mov     I2C[1], a
+06E7	0FE0	mov     a, E0H
+06E8	40BE	mov     I2C[2], a
+06E9	2EEE	jmp     _L75
+				;394								case 0xF0 :I2C.SUM = IC_PAGE_SIZS[5];I2C.TxNum = IC_PAGE_HEAD[5];break;
+06D1	0F02	mov     a, 2H
+06D2	40BD	mov     I2C[1], a
+06D3	0FF0	mov     a, F0H
+06D4	40BE	mov     I2C[2], a
+06D5	2EEE	jmp     _L75
+				;395								default   :I2C.SUM = IC_PAGE_SIZS[0];I2C.TxNum = IC_PAGE_HEAD[0];break;
+				_L81:
+06EA	0F03	mov     a, 3H
+06EB	40BD	mov     I2C[1], a
+06EC	0FA0	mov     a, A0H
+06ED	40BE	mov     I2C[2], a
+				;396							}
+				;397							I2C.CRC_BUF = 0;
+				_L75:
+06EE	5F41	clr     I2C[5]
+06EF	2F04	jmp     _L82
+				;398							I2C.RxNum++;
+				;399	
+				;400						}
+				;401						else if(I2C.RxNum <= I2C.SUM)
+				_L68:
+06F0	473D	mov     a, I2C[1]
+06F1	423F	sub     a, I2C[3]
+06F2	380A	snz     C
+06F3	2F01	jmp     _L76
+				;402							 { 
+				;403								I2C_Data[I2C.RxNum - 1] = data;
+06F4	0FAF	mov     a, AFH
+06F5	433F	add     a, I2C[3]
+06F6	0083	mov     MP1, a
+06F7	0F00	mov     a, 0H
+06F8	1F01	clr     MP0
+06F9	1381	adcm    a, MP0
+06FA	0701	mov     a, MP0
+06FB	0084	mov     BP, a
+06FC	474D	mov     a, ra10
+06FD	0082	mov     [02H], a
+				;404								I2C.CRC_BUF += data;
+06FE	474D	mov     a, ra10
+06FF	43C1	addm    a, I2C[5]
+0700	2F04	jmp     _L82
+				;405								I2C.RxNum++;
+				;406							 }
+				;407							 else 
+				;408							 {
+				;409							 	I2C.CRC = data;
+				_L76:
+0701	474D	mov     a, ra10
+0702	40C0	mov     I2C[4], a
+				;410							 	FLAG_End = TRUE;
+0703	70C2	set     FLAG[0].1
+				;411							 	I2C.RxNum++;
+				_L82:
+0704	54BF	inc     I2C[3]
+				_L33:
+0705	4749	mov     a, r210
+0706	0084	mov     BP, a
+0707	474A	mov     a, r310
+0708	008A	mov     STATUS, a
+0709	474B	mov     a, r410
+070A	0083	mov     MP1, a
+070B	474C	mov     a, r510
+070C	0081	mov     MP0, a
+070D	4748	mov     a, r110
+070E	0004	reti
+070F	1483	inc     MP1
+				L0710:
+0710	3F81	sz      MP0.7
+0711	2F16	jmp     L0716
+0712	0701	mov     a, MP0
+0713	0084	mov     BP, a
+0714	0702	mov     a, [02H]
+0715	0003	ret
+				L0716:
+0716	1B01	rrca    MP0
+0717	0E3F	and     a, 3FH
+0718	0089	mov     TBHP, a
+0719	1B03	rrca    MP1
+071A	0087	mov     TBLP, a
+071B	1D05	tabrd   ACC
+071C	3C0A	sz      C
+071D	0708	mov     a, TBLH
+071E	0003	ret
+				;412							 }
+				;413							 
+				;414							
+				;415					}		
+				;416				}
+				;417			}	
+				;418	}
+				;419	
+				;420	
+				;421	
+				;422	
+				;423	//void __attribute((interrupt(0x0c))) ISR_tmr0 (void)
+				;424	//{		
+				;425	////	LED1 = ~LED1;		
+				;426	//			
+				;427	//	//----------------------------------------------------
+				;428	//	if(Cnt20ms > 0)//20ms 计数器
+				;429	//	{				
+				;430	//			Cnt20ms--;
+				;431	//	}
+				;432	//	else
+				;433	//	{
+				;434	//			Cnt20ms = 19;	
+				;435	//			Flag20ms = 1;			//20ms 标志 26MS
+				;436	//	}	
+				;437	//}
+				;438	
+				;439	
+				data .SECTION 'DATA'
+				__acc DB DUP (?) ; __acc
+				__intc0 DB DUP (?) ; __intc0
+				__intc1 DB DUP (?) ; __intc1
+				__pa DB DUP (?) ; __pa
+				__pac DB DUP (?) ; __pac
+				__papu DB DUP (?) ; __papu
+				__pawu DB DUP (?) ; __pawu
+				__wdtc DB DUP (?) ; __wdtc
+				__i2ctoc DB DUP (?) ; __i2ctoc
+				__simc0 DB DUP (?) ; __simc0
+				__simc1 DB DUP (?) ; __simc1
+				__simd DB DUP (?) ; __simd
+				__sima DB DUP (?) ; __sima
+				I2C_STATE DB DUP (?) ; I2C_STATE
+				MCU_STATE DB DUP (?) ; MCU_STATE
+				I2C_Data DB DUP (?) ; I2C_Data
+				I2C DB DUP (?) ; I2C
+				FLAG DB DUP (?) ; FLAG
+				POR_ID DB DUP (?) ; POR_ID
+				ra DB DUP (?)
+				rb DB DUP (?)
+				rc DB DUP (?)
+				r110 DB DUP (?)
+				r210 DB DUP (?)
+				r310 DB DUP (?)
+				r410 DB DUP (?)
+				r510 DB DUP (?)
+				ra10 DB DUP (?)
+				_IIC_ISR_2 DB DUP (?)
+				_DATA_LIST_UPDATA_2 DB DUP (?)
