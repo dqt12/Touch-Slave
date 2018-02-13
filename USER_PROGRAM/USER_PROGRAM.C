@@ -363,13 +363,16 @@ void __attribute((interrupt(0x10))) IIC_ISR(void)
 							case 0xB6 :data = GLOBE_VARIES[9];break;
 							case 0xB7 :data = GLOBE_VARIES[10];break;
 
-							#ifndef	 BS83B08A	
+							#if (USE_MCU_TYPE == BS83B12A) || \
+								(USE_MCU_TYPE == BS83B16A)	
 							case 0xB8 :data = GLOBE_VARIES[11];break;
 							case 0xB9 :data = GLOBE_VARIES[12];break;	
 							case 0xBA :data = GLOBE_VARIES[13];break;	
 							case 0xBB :data = GLOBE_VARIES[14];break;
 							
-								#ifdef	 BS83B16A
+							
+								
+								#if (USE_MCU_TYPE == BS83B16A)
 								case 0xBC :data = GLOBE_VARIES[15];break;
 								case 0xBD :data = GLOBE_VARIES[16];break;
 								case 0xBE :data = GLOBE_VARIES[17];break;

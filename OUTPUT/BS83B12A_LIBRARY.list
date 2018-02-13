@@ -697,7 +697,7 @@
 0530	0F8A	mov     a, 8AH
 0531	1F01	clr     MP0
 0532	1381	adcm    a, MP0
-0533	26EF	call    L06EF
+0533	271D	call    L071D
 0534	40C1	mov     I2C[1], a
 				;76		
 				;77	   	switch(I2C.WordAddr)//取頁數據的指針
@@ -771,7 +771,7 @@
 055F	0F00	mov     a, 0H
 0560	1F01	clr     MP0
 0561	1381	adcm    a, MP0
-0562	26EF	call    L06EF
+0562	271D	call    L071D
 0563	40C9	mov     ra, a
 0564	4743	mov     a, I2C[3]
 0565	434A	add     a, rb
@@ -1025,7 +1025,7 @@
 05C0	0F8A	mov     a, 8AH
 05C1	1F01	clr     MP0
 05C2	1381	adcm    a, MP0
-05C3	26EF	call    L06EF
+05C3	271D	call    L071D
 05C4	40C9	mov     ra, a
 05C5	4743	mov     a, I2C[3]
 05C6	4249	sub     a, ra
@@ -2326,7 +2326,7 @@
 05E6	3723	clr     I2CTOF
 				;280	 		FLAG_I2C_Err = TRUE;
 05E7	7046	set     FLAG[0].0
-05E8	2EE4	jmp     L06E4
+05E8	2F12	jmp     L0712
 				;281	 	}
 				;282	 	else 
 				;283	 		{
@@ -2434,7 +2434,7 @@
 				;314						I2C.SUM += I2C.TxNum;
 0627	4742	mov     a, I2C[2]
 0628	43C1	addm    a, I2C[1]
-0629	2E8D	jmp     L068D
+0629	2EBB	jmp     L06BB
 				;315						
 				;316						I2C.TxNum++;
 				;317						if(I2C.TxNum >= I2C.SUM) 
@@ -2459,7 +2459,7 @@
 0630	5F41	clr     I2C[1]
 				;329							FLAG_I2C_End = FALSE;
 0631	74C6	clr     FLAG[0].1
-0632	2EE4	jmp     L06E4
+0632	2F12	jmp     L0712
 				;330						} 
 				;331				}
 				;332				else//_haas=0:slave receive SLAVE_ADDR match,then communication data 
@@ -2468,7 +2468,7 @@
 				;335					if(_htx)//_htx=1:slave send data to master
 				L0633:
 0633	3A25	snz     HTX
-0634	2E94	jmp     L0694
+0634	2EC2	jmp     L06C2
 				;336					{								
 				;337						if(_rxak)//_rxak=1:slave send data,then master NACK;
 0635	3825	snz     RXAK
@@ -2488,7 +2488,7 @@
 063C	5F41	clr     I2C[1]
 				;345							I2C.TxNum = 0;
 063D	5F42	clr     I2C[2]
-063E	2EE4	jmp     L06E4
+063E	2F12	jmp     L0712
 				;346						}
 				;347						else//_rxak=1:slave send data,then master ACK
 				;348						{				
@@ -2500,339 +2500,395 @@
 0641	4752	mov     a, data[1]
 0642	0AA1	sub     a, A1H
 0643	3D0A	sz      Z
-0644	2E69	jmp     L0669
+0644	2E82	jmp     L0682
 0645	0A01	sub     a, 1H
 0646	3D0A	sz      Z
-0647	2E6C	jmp     L066C
+0647	2E85	jmp     L0685
 0648	4752	mov     a, data[1]
 0649	0AB1	sub     a, B1H
 064A	3D0A	sz      Z
-064B	2E6F	jmp     L066F
+064B	2E88	jmp     L0688
 064C	0A01	sub     a, 1H
 064D	3D0A	sz      Z
-064E	2E72	jmp     L0672
+064E	2E8B	jmp     L068B
 064F	4752	mov     a, data[1]
 0650	0AB3	sub     a, B3H
 0651	3D0A	sz      Z
-0652	2E75	jmp     L0675
+0652	2E8E	jmp     L068E
 0653	0A01	sub     a, 1H
 0654	3D0A	sz      Z
-0655	2E78	jmp     L0678
+0655	2E91	jmp     L0691
 0656	4752	mov     a, data[1]
 0657	0AB5	sub     a, B5H
 0658	3D0A	sz      Z
-0659	2E7B	jmp     L067B
+0659	2E94	jmp     L0694
 065A	0A01	sub     a, 1H
 065B	3D0A	sz      Z
-065C	2E7E	jmp     L067E
+065C	2E97	jmp     L0697
 065D	4752	mov     a, data[1]
 065E	0AB7	sub     a, B7H
 065F	3D0A	sz      Z
-0660	2E81	jmp     L0681
-0661	0A3A	sub     a, 3AH
+0660	2E9A	jmp     L069A
+0661	0A01	sub     a, 1H
 0662	3D0A	sz      Z
-0663	2E84	jmp     L0684
-0664	5652	siza    data[1]
-0665	2E87	jmp     L0687
+0663	2E9D	jmp     L069D
+0664	4752	mov     a, data[1]
+0665	0AB9	sub     a, B9H
+0666	3D0A	sz      Z
+0667	2EA0	jmp     L06A0
+0668	0A01	sub     a, 1H
+0669	3D0A	sz      Z
+066A	2EA3	jmp     L06A3
+066B	4752	mov     a, data[1]
+066C	0ABB	sub     a, BBH
+066D	3D0A	sz      Z
+066E	2EA6	jmp     L06A6
+066F	0A06	sub     a, 6H
+0670	3D0A	sz      Z
+0671	2EA9	jmp     L06A9
+0672	4752	mov     a, data[1]
+0673	0AD1	sub     a, D1H
+0674	3D0A	sz      Z
+0675	2EAC	jmp     L06AC
+0676	0A10	sub     a, 10H
+0677	3D0A	sz      Z
+0678	2EAF	jmp     L06AF
+0679	4752	mov     a, data[1]
+067A	0AF1	sub     a, F1H
+067B	3D0A	sz      Z
+067C	2EB2	jmp     L06B2
+067D	5652	siza    data[1]
+067E	2EB5	jmp     L06B5
 				;351							{
 				;352			
 				;353							//	case 0xA0 :data = GLOBE_VARIES[0];break;
 				;354								case 0xA1 :data = GLOBE_VARIES[1];break;
-				L0669:
-0669	0761	mov     a, __sima[58]
-066A	40D1	mov     data[0], a
-066B	2E89	jmp     L0689
+				L0682:
+0682	0761	mov     a, __sima[58]
+0683	40D1	mov     data[0], a
+0684	2EB7	jmp     L06B7
 				;355								case 0xA2 :data = GLOBE_VARIES[2];break;
-				L066C:
-066C	0762	mov     a, __sima[59]
-066D	40D1	mov     data[0], a
-066E	2E89	jmp     L0689
+				L0685:
+0685	0762	mov     a, __sima[59]
+0686	40D1	mov     data[0], a
+0687	2EB7	jmp     L06B7
 				;356								
 				;357							//	case 0xB0 :data = GLOBE_VARIES[3];;break;
 				;358								case 0xB1 :data = GLOBE_VARIES[4];break;	
-				L066F:
-066F	0764	mov     a, __sima[61]
-0670	40D1	mov     data[0], a
-0671	2E89	jmp     L0689
+				L0688:
+0688	0764	mov     a, __sima[61]
+0689	40D1	mov     data[0], a
+068A	2EB7	jmp     L06B7
 				;359								case 0xB2 :data = GLOBE_VARIES[5];break; 
-				L0672:
-0672	0765	mov     a, __sima[62]
-0673	40D1	mov     data[0], a
-0674	2E89	jmp     L0689
+				L068B:
+068B	0765	mov     a, __sima[62]
+068C	40D1	mov     data[0], a
+068D	2EB7	jmp     L06B7
 				;360								case 0xB3 :data = GLOBE_VARIES[6];break;
-				L0675:
-0675	0766	mov     a, __sima[63]
-0676	40D1	mov     data[0], a
-0677	2E89	jmp     L0689
+				L068E:
+068E	0766	mov     a, __sima[63]
+068F	40D1	mov     data[0], a
+0690	2EB7	jmp     L06B7
 				;361								case 0xB4 :data = GLOBE_VARIES[7];break;
-				L0678:
-0678	0767	mov     a, __sima[64]
-0679	40D1	mov     data[0], a
-067A	2E89	jmp     L0689
+				L0691:
+0691	0767	mov     a, __sima[64]
+0692	40D1	mov     data[0], a
+0693	2EB7	jmp     L06B7
 				;362								case 0xB5 :data = GLOBE_VARIES[8];break;
-				L067B:
-067B	0768	mov     a, __sima[65]
-067C	40D1	mov     data[0], a
-067D	2E89	jmp     L0689
-				;363								case 0xB6 :data = GLOBE_VARIES[9];break;
-				L067E:
-067E	0769	mov     a, __sima[66]
-067F	40D1	mov     data[0], a
-0680	2E89	jmp     L0689
-				;364								case 0xB7 :data = GLOBE_VARIES[10];break;
-				L0681:
-0681	076A	mov     a, __sima[67]
-0682	40D1	mov     data[0], a
-0683	2E89	jmp     L0689
-				;365	
-				;366								#ifndef	 BS83B08A	
-				;367								case 0xB8 :data = GLOBE_VARIES[11];break;
-				;368								case 0xB9 :data = GLOBE_VARIES[12];break;	
-				;369								case 0xBA :data = GLOBE_VARIES[13];break;	
-				;370								case 0xBB :data = GLOBE_VARIES[14];break;
-				;371								
-				;372									#ifdef	 BS83B16A
-				;373									case 0xBC :data = GLOBE_VARIES[15];break;
-				;374									case 0xBD :data = GLOBE_VARIES[16];break;
-				;375									case 0xBE :data = GLOBE_VARIES[17];break;
-				;376									case 0xBF :data = GLOBE_VARIES[18];break;
-				;377									#endif
-				;378								
-				;379							//	case 0xC0 :data = KEY_IO_SEL[0];break;
-				;380								case 0xC1 :data = KEY_IO_SEL[1];break;
-				;381								
-				;382							//	case 0xD0 :data = MCU_INF[0];break;
-				;383								case 0xD1 :data = MCU_INF[1];break;
-				;384								
-				;385							//	case 0xE0 :data = KEY_DATA[0];break;
-				;386								case 0xE1 :data = KEY_DATA[1];break;
-				;387							
-				;388								#endif
-				;389					
-				;390							//	case 0xF0 :data =SYS_INF[0];break;
-				;391								case 0xF1 :data = SYS_INF[1];break;	
-				L0684:
-0684	472F	mov     a, SYS_INF[1]
-0685	40D1	mov     data[0], a
-0686	2E89	jmp     L0689
-				;392								
-				;393								case 0xFF :data =~I2C.CheckSum_Buf;break;	
-0666	4145	cpla    I2C[5]
-0667	40D1	mov     data[0], a
-0668	2E89	jmp     L0689
-				;394									
-				;395								default : data = 0xAA ;break;
-				L0687:
-0687	0FAA	mov     a, AAH
-0688	40D1	mov     data[0], a
-				;396							}	
-				;397							
-				;398							_simd = data;
-				L0689:
-0689	4751	mov     a, data[0]
-068A	00A6	mov     SIMD, a
-				;399							
-				;400							I2C.CheckSum_Buf += data;
-068B	4751	mov     a, data[0]
-068C	43C5	addm    a, I2C[5]
-				;401								
-				;402							I2C.TxNum++;
-				L068D:
-068D	54C2	inc     I2C[2]
-				;403							if(I2C.TxNum >= I2C.SUM) 
-068E	4742	mov     a, I2C[2]
-068F	4241	sub     a, I2C[1]
-0690	380A	snz     C
-0691	2EE4	jmp     L06E4
-				;404								I2C.TxNum = 0xFF;
-0692	5FC2	set     I2C[2]
-0693	2EE4	jmp     L06E4
-				;405		
-				;406						}			
-				;407					}
-				;408					else//_htx=0:slave receive data for master
-				;409					{//for slave send data to master
-				;410						data = _simd;
 				L0694:
-0694	0726	mov     a, SIMD
+0694	0768	mov     a, __sima[65]
 0695	40D1	mov     data[0], a
-				;411						_txak = 0;
-0696	35A5	clr     TXAK
-				;412						
-				;413						if(I2C.RxNum < 1)
-0697	50C3	sz      I2C[3]
-0698	2ECF	jmp     L06CF
-				;414						{
-				;415							//for slave send data to master
-				;416							//取地址
-				;417							I2C.WordAddr = data&0xf0;					
-0699	4751	mov     a, data[0]
-069A	0EF0	and     a, F0H
-069B	40C0	mov     I2C[0], a
-				;418		
-				;419						   	switch(I2C.WordAddr)
-069C	4740	mov     a, I2C[0]
-069D	40D2	mov     data[1], a
-069E	4752	mov     a, data[1]
-069F	0AB0	sub     a, B0H
-06A0	3D0A	sz      Z
-06A1	2EB5	jmp     L06B5
-06A2	0A10	sub     a, 10H
-06A3	3D0A	sz      Z
-06A4	2EBA	jmp     L06BA
-06A5	4752	mov     a, data[1]
-06A6	0AD0	sub     a, D0H
-06A7	3D0A	sz      Z
-06A8	2EBF	jmp     L06BF
-06A9	0A10	sub     a, 10H
-06AA	3D0A	sz      Z
-06AB	2EC4	jmp     L06C4
-06AC	4752	mov     a, data[1]
-06AD	0AF0	sub     a, F0H
-06AE	390A	snz     Z
-06AF	2EC9	jmp     L06C9
-				;420							{	
-				;421						//		case 0xA0 :I2C.SUM = IC_PAGE_SIZS[0];I2C.TxNum = IC_PAGE_HEAD[0];break;
-				;422								case 0xB0 :I2C.SUM = IC_PAGE_SIZS[1];I2C.TxNum = IC_PAGE_HEAD[1];break;
+0696	2EB7	jmp     L06B7
+				;363								case 0xB6 :data = GLOBE_VARIES[9];break;
+				L0697:
+0697	0769	mov     a, __sima[66]
+0698	40D1	mov     data[0], a
+0699	2EB7	jmp     L06B7
+				;364								case 0xB7 :data = GLOBE_VARIES[10];break;
+				L069A:
+069A	076A	mov     a, __sima[67]
+069B	40D1	mov     data[0], a
+069C	2EB7	jmp     L06B7
+				;365	
+				;366								#if (USE_MCU_TYPE == BS83B12A) || \
+				;367									(USE_MCU_TYPE == BS83B16A)	
+				;368								case 0xB8 :data = GLOBE_VARIES[11];break;
+				L069D:
+069D	076B	mov     a, __sima[68]
+069E	40D1	mov     data[0], a
+069F	2EB7	jmp     L06B7
+				;369								case 0xB9 :data = GLOBE_VARIES[12];break;	
+				L06A0:
+06A0	076C	mov     a, __sima[69]
+06A1	40D1	mov     data[0], a
+06A2	2EB7	jmp     L06B7
+				;370								case 0xBA :data = GLOBE_VARIES[13];break;	
+				L06A3:
+06A3	076D	mov     a, __sima[70]
+06A4	40D1	mov     data[0], a
+06A5	2EB7	jmp     L06B7
+				;371								case 0xBB :data = GLOBE_VARIES[14];break;
+				L06A6:
+06A6	076E	mov     a, __sima[71]
+06A7	40D1	mov     data[0], a
+06A8	2EB7	jmp     L06B7
+				;372								
+				;373								
+				;374									
+				;375									#if (USE_MCU_TYPE == BS83B16A)
+				;376									case 0xBC :data = GLOBE_VARIES[15];break;
+				;377									case 0xBD :data = GLOBE_VARIES[16];break;
+				;378									case 0xBE :data = GLOBE_VARIES[17];break;
+				;379									case 0xBF :data = GLOBE_VARIES[18];break;
+				;380									#endif
+				;381								
+				;382							//	case 0xC0 :data = KEY_IO_SEL[0];break;
+				;383								case 0xC1 :data = KEY_IO_SEL[1];break;
+				L06A9:
+06A9	077B	mov     a, __sima[84]
+06AA	40D1	mov     data[0], a
+06AB	2EB7	jmp     L06B7
+				;384								
+				;385							//	case 0xD0 :data = MCU_INF[0];break;
+				;386								case 0xD1 :data = MCU_INF[1];break;
+				L06AC:
+06AC	4732	mov     a, MCU_INF[1]
+06AD	40D1	mov     data[0], a
+06AE	2EB7	jmp     L06B7
+				;387								
+				;388							//	case 0xE0 :data = KEY_DATA[0];break;
+				;389								case 0xE1 :data = KEY_DATA[1];break;
+				L06AF:
+06AF	077D	mov     a, __sima[86]
+06B0	40D1	mov     data[0], a
+06B1	2EB7	jmp     L06B7
+				;390							
+				;391								#endif
+				;392					
+				;393							//	case 0xF0 :data =SYS_INF[0];break;
+				;394								case 0xF1 :data = SYS_INF[1];break;	
+				L06B2:
+06B2	472F	mov     a, SYS_INF[1]
+06B3	40D1	mov     data[0], a
+06B4	2EB7	jmp     L06B7
+				;395								
+				;396								case 0xFF :data =~I2C.CheckSum_Buf;break;	
+067F	4145	cpla    I2C[5]
+0680	40D1	mov     data[0], a
+0681	2EB7	jmp     L06B7
+				;397									
+				;398								default : data = 0xAA ;break;
 				L06B5:
-06B5	0F0C	mov     a, CH
-06B6	40C1	mov     I2C[1], a
-06B7	0FB0	mov     a, B0H
-06B8	40C2	mov     I2C[2], a
-06B9	2ECD	jmp     L06CD
-				;423								case 0xC0 :I2C.SUM = IC_PAGE_SIZS[2];I2C.TxNum = IC_PAGE_HEAD[2];break;
-				L06BA:
-06BA	0F02	mov     a, 2H
-06BB	40C1	mov     I2C[1], a
-06BC	0FC0	mov     a, C0H
-06BD	40C2	mov     I2C[2], a
-06BE	2ECD	jmp     L06CD
-				;424								case 0xD0 :I2C.SUM = IC_PAGE_SIZS[3];I2C.TxNum = IC_PAGE_HEAD[3];break;
-				L06BF:
-06BF	0F02	mov     a, 2H
-06C0	40C1	mov     I2C[1], a
-06C1	0FD0	mov     a, D0H
-06C2	40C2	mov     I2C[2], a
-06C3	2ECD	jmp     L06CD
-				;425								case 0xE0 :I2C.SUM = IC_PAGE_SIZS[4];I2C.TxNum = IC_PAGE_HEAD[4];break;
-				L06C4:
-06C4	0F02	mov     a, 2H
-06C5	40C1	mov     I2C[1], a
-06C6	0FE0	mov     a, E0H
-06C7	40C2	mov     I2C[2], a
-06C8	2ECD	jmp     L06CD
-				;426								case 0xF0 :I2C.SUM = IC_PAGE_SIZS[5];I2C.TxNum = IC_PAGE_HEAD[5];break;
-06B0	0F02	mov     a, 2H
-06B1	40C1	mov     I2C[1], a
-06B2	0FF0	mov     a, F0H
-06B3	40C2	mov     I2C[2], a
-06B4	2ECD	jmp     L06CD
-				;427								default   :I2C.SUM = IC_PAGE_SIZS[0];I2C.TxNum = IC_PAGE_HEAD[0];break;
-				L06C9:
-06C9	0F03	mov     a, 3H
-06CA	40C1	mov     I2C[1], a
-06CB	0FA0	mov     a, A0H
-06CC	40C2	mov     I2C[2], a
-				;428							}
-				;429							I2C.CheckSum_Buf = 0;
-				L06CD:
-06CD	5F45	clr     I2C[5]
-06CE	2EE3	jmp     L06E3
-				;430							I2C.RxNum++;
-				;431	
-				;432						}
-				;433						else if(I2C.RxNum <= I2C.SUM)
-				L06CF:
-06CF	4741	mov     a, I2C[1]
-06D0	4243	sub     a, I2C[3]
-06D1	380A	snz     C
-06D2	2EE0	jmp     L06E0
-				;434							 { 
-				;435								I2C_Data[I2C.RxNum - 1] = data;
-06D3	0FB3	mov     a, B3H
-06D4	4343	add     a, I2C[3]
-06D5	0083	mov     MP1, a
-06D6	0F00	mov     a, 0H
-06D7	1F01	clr     MP0
-06D8	1381	adcm    a, MP0
-06D9	0701	mov     a, MP0
-06DA	0084	mov     BP, a
-06DB	4751	mov     a, data[0]
-06DC	0082	mov     [02H], a
-				;436								I2C.CheckSum_Buf += data;
-06DD	4751	mov     a, data[0]
-06DE	43C5	addm    a, I2C[5]
-06DF	2EE3	jmp     L06E3
-				;437								I2C.RxNum++;
-				;438							 }
-				;439							 else 
-				;440							 {
-				;441							 	I2C.CheckSum = data;
-				L06E0:
-06E0	4751	mov     a, data[0]
-06E1	40C4	mov     I2C[4], a
-				;442							 	FLAG_I2C_End = TRUE;
-06E2	70C6	set     FLAG[0].1
-				;443							 	I2C.RxNum++;
+06B5	0FAA	mov     a, AAH
+06B6	40D1	mov     data[0], a
+				;399							}	
+				;400							
+				;401							_simd = data;
+				L06B7:
+06B7	4751	mov     a, data[0]
+06B8	00A6	mov     SIMD, a
+				;402							
+				;403							I2C.CheckSum_Buf += data;
+06B9	4751	mov     a, data[0]
+06BA	43C5	addm    a, I2C[5]
+				;404								
+				;405							I2C.TxNum++;
+				L06BB:
+06BB	54C2	inc     I2C[2]
+				;406							if(I2C.TxNum >= I2C.SUM) 
+06BC	4742	mov     a, I2C[2]
+06BD	4241	sub     a, I2C[1]
+06BE	380A	snz     C
+06BF	2F12	jmp     L0712
+				;407								I2C.TxNum = 0xFF;
+06C0	5FC2	set     I2C[2]
+06C1	2F12	jmp     L0712
+				;408		
+				;409						}			
+				;410					}
+				;411					else//_htx=0:slave receive data for master
+				;412					{//for slave send data to master
+				;413						data = _simd;
+				L06C2:
+06C2	0726	mov     a, SIMD
+06C3	40D1	mov     data[0], a
+				;414						_txak = 0;
+06C4	35A5	clr     TXAK
+				;415						
+				;416						if(I2C.RxNum < 1)
+06C5	50C3	sz      I2C[3]
+06C6	2EFD	jmp     L06FD
+				;417						{
+				;418							//for slave send data to master
+				;419							//取地址
+				;420							I2C.WordAddr = data&0xf0;					
+06C7	4751	mov     a, data[0]
+06C8	0EF0	and     a, F0H
+06C9	40C0	mov     I2C[0], a
+				;421		
+				;422						   	switch(I2C.WordAddr)
+06CA	4740	mov     a, I2C[0]
+06CB	40D2	mov     data[1], a
+06CC	4752	mov     a, data[1]
+06CD	0AB0	sub     a, B0H
+06CE	3D0A	sz      Z
+06CF	2EE3	jmp     L06E3
+06D0	0A10	sub     a, 10H
+06D1	3D0A	sz      Z
+06D2	2EE8	jmp     L06E8
+06D3	4752	mov     a, data[1]
+06D4	0AD0	sub     a, D0H
+06D5	3D0A	sz      Z
+06D6	2EED	jmp     L06ED
+06D7	0A10	sub     a, 10H
+06D8	3D0A	sz      Z
+06D9	2EF2	jmp     L06F2
+06DA	4752	mov     a, data[1]
+06DB	0AF0	sub     a, F0H
+06DC	390A	snz     Z
+06DD	2EF7	jmp     L06F7
+				;423							{	
+				;424						//		case 0xA0 :I2C.SUM = IC_PAGE_SIZS[0];I2C.TxNum = IC_PAGE_HEAD[0];break;
+				;425								case 0xB0 :I2C.SUM = IC_PAGE_SIZS[1];I2C.TxNum = IC_PAGE_HEAD[1];break;
 				L06E3:
-06E3	54C3	inc     I2C[3]
-				L06E4:
-06E4	474D	mov     a, r210
-06E5	0084	mov     BP, a
-06E6	474E	mov     a, r310
-06E7	008A	mov     STATUS, a
-06E8	474F	mov     a, r410
-06E9	0083	mov     MP1, a
-06EA	4750	mov     a, r510
-06EB	0081	mov     MP0, a
-06EC	474C	mov     a, r110
-06ED	0004	reti
-06EE	1483	inc     MP1
-				L06EF:
-06EF	3F81	sz      MP0.7
-06F0	2EF5	jmp     L06F5
-06F1	0701	mov     a, MP0
-06F2	0084	mov     BP, a
-06F3	0702	mov     a, [02H]
-06F4	0003	ret
-				L06F5:
-06F5	1B01	rrca    MP0
-06F6	0E3F	and     a, 3FH
-06F7	0089	mov     TBHP, a
-06F8	1B03	rrca    MP1
-06F9	0087	mov     TBLP, a
-06FA	1D05	tabrd   ACC
-06FB	3C0A	sz      C
-06FC	0708	mov     a, TBLH
-06FD	0003	ret
-				;444							 }
-				;445							 
-				;446							
-				;447					}		
-				;448				}
-				;449			}	
-				;450	}
-				;451	
-				;452	
-				;453	
+06E3	0F0C	mov     a, CH
+06E4	40C1	mov     I2C[1], a
+06E5	0FB0	mov     a, B0H
+06E6	40C2	mov     I2C[2], a
+06E7	2EFB	jmp     L06FB
+				;426								case 0xC0 :I2C.SUM = IC_PAGE_SIZS[2];I2C.TxNum = IC_PAGE_HEAD[2];break;
+				L06E8:
+06E8	0F02	mov     a, 2H
+06E9	40C1	mov     I2C[1], a
+06EA	0FC0	mov     a, C0H
+06EB	40C2	mov     I2C[2], a
+06EC	2EFB	jmp     L06FB
+				;427								case 0xD0 :I2C.SUM = IC_PAGE_SIZS[3];I2C.TxNum = IC_PAGE_HEAD[3];break;
+				L06ED:
+06ED	0F02	mov     a, 2H
+06EE	40C1	mov     I2C[1], a
+06EF	0FD0	mov     a, D0H
+06F0	40C2	mov     I2C[2], a
+06F1	2EFB	jmp     L06FB
+				;428								case 0xE0 :I2C.SUM = IC_PAGE_SIZS[4];I2C.TxNum = IC_PAGE_HEAD[4];break;
+				L06F2:
+06F2	0F02	mov     a, 2H
+06F3	40C1	mov     I2C[1], a
+06F4	0FE0	mov     a, E0H
+06F5	40C2	mov     I2C[2], a
+06F6	2EFB	jmp     L06FB
+				;429								case 0xF0 :I2C.SUM = IC_PAGE_SIZS[5];I2C.TxNum = IC_PAGE_HEAD[5];break;
+06DE	0F02	mov     a, 2H
+06DF	40C1	mov     I2C[1], a
+06E0	0FF0	mov     a, F0H
+06E1	40C2	mov     I2C[2], a
+06E2	2EFB	jmp     L06FB
+				;430								default   :I2C.SUM = IC_PAGE_SIZS[0];I2C.TxNum = IC_PAGE_HEAD[0];break;
+				L06F7:
+06F7	0F03	mov     a, 3H
+06F8	40C1	mov     I2C[1], a
+06F9	0FA0	mov     a, A0H
+06FA	40C2	mov     I2C[2], a
+				;431							}
+				;432							I2C.CheckSum_Buf = 0;
+				L06FB:
+06FB	5F45	clr     I2C[5]
+06FC	2F11	jmp     L0711
+				;433							I2C.RxNum++;
+				;434	
+				;435						}
+				;436						else if(I2C.RxNum <= I2C.SUM)
+				L06FD:
+06FD	4741	mov     a, I2C[1]
+06FE	4243	sub     a, I2C[3]
+06FF	380A	snz     C
+0700	2F0E	jmp     L070E
+				;437							 { 
+				;438								I2C_Data[I2C.RxNum - 1] = data;
+0701	0FB3	mov     a, B3H
+0702	4343	add     a, I2C[3]
+0703	0083	mov     MP1, a
+0704	0F00	mov     a, 0H
+0705	1F01	clr     MP0
+0706	1381	adcm    a, MP0
+0707	0701	mov     a, MP0
+0708	0084	mov     BP, a
+0709	4751	mov     a, data[0]
+070A	0082	mov     [02H], a
+				;439								I2C.CheckSum_Buf += data;
+070B	4751	mov     a, data[0]
+070C	43C5	addm    a, I2C[5]
+070D	2F11	jmp     L0711
+				;440								I2C.RxNum++;
+				;441							 }
+				;442							 else 
+				;443							 {
+				;444							 	I2C.CheckSum = data;
+				L070E:
+070E	4751	mov     a, data[0]
+070F	40C4	mov     I2C[4], a
+				;445							 	FLAG_I2C_End = TRUE;
+0710	70C6	set     FLAG[0].1
+				;446							 	I2C.RxNum++;
+				L0711:
+0711	54C3	inc     I2C[3]
+				L0712:
+0712	474D	mov     a, r210
+0713	0084	mov     BP, a
+0714	474E	mov     a, r310
+0715	008A	mov     STATUS, a
+0716	474F	mov     a, r410
+0717	0083	mov     MP1, a
+0718	4750	mov     a, r510
+0719	0081	mov     MP0, a
+071A	474C	mov     a, r110
+071B	0004	reti
+071C	1483	inc     MP1
+				L071D:
+071D	3F81	sz      MP0.7
+071E	2F23	jmp     L0723
+071F	0701	mov     a, MP0
+0720	0084	mov     BP, a
+0721	0702	mov     a, [02H]
+0722	0003	ret
+				L0723:
+0723	1B01	rrca    MP0
+0724	0E3F	and     a, 3FH
+0725	0089	mov     TBHP, a
+0726	1B03	rrca    MP1
+0727	0087	mov     TBLP, a
+0728	1D05	tabrd   ACC
+0729	3C0A	sz      C
+072A	0708	mov     a, TBLH
+072B	0003	ret
+				;447							 }
+				;448							 
+				;449							
+				;450					}		
+				;451				}
+				;452			}	
+				;453	}
 				;454	
-				;455	//void __attribute((interrupt(0x0c))) ISR_tmr0 (void)
-				;456	//{		
-				;457	////	LED1 = ~LED1;		
-				;458	//			
-				;459	//	//----------------------------------------------------
-				;460	//	if(Cnt20ms > 0)//20ms 计数器
-				;461	//	{				
-				;462	//			Cnt20ms--;
-				;463	//	}
-				;464	//	else
-				;465	//	{
-				;466	//			Cnt20ms = 19;	
-				;467	//			Flag20ms = 1;			//20ms 标志 26MS
-				;468	//	}	
-				;469	//}
-				;470	
-				;471	
+				;455	
+				;456	
+				;457	
+				;458	//void __attribute((interrupt(0x0c))) ISR_tmr0 (void)
+				;459	//{		
+				;460	////	LED1 = ~LED1;		
+				;461	//			
+				;462	//	//----------------------------------------------------
+				;463	//	if(Cnt20ms > 0)//20ms 计数器
+				;464	//	{				
+				;465	//			Cnt20ms--;
+				;466	//	}
+				;467	//	else
+				;468	//	{
+				;469	//			Cnt20ms = 19;	
+				;470	//			Flag20ms = 1;			//20ms 标志 26MS
+				;471	//	}	
+				;472	//}
+				;473	
+				;474	
 				data .SECTION 'DATA'
 				__acc DB DUP (?) ; __acc
 				__intc0 DB DUP (?) ; __intc0
