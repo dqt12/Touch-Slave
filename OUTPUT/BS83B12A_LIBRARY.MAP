@@ -17,19 +17,19 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      00h     0014h     0017h    0004h      CODE               TIME_BASE_INT (C:\Users\MYASUS~1\AppData\Local\Temp\BS83B12A_LIBV413.OBJ)
      00h     0018h     04cdh    04b6h      CODE               TKS_LIBRARY_CODE (C:\Users\MYASUS~1\AppData\Local\Temp\BS83B12A_LIBV413.OBJ)
      00h     04ceh     0524h    0057h      CODE               MAIN_PROGRAM (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\MAIN_PROGRAM_V103.OBJ)
-     00h     0525h     052bh    0007h      CODE               @crom (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
-     00h     052ch     0572h    0047h      CODE               _DATA_LIST_UPDATA (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
-     00h     0573h     057bh    0009h      CODE               _I2C_LIST_INIT (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
-     00h     057ch     0585h    000ah      CODE               _SYS_LIST_INIT (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
-     00h     0586h     0596h    0011h      CODE               _USER_PROGRAM_INITIAL (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
-     00h     0597h     05e2h    004ch      CODE               _USER_PROGRAM (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
-     00h     05e3h     0722h    0140h      CODE               _IIC_ISR (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
-     00h     0723h     0732h    0010h      CODE               _CROM2PROM (CROM2PROM)
-     00h     0060h     00adh    004eh      DATA     0.5769    TKS_LIBRARY_DATA0 (C:\Users\MYASUS~1\AppData\Local\Temp\BS83B12A_LIBV413.OBJ)
-     00h     00aeh     00c6h    0019h      DATA     3.72      @HCCINIT0 (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
+     00h     0525h     052ch    0008h      CODE               @crom (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
+     00h     052dh     0573h    0047h      CODE               _DATA_LIST_UPDATA (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
+     00h     0574h     057ch    0009h      CODE               _I2C_LIST_INIT (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
+     00h     057dh     0586h    000ah      CODE               _SYS_LIST_INIT (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
+     00h     0587h     0599h    0013h      CODE               _USER_PROGRAM_INITIAL (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
+     00h     059ah     05dbh    0042h      CODE               _USER_PROGRAM (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
+     00h     05dch     06edh    0112h      CODE               _IIC_ISR (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
+     00h     06eeh     06fdh    0010h      CODE               _CROM2PROM (CROM2PROM)
+     00h     0060h     00adh    004eh      DATA     0.4615    TKS_LIBRARY_DATA0 (C:\Users\MYASUS~1\AppData\Local\Temp\BS83B12A_LIBV413.OBJ)
+     00h     00aeh     00c6h    0019h      DATA     3.64      @HCCINIT0 (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
      00h     00c7h     00c8h    0002h      DATA     3         MAIN_DATA (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\MAIN_PROGRAM_V103.OBJ)
      00h     00c9h     00c9h    0001h      DATA     7         @data_ra (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
-     00h     00cah     00cah    0001h      DATA     8         @data_rb (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00cah     00cah    0001h      DATA     5         @data_rb (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
      00h     00cbh     00cbh    0001h      DATA     5         @data_rc (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
      00h     00cch     00cch    0001h      DATA     2         @data_r110 (isr:ra~rh)
      00h     00cdh     00cdh    0001h      DATA     2         @data_r210 (isr:ra~rh)
@@ -48,7 +48,7 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      00h     00d3h     00d3h    0000h      LOCAL    0         _Crom2Prom (CROM2PROM)
      00h     00d3h     00d3h    0001h      LOCAL    4         _DATA_LIST_UPDATA (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
      00h     00d3h     00d3h    0000h      LOCAL    0         @dummy16 (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
-     00h     00d1h     00d2h    0002h      LOCAL    27.5      _IIC_ISR (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
+     00h     00d1h     00d2h    0002h      LOCAL    22        _IIC_ISR (C:\Users\my asus\Desktop\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
 
      Public Symbols Information
      Address            Public by Name
@@ -56,11 +56,10 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      0018h              _BS83B12A_LIBV413
      00a2h              _BS83B12A_LIBV413_INITIAL
      012ah              _CHECK_KEY_WAKEUP
-     0723h              _Crom2Prom
-     0723h              _Crom2PromNext
+     06eeh              _Crom2Prom
+     06eeh              _Crom2PromNext
      006fh              _DATA_BUF
-     052ch              _DATA_LIST_UPDATA
-     0528h              _DeviceAddress
+     052dh              _DATA_LIST_UPDATA
      00c6h              _FLAG
      0089h[0]           _FORCE_CALIBRATEF
      04b6h              _GET_ENV_VALUE
@@ -71,11 +70,12 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      04b9h              _GET_REF_VALUE
      0060h              _GLOBE_VARIES
      00c0h              _I2C
+     052ch              _I2C_Address
      00b4h              _I2C_Data
-     0573h              _I2C_LIST_INIT
+     0574h              _I2C_LIST_INIT
      0525h              _IC_PAGE_HEAD
-     0529h              _IC_PAGE_SIZS
-     05e3h              _IIC_ISR
+     0528h              _IC_PAGE_SIZS
+     05dch              _IIC_ISR
      007ch              _KEY_DATA
      007ah              _KEY_IO_SEL
      0180h              _KEY_REF
@@ -88,16 +88,17 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      0089h[2]           _SCAN_CYCLEF
      0078h              _STANDBY_TIME
      00aeh              _SYS_INF
-     057ch              _SYS_LIST_INIT
+     057dh              _SYS_LIST_INIT
+     052bh              _SleepTime
      0089h[5]           _TKS_250MSF
      0089h[6]           _TKS_500MSF
      0089h[4]           _TKS_63MSF
      0089h[1]           _TKS_ACTIVEF
      0089h              _TKS_FLAGA
      0079h              _TKS_TIME_BASE
-     0597h              _USER_PROGRAM
-     0586h              _USER_PROGRAM_INITIAL
-     0528h              _Version
+     059ah              _USER_PROGRAM
+     0587h              _USER_PROGRAM_INITIAL
+     052bh              _Version
      00cch              r110
      00cdh              r210
      00ceh              r310
@@ -151,22 +152,23 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      0502h              _LOAD_TKS_GLOBE_VARIES
      0502h              _LOAD_HXT_REFERENCE
      0525h              _IC_PAGE_HEAD
-     0528h              _DeviceAddress
-     0528h              _Version
-     0529h              _IC_PAGE_SIZS
-     052ch              _DATA_LIST_UPDATA
-     0573h              _I2C_LIST_INIT
-     057ch              _SYS_LIST_INIT
-     0586h              _USER_PROGRAM_INITIAL
-     0597h              _USER_PROGRAM
-     05e3h              _IIC_ISR
-     0723h              _Crom2Prom
-     0723h              _Crom2PromNext
+     0528h              _IC_PAGE_SIZS
+     052bh              _SleepTime
+     052bh              _Version
+     052ch              _I2C_Address
+     052dh              _DATA_LIST_UPDATA
+     0574h              _I2C_LIST_INIT
+     057dh              _SYS_LIST_INIT
+     0587h              _USER_PROGRAM_INITIAL
+     059ah              _USER_PROGRAM
+     05dch              _IIC_ISR
+     06eeh              _Crom2PromNext
+     06eeh              _Crom2Prom
 
 
 ROM Usage Statistics
      Size      Used     Percentage
-     0800h     0729h    89%
+     0800h     06f4h    86%
 
 RAM Usage Statistics
     Bank      Size      Used     Percentage

@@ -1,56 +1,31 @@
 #include    "USER_PROGRAM.H"         
+#include    "TOUCH_SLAVE_CONF.H"  
 
-#define u8		unsigned char 
-#define u16		unsigned int   
-#define vu8		volatile unsigned char 
-#define vu16	volatile unsigned int 
+#if	 (USE_MCU_TYPE == BS83B08A)
+	//I2C size
+	#define I2C_MAXNUM		8
+	//page size
+	const u8 IC_PAGE_SIZS[]={3,8,1,2,1,2};
 
+#elif (USE_MCU_TYPE == BS83B12A)
+	//I2C size
+	#define I2C_MAXNUM		12
+	//page size
+	const u8 IC_PAGE_SIZS[]={3,12,2,2,2,2};
 
-// choose mcu
-//#define  BS83B08A 	3
-#define  BS83B12A 	2
-//#define  BS83B16A 	1
-
-#if	 BS83B08A
-//I2C size
-#define I2C_MAXNUM		8
-//page size
-const u8 IC_PAGE_SIZS[]={3,8,1,2,1,2};
-const u8 Version = 0x18; //硬件/軟件版本號
-// MCU_INT_CONFIG
-#define MCU_INT_c  		_pac1
-#define MCU_INT  		_pa1
+#elif (USE_MCU_TYPE == BS83B16A)
+	//I2C size
+	#define I2C_MAXNUM		16
+	//page size
+	const u8 IC_PAGE_SIZS[]={3,16,2,2,2,2};
+	
 #endif
-
-#if	 BS83B12A
-//I2C size
-#define I2C_MAXNUM		12
-//page size
-const u8 IC_PAGE_SIZS[]={3,12,2,2,2,2};
-const u8 Version = 0x1C; //硬件/軟件版本號
-// MCU_INT_CONFIG
-#define MCU_INT_c  		_pac1
-#define MCU_INT  		_pa1
-#endif
-
-#if	 BS83B16A
-//I2C size
-#define I2C_MAXNUM		16
-//page size
-const u8 IC_PAGE_SIZS[]={3,16,2,2,2,2};
-const u8 Version = 0x1F; //硬件/軟件版本號
-// MCU_INT_CONFIG
-#define MCU_INT_c  		_pac1
-#define MCU_INT  		_pa1
-#endif
-
 
 //++++++++++++++++++++++MAIN PROGAM+++++++++++++++++++++++
 
 #define NTH 	0x0F
 #define RESET 	0x0A
 
-const u8 DeviceAddress = 0x28;
 const u8 IC_PAGE_HEAD[]={0xA0,0xB0,0xC0,0xD0,0xE0,0xF0};
 
 #define TRUE 	1
@@ -81,7 +56,7 @@ u8 I2C_Data[I2C_MAXNUM];
 u8 MCU_INF[3];
 #define MCU_STATE 		MCU_INF[0]
 #define MCU_SLEEP 		MCU_INF[1]
-#define MCU_WAKEUP 		MCU_INF[2]
+//#define MCU_WAKEUP 		MCU_INF[2]
 //#define MCU_STATE 		MCU_INF[3]
 //#define MCU_STATE 		MCU_INF[4]
 
@@ -89,8 +64,8 @@ u8 SYS_INF[3];
 #define I2C_STATE 		SYS_INF[0]
 #define SYS_Version		SYS_INF[1]
 //#define MCU_WAKEUP 		SYS_INF[2]
-//#define MCU_STATE 		MCU_INF[3]
-//#define MCU_STATE 		MCU_INF[4]
+//#define MCU_STATE 		SYS_INF[3]
+//#define MCU_STATE 		SYS_INF[4]
 //u8 I2C_STATE;
 
 void DATA_LIST_UPDATA(void)
@@ -133,7 +108,7 @@ void I2C_LIST_INIT(void)
 void SYS_LIST_INIT(void)
 {
 	MCU_STATE = NTH;
-	MCU_SLEEP = 0x4E; // 3s 
+	MCU_SLEEP = SleepTime; // 3s 
 	
 	I2C_STATE = NTH;
 	SYS_Version = Version;
@@ -145,14 +120,25 @@ void USER_PROGRAM_INITIAL()
 {	
 //	_wdtc = 0b10101100;	//wdt = 1s 
 	
-	_pawu=0;		//0:禁止下降沿唤醒;   1:使能
-	_papu=0;		//0:禁止上拉;         1:使能上拉
+	_pawu = 0;		//0:禁止下降沿唤醒;   1:使能
+	_papu = 0;		//0:禁止上拉;         1:使能上拉
 	
-	_pa=0x00;	
-	_pac =0xFF;		//0:输出;      		  1:输入
-		 
+	_pa = 0x00;	
+	_pac = 0xFF;		//0:输出;      		  1:输入
+
+
+#ifdef	USE_INT_PIN			 
 	MCU_INT = 1;		
-	MCU_INT_c = 0;	
+	MCU_INT_C = 0;	
+	
+#endif 	
+	
+	
+#ifdef	USE_WAKEUP_PIN		
+	MCU_WAKEUP_WU = 1;
+	MCU_WAKEUP_C = 1;	
+
+#endif 
 	
 	
 //配置定时器	
@@ -166,7 +152,7 @@ void USER_PROGRAM_INITIAL()
 //	_papu2 = 1;  	//SCL
 
 	_simc0 = 0b11000010;
-	_sima = DeviceAddress;//从机地址
+	_sima = I2C_Address;//从机地址
 	
 //I2C超时配置	
 	_i2ctoc = 0b10111111; //64ms
@@ -267,11 +253,6 @@ void USER_PROGRAM()
 					MCU_INT = 0;
 					_wdtc = 0xFF;//MCU RESET //64MS
 				}
-				else 
-				{
-					MCU_STATE = NTH;
-				}
-				
 				
 				
 			}
@@ -381,8 +362,6 @@ void __attribute((interrupt(0x10))) IIC_ISR(void)
 							case 0xB5 :data = GLOBE_VARIES[8];break;
 							case 0xB6 :data = GLOBE_VARIES[9];break;
 							case 0xB7 :data = GLOBE_VARIES[10];break;
-							//case 0xD0 :data = MCU_STATE[0];break;
-							//case 0xD1 :data = MCU_STATE[1];break;
 
 							#ifndef	 BS83B08A	
 							case 0xB8 :data = GLOBE_VARIES[11];break;
@@ -410,8 +389,6 @@ void __attribute((interrupt(0x10))) IIC_ISR(void)
 				
 						//	case 0xF0 :data =SYS_INF[0];break;
 							case 0xF1 :data = SYS_INF[1];break;	
-							
-							
 							
 							case 0xFF :data =~I2C.CheckSum_Buf;break;	
 								
