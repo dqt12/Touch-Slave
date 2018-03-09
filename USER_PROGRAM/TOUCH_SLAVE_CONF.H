@@ -15,7 +15,7 @@
 /**********************************************************************
 //			
 //	Choice MCU type 
-//
+//	USE_MCU_TYPE : 1:BS83B16A 2:BS83B12A 3:BS83B08A
 //
 ***********************************************************************/
 	#define  BS83B08A 			(3)
@@ -27,13 +27,15 @@
 	
 /**********************************************************************
 //			
-//	Choice intu type 
-//
-//
+//	Choice interrupt pin 
+//	USE_INT_PIN  : 0:disable 	1:enable
+//	MCU_INT_C : pin control
+//	MCU_INT   : pin  register
 ***********************************************************************/	
 	#define  USE_INT_PIN 		(1)
 	
-#ifdef	USE_INT_PIN		
+#ifdef	USE_INT_PIN	
+	
 	#define MCU_INT_C  		_pac1
 	#define MCU_INT  		_pa1
 	
@@ -41,30 +43,31 @@
 
 /**********************************************************************
 //			
-//	Choice MCU Wakeup 
-//
-//
+//	Choice MCU Wakeup pin (only supprot PA4/INT)
+//	USE_WAKEUP_PIN  : 0:disable 	1:enable
+//	MCU_WAKEUP_TYPE : 0x00:disable  		0x01:rising edge
+//					  0x02:trailing edge 	0x03:rising and trailing edge 
 ***********************************************************************/
 	#define  USE_WAKEUP_PIN 	(1)
+	#define  MCU_WAKEUP_TYPE    (0x02) 
 	
-#ifdef	USE_WAKEUP_PIN		
-	#define MCU_WAKEUP_WU 		_pawu4
-	#define MCU_WAKEUP_C 		_pac4
-	#define MCU_WAKEUP  		_pa4
-	
-#endif
 
 /**********************************************************************
 //			
-//	Choice MCU type 
-//
+//	Choice MCU I2C PIN Pullhigh
+//	USE_I2C_PULLHIGH  : 0:disable(outside pullhigh) 	1:enable(inside pullhigh) 
+***********************************************************************/
+	#define  USE_I2C_PULLHIGH 	(0)	
+							   
+/**********************************************************************
+//			
+//	system inf 
 //
 ***********************************************************************/	
-	
-	
-	const u8 I2C_Address = 0x28;	
+	const u8 I2C_Address = 0x28;//I2C从机地址
 	const u8 Version = 0x18; //硬件/軟件版本號
 	const u8 SleepTime = 0x4E; //3s
+	
 
 
 #ifdef __cplusplus

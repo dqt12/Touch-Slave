@@ -1,4 +1,4 @@
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次1
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次1
 
 
    1  0000              
@@ -60,7 +60,7 @@
   45  0000              
   46  0000              EXTEND_FUNCTION MACRO
   47  0000                              CALL_   EXTEND_FUNCTION_1A
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次2
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次2
 
   48  0000                              CALL_   EXTEND_FUNCTION_1B
   49  0000                              CALL_   EXTEND_FUNCTION_1C
@@ -122,7 +122,7 @@
  103  0000              PROGRAM_RESET:  ;;* PROGRAM ENTRY *******
  104  0000                              ;;***********************
  105  0000                      ifdef   PBP
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次3
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次3
 
  106  0000                              ifndef  ESCpowerIDcheck
  107  0000                              SNZ     TO
@@ -184,7 +184,7 @@
  123  0002            1                 ifdef   _BS83B04A_
  123  0002            1                         MOV     A,00000011B
  123  0002            1                         MOV [0BH],A
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次4
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次4
 
  123  0002            1                         ;-WDT INITIAL USE 125/500MS WHEN ENABLE POWER SAVE MODE
  123  0002            1                       ;;MOV     A,01010011B     ;500   MS
@@ -246,7 +246,7 @@
  123  0008            1                         ;-CLEAR BANK1 080H~0FFH
  123  0008  0F01      1                         MOV     A,1
  123  0009  0084      1                         MOV [04H],A
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次5
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次5
 
  123  000A  0F80      1                         MOV     A,80H
  123  000B  2000     R1                         CALL    CLEAR_RAM
@@ -308,7 +308,7 @@
  123  000F            1                         endif
  123  000F            1                         ;-DISABLE ADC
  123  000F            1                         CLR     ACERL
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次6
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次6
 
  123  000F            1                         MOV     A,01100000B
  123  000F            1                         MOV     ADCR0,A
@@ -370,7 +370,7 @@
  123  000F            1                         ;--
  123  000F            1                         MOV     A,00000011B
  123  000F            1                         MOV [0BH],A
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次7
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次7
 
  123  000F            1                         ;-WDT INITIAL USE 125/500MS WHEN ENABLE POWER SAVE MODE
  123  000F            1                       ;;MOV     A,01010011B     ;500   MS
@@ -432,7 +432,7 @@
  123  000F            1                         CALL    CLEAR_RAM
  123  000F            1                         ;-CLEAR BANK2 280H~2FFH
  123  000F            1                         MOV     A,2
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次8
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次8
 
  123  000F            1                         MOV [04H],A
  123  000F            1                         MOV     A,80H
@@ -494,7 +494,7 @@
  123  000F            1                         CALL    CLEAR_RAM
  123  000F            1                         ;-CLEAR BANK1 180H~1FFH
  123  000F            1                         MOV     A,1
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次9
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次9
 
  123  000F            1                         MOV [04H],A
  123  000F            1                         MOV     A,80H
@@ -556,7 +556,7 @@
  123  000F            1                       ;;MOV     A,01010011B     ;500   MS
  123  000F            1                         MOV     A,01010010B     ;125   MS
  123  000F            1                         MOV [01AH],A
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次10
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次10
 
  123  000F            1                         ;-IF POWER SAVING MODE ENABLE
  123  000F            1                         if 0==1
@@ -618,7 +618,7 @@
  123  000F            1                         MOV     A,80H
  123  000F            1                         CALL    CLEAR_RAM
  123  000F            1                 endif
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次11
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次11
 
  123  000F            1 
  123  000F            1                 ;--------------------------------
@@ -680,7 +680,7 @@
  123  000F            1                         MOV     A,00011111B     ;FH=Fsys/1
  123  000F            1                         ANDM    A,SCC
  123  000F            1 
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次12
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次12
 
  123  000F            1                         ;-WDT INITIAL USE 125/500MS WHEN ENABLE POWER SAVE MODE
  123  000F            1                       ;;MOV     A,01010011B     ;500   MS
@@ -742,7 +742,7 @@
  123  000F            1                         ANDM    A,SCC
  123  000F            1 
  123  000F            1                         MOV     A,(( 0<<2)&00001100B)|00000001B
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次13
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次13
 
  123  000F            1                         MOV     HIRCC,A
  123  000F            1 
@@ -804,7 +804,7 @@
  123  000F            1                         MOV [04H],A
  123  000F            1                         MOV     A,80H
  123  000F            1                         CALL    CLEAR_RAM
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次14
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次14
 
  123  000F            1                         ;-CLEAR BANK4 480H~2FFH
  123  000F            1                         MOV     A,4
@@ -866,7 +866,7 @@
  123  000F            1                         ;-CLEAR BANK5 580H~2FFH
  123  000F            1                         MOV     A,5
  123  000F            1                         MOV [04H],A
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次15
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次15
 
  123  000F            1                         MOV     A,80H
  123  000F            1                         CALL    CLEAR_RAM
@@ -928,7 +928,7 @@
  123  000F            1                         MOV     A,80H
  123  000F            1                         CALL    CLEAR_RAM
  123  000F            1                         ;-CLEAR BANK1 180H~1FFH
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次16
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次16
 
  123  000F            1                         MOV     A,1
  123  000F            1                         MOV [04H],A
@@ -990,7 +990,7 @@
  123  000F            1                         CLR [04H]
  123  000F            1                         MOV     A,80H
  123  000F            1                         CALL    CLEAR_RAM
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次17
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次17
 
  123  000F            1                 endif
  123  000F            1 
@@ -1052,7 +1052,7 @@
  123  000F            1                         CALL    CLEAR_RAM
  123  000F            1                         ;-CLEAR BANK0 080H~0FFH
  123  000F            1                         CLR [04H]
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次18
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次18
 
  123  000F            1                         MOV     A,80H
  123  000F            1                         CALL    CLEAR_RAM
@@ -1114,7 +1114,7 @@
  123  000F            1                         ;-CLEAR BANK1 180H~1FFH
  123  000F            1                         MOV     A,1
  123  000F            1                         MOV [04H],A
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次19
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次19
 
  123  000F            1                         MOV     A,80H
  123  000F            1                         CALL    CLEAR_RAM
@@ -1176,7 +1176,7 @@
  123  000F            1                         MOV [04H],A
  123  000F            1                         MOV     A,80H
  123  000F            1                         CALL    CLEAR_RAM
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次20
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次20
 
  123  000F            1                         ;-CLEAR BANK1 180H~1FFH
  123  000F            1                         MOV     A,1
@@ -1238,7 +1238,7 @@
  123  000F            1                         ;-CLEAR BANK2 280H~2FFH
  123  000F            1                         MOV     A,2
  123  000F            1                         MOV [04H],A
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次21
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次21
 
  123  000F            1                         MOV     A,80H
  123  000F            1                         CALL    CLEAR_RAM
@@ -1300,7 +1300,7 @@
  123  000F            1 
  123  000F            1                 ;--------------------------------
  123  000F            1                 ;-INITIAL FOR BS86C16A  ---------
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次22
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次22
 
  123  000F            1                 ;--------------------------------
  123  000F            1                 ifdef   _BS86C16A_
@@ -1362,7 +1362,7 @@
  123  000F            1                         ;-IF POWER SAVING MODE ENABLE
  123  000F            1                         if 0==1
  123  000F            1                         SZ [0AH].5
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次23
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次23
 
  123  000F            1                         JMP     WDT_WAKEUP      ;IF WAKEUP BY WDT TIME OUT
  123  000F            1                         endif
@@ -1424,7 +1424,7 @@
  123  000F            1                         endif
  123  000F            1                         ;-DISABLE ADC
  123  000F            1                         CLR     ACERL
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次24
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次24
 
  123  000F            1                         MOV     A,01100000B
  123  000F            1                         MOV     ADCR0,A
@@ -1486,7 +1486,7 @@
  123  000F            1                         MOV [04H],A
  123  000F            1                         MOV     A,80H
  123  000F            1                         CALL    CLEAR_RAM
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次25
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次25
 
  123  000F            1                         ;-CLEAR BANK9 980H~7FFH
  123  000F            1                         MOV     A,9
@@ -1548,7 +1548,7 @@
  123  000F            1                         MOV     A,00011111B     ;FH=Fsys/1
  123  000F            1                         ANDM    A,SCC
  123  000F            1 
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次26
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次26
 
  123  000F            1                         MOV     A,(( 0<<2)&00001100B)|00000001B
  123  000F            1                         MOV     HIRCC,A
@@ -1610,7 +1610,7 @@
  123  000F            1                         MOV     A,80H
  123  000F            1                         CALL    CLEAR_RAM
  123  000F            1                         ;-CLEAR BANK2 280H~2FFH
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次27
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次27
 
  123  000F            1                         MOV     A,2
  123  000F            1                         MOV [04H],A
@@ -1672,7 +1672,7 @@
  133  0012            1                 CALL_   EXTEND_FUNCTION_1E_INITIAL
  133  0012            2         ifdef EXTEND_FUNCTION_1E_INITIAL
  133  0012            2                 ifdef   PBP
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次28
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次28
 
  133  0012            2                 MOV     A,bank EXTEND_FUNCTION_1E_INITIAL
  133  0012            2                 MOV     PBP,A
@@ -1734,7 +1734,7 @@
  133  0012            2                 MOV     A,bank EXTEND_FUNCTION_2D_INITIAL
  133  0012            2                 MOV     PBP,A
  133  0012            2                 endif
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次29
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次29
 
  133  0012            2                 CALL EXTEND_FUNCTION_2D_INITIAL
  133  0012            2         endif
@@ -1796,7 +1796,7 @@
  157  001C                              RELOAD_SYS_CLOCK
  157  001C            1                 ifdef   _BS83A02A_
  157  001C            1                         MOV     A,00000011B
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次30
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次30
 
  157  001C            1                         MOV [0BH],A
  157  001C            1 
@@ -1858,7 +1858,7 @@
  157  0020            1                 ;--------------------------------
  157  0020            1                 ;-INITIAL FOR BS84B06A  ---------
  157  0020            1                 ;--------------------------------
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次31
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次31
 
  157  0020            1                 ifdef   _BS84B06A_
  157  0020            1                         ;-SET SYSTEM CLOCK
@@ -1920,7 +1920,7 @@
  157  0020            1                 endif
  157  0020            1 
  157  0020            1 
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次32
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次32
 
  157  0020            1                 ;--------------------------------
  157  0020            1                 ;-INITIAL FOR BS82B16   ---------
@@ -1982,7 +1982,7 @@
  157  0020            1 
  157  0020            1                 ;--------------------------------
  157  0020            1                 ;-INITIAL FOR BS66F340  ---------
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次33
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次33
 
  157  0020            1                 ;--------------------------------
  157  0020            1                 ifdef   _BS66F340_
@@ -2044,7 +2044,7 @@
  157  0020            1                         MOV     A,(( 0<<2)&00001100B)|00000001B
  157  0020            1                         MOV     HIRCC,A
  157  0020            1                 endif
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次34
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次34
 
  157  0020            1                 ;--------------------------------
  157  0020            1                 ;-INITIAL FOR BS66FV340  ---------
@@ -2106,7 +2106,7 @@
  157  0020            1                         MOV     A,(( 0<<4)&00110000B);;|10000000B
  157  0020            1                         MOV [0CH],A          ;BIT7=FSYSON
  157  0020            1                         ;--                     ;BIT5:BIT4=00/11:8MHZ ; 01:12MHZ ; 10:16MHZ
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次35
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次35
 
  157  0020            1                         MOV     A,00000011B
  157  0020            1                         MOV [0BH],A
@@ -2168,7 +2168,7 @@
  158  0022            2         endif
  158  0022            1                 CALL_   EXTEND_FUNCTION_1F
  158  0022            2         ifdef EXTEND_FUNCTION_1F
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次36
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次36
 
  158  0022            2                 ifdef   PBP
  158  0022            2                 MOV     A,bank EXTEND_FUNCTION_1F
@@ -2230,7 +2230,7 @@
  158  0022            2                 ifdef   PBP
  158  0022            2                 MOV     A,bank EXTEND_FUNCTION_2E
  158  0022            2                 MOV     PBP,A
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次37
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次37
 
  158  0022            2                 endif
  158  0022            2                 CALL EXTEND_FUNCTION_2E
@@ -2292,7 +2292,7 @@
  189  0027              
  190  0027              ;;***********************************************************
  191  0027              ;;*SUB. NAME:                                               *
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次38
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次38
 
  192  0027              ;;*INPUT    :                                               *
  193  0027              ;;*OUTPUT   :                                               *
@@ -2354,7 +2354,7 @@
  249  003E                              endif
  250  003E                              ;-IF OVER 4 TOUCH IP (17~24KEY)
  251  003E                              if      TouchKeyAmount > 16
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次39
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次39
 
  252  003E                              MOV     A,(IO_TOUCH_ATTR>>16)&0FFH
  253  003E                              MOV     _KEY_IO_SEL[2],A
@@ -2416,7 +2416,7 @@
  309  004C              
  310  004C                              if      TouchKeyAmount > 7
  311  004C                              ;-KEY8 THRESHOLD
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次40
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次40
 
  312  004C  0F0A                        MOV     A,Key8Threshold
  313  004D  0080     E                  MOV     _GLOBE_VARIES[10],A
@@ -2478,7 +2478,7 @@
  369  0056              
  370  0056                              if      TouchKeyAmount > 17
  371  0056                              ;-KEY18 THRESHOLD
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次41
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次41
 
  372  0056                              MOV     A,Key18Threshold
  373  0056                              MOV     _GLOBE_VARIES[20],A
@@ -2540,7 +2540,7 @@
  429  0056              
  430  0056                              if      TouchKeyAmount > 27
  431  0056                              ;-KEY20 THRESHOLD
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次42
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次42
 
  432  0056                              MOV     A,Key28Threshold
  433  0056                              MOV     _GLOBE_VARIES[30],A
@@ -2602,7 +2602,7 @@
  489  0057              
  490  0057                              END
 
-文件：MAIN_PROGRAM_V103.asm 编译器版本 2.96 页次43
+文件：MAIN_PROGRAM_V103.asm 编译器版本 2.97 页次43
 
 
         0 Errors, 0 Warnings

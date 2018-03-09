@@ -21,6 +21,14 @@
 	
 #endif
 
+#ifdef	USE_WAKEUP_PIN		
+
+	#define MCU_WAKEUP_PU 		_papu4
+	#define MCU_WAKEUP_C 		_pac4
+	#define MCU_WAKEUP  		_pa4
+	
+#endif
+
 //++++++++++++++++++++++MAIN PROGAM+++++++++++++++++++++++
 
 #define NTH 	0x0F
@@ -127,17 +135,25 @@ void USER_PROGRAM_INITIAL()
 	_pac = 0xFF;		//0:输出;      		  1:输入
 
 
-#ifdef	USE_INT_PIN			 
+#if	(USE_INT_PIN)		
+	 
 	MCU_INT = 1;		
 	MCU_INT_C = 0;	
 	
 #endif 	
 	
 	
-#ifdef	USE_WAKEUP_PIN		
-	MCU_WAKEUP_WU = 1;
-	MCU_WAKEUP_C = 1;	
+#if (USE_WAKEUP_PIN)	
 
+	if(MCU_WAKEUP_TYPE != 0x01)		
+		MCU_WAKEUP_PU = 1;	
+	else 
+		MCU_WAKEUP_PU = 0;	
+	MCU_WAKEUP_C = 1;	
+	_integ = MCU_WAKEUP_TYPE;
+	_intf = 0;
+	_inte = 1;
+	
 #endif 
 	
 	
@@ -146,11 +162,14 @@ void USER_PROGRAM_INITIAL()
 //	_tmr = 131;//256-156=100,1/12M*128=10.7us; 10.7us*100=1.07ms
 //	_te = 1;	//定时/计数器中断控制位
 //	_ton = 1;	//定时/计数器启动/停止控制位
-		
-//配置IIC	
-//	_papu0 = 1;  	//SDA
-//	_papu2 = 1;  	//SCL
+#if (USE_WAKEUP_PIN)		
 
+	_papu0 = 1;  	//SDA
+	_papu2 = 1;  	//SCL
+	
+#endif	
+	
+//配置IIC	
 	_simc0 = 0b11000010;
 	_sima = I2C_Address;//从机地址
 	
@@ -173,7 +192,8 @@ void USER_PROGRAM()
 //--------------------------------------------------------------------	
 	GET_KEY_BITMAP();//更新按鍵值
 	
-	#ifndef	BS83B08A	
+	#if (USE_MCU_TYPE == BS83B12A) || \
+		(USE_MCU_TYPE == BS83B16A)		
 	
 	//取使能的按鍵值
 	KEY_DATA[0] = KEY_DATA[0]&KEY_IO_SEL[0] ;
@@ -195,11 +215,10 @@ void USER_PROGRAM()
  	
 	 		
   	 }
-  	 
 	#endif	
 	
-	#ifdef	BS83B08A
 	
+	#if (USE_MCU_TYPE == BS83B08A) 
 	//取使能的按鍵值
 	KEY_DATA[0] = KEY_DATA[0]&KEY_IO_SEL[0] ;
 	//有按鍵按下為INT變低
@@ -216,8 +235,6 @@ void USER_PROGRAM()
   	 	{
   	 		STANDBY_TIME = 0;
   	 	}
- 	
-	 		
   	 }
 	#endif		
 
@@ -455,20 +472,13 @@ void __attribute((interrupt(0x10))) IIC_ISR(void)
 
 
 
-//void __attribute((interrupt(0x0c))) ISR_tmr0 (void)
-//{		
-////	LED1 = ~LED1;		
-//			
-//	//----------------------------------------------------
-//	if(Cnt20ms > 0)//20ms 计数器
-//	{				
-//			Cnt20ms--;
-//	}
-//	else
-//	{
-//			Cnt20ms = 19;	
-//			Flag20ms = 1;			//20ms 标志 26MS
-//	}	
-//}
+void __attribute((interrupt(0x04))) ISR_INT (void)
+{		
+	
+	_intf = 0;
+	STANDBY_TIME = 0x7F;
+	GCC_DELAY(1000);
+	
+}
 
 
