@@ -22,12 +22,12 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      00h     052dh     0573h    0047h      CODE               _DATA_LIST_UPDATA (D:\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
      00h     0574h     057ch    0009h      CODE               _I2C_LIST_INIT (D:\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
      00h     057dh     0586h    000ah      CODE               _SYS_LIST_INIT (D:\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
-     00h     0587h     059fh    0019h      CODE               _USER_PROGRAM_INITIAL (D:\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
-     00h     05a0h     05e8h    0049h      CODE               _USER_PROGRAM (D:\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
-     00h     05e9h     0728h    0140h      CODE               _IIC_ISR (D:\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
-     00h     0729h     0731h    0009h      CODE               _ISR_INT (D:\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
-     00h     0732h     073bh    000ah      CODE               __DELAYX (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
-     00h     073ch     074bh    0010h      CODE               _CROM2PROM (CROM2PROM)
+     00h     0587h     059dh    0017h      CODE               _USER_PROGRAM_INITIAL (D:\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
+     00h     059eh     05e6h    0049h      CODE               _USER_PROGRAM (D:\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
+     00h     05e7h     0726h    0140h      CODE               _IIC_ISR (D:\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
+     00h     0727h     072fh    0009h      CODE               _ISR_INT (D:\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
+     00h     0730h     0739h    000ah      CODE               __DELAYX (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     073ah     0749h    0010h      CODE               _CROM2PROM (CROM2PROM)
      00h     0060h     00adh    004eh      DATA     0.5897    TKS_LIBRARY_DATA0 (C:\Users\dqt12\AppData\Local\Temp\BS83B12A_LIBV413.OBJ)
      00h     00aeh     00c6h    0019h      DATA     3.68      @HCCINIT0 (D:\Git_project\Touch-Slave\OUTPUT\USER_PROGRAM.OBJ)
      00h     00c7h     00c8h    0002h      DATA     3         MAIN_DATA (D:\Git_project\Touch-Slave\OUTPUT\MAIN_PROGRAM_V103.OBJ)
@@ -64,8 +64,8 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      0018h              _BS83B12A_LIBV413
      00a2h              _BS83B12A_LIBV413_INITIAL
      012ah              _CHECK_KEY_WAKEUP
-     073ch              _Crom2Prom
-     073ch              _Crom2PromNext
+     073ah              _Crom2Prom
+     073ah              _Crom2PromNext
      006fh              _DATA_BUF
      052dh              _DATA_LIST_UPDATA
      00c6h              _FLAG
@@ -83,8 +83,8 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      0574h              _I2C_LIST_INIT
      0525h              _IC_PAGE_HEAD
      0528h              _IC_PAGE_SIZS
-     05e9h              _IIC_ISR
-     0729h              _ISR_INT
+     05e7h              _IIC_ISR
+     0727h              _ISR_INT
      007ch              _KEY_DATA
      007ah              _KEY_IO_SEL
      0180h              _KEY_REF
@@ -99,22 +99,22 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      00aeh              _SYS_INF
      057dh              _SYS_LIST_INIT
      052bh              _SleepTime
+     052bh              _SysVersion
      0089h[5]           _TKS_250MSF
      0089h[6]           _TKS_500MSF
      0089h[4]           _TKS_63MSF
      0089h[1]           _TKS_ACTIVEF
      0089h              _TKS_FLAGA
      0079h              _TKS_TIME_BASE
-     05a0h              _USER_PROGRAM
+     059eh              _USER_PROGRAM
      0587h              _USER_PROGRAM_INITIAL
-     052bh              _Version
-     0735h              __DELAYX0
-     0734h              __DELAYX1
-     0734h              __DELAYX2
-     0733h              __DELAYX3
-     0733h              __DELAYX4
-     0732h              __DELAYX5
-     0732h              __DELAYX6
+     0733h              __DELAYX0
+     0732h              __DELAYX1
+     0732h              __DELAYX2
+     0731h              __DELAYX3
+     0731h              __DELAYX4
+     0730h              __DELAYX5
+     0730h              __DELAYX6
      00d1h              r104
      00cch              r110
      00d2h              r204
@@ -174,29 +174,29 @@ Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V7.x
      0525h              _IC_PAGE_HEAD
      0528h              _IC_PAGE_SIZS
      052bh              _SleepTime
-     052bh              _Version
+     052bh              _SysVersion
      052ch              _I2C_Address
      052dh              _DATA_LIST_UPDATA
      0574h              _I2C_LIST_INIT
      057dh              _SYS_LIST_INIT
      0587h              _USER_PROGRAM_INITIAL
-     05a0h              _USER_PROGRAM
-     05e9h              _IIC_ISR
-     0729h              _ISR_INT
-     0732h              __DELAYX5
-     0732h              __DELAYX6
-     0733h              __DELAYX3
-     0733h              __DELAYX4
-     0734h              __DELAYX1
-     0734h              __DELAYX2
-     0735h              __DELAYX0
-     073ch              _Crom2PromNext
-     073ch              _Crom2Prom
+     059eh              _USER_PROGRAM
+     05e7h              _IIC_ISR
+     0727h              _ISR_INT
+     0730h              __DELAYX5
+     0730h              __DELAYX6
+     0731h              __DELAYX3
+     0731h              __DELAYX4
+     0732h              __DELAYX1
+     0732h              __DELAYX2
+     0733h              __DELAYX0
+     073ah              _Crom2PromNext
+     073ah              _Crom2Prom
 
 
 ROM Usage Statistics
      Size      Used     Percentage
-     0800h     0746h    90%
+     0800h     0744h    90%
 
 RAM Usage Statistics
     Bank      Size      Used     Percentage
